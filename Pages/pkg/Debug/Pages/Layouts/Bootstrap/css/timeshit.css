@@ -1,0 +1,20 @@
+/* 
+    Created on : Mar 9, 2017, 11:24:52 AM
+    Author     : STREET
+*/
+
+tr.myTimeHeader th span,
+tr.myTimeHeader td span:nth-child(2)
+{
+    display: block;
+    margin-bottom: 5px;
+}
+
+.container-fluid .bounce {
+    background-color: #d3d3d3;
+    color: #000000;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 2px;
+    font-size: 16px;
+}

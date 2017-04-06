@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="0e223389-65f3-47f7-a8aa-a66d43ed9cc5" SharePointProductVersion="16.0">
+  <Assemblies>
+    <Assembly Location="Pages.dll" DeploymentTarget="GlobalAssemblyCache" />
+  </Assemblies>
+  <TemplateFiles>
+    <TemplateFile Location="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <TemplateFile Location="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <TemplateFile Location="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <TemplateFile Location="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <TemplateFile Location="Layouts\Bootstrap\css\bootstrap.min.css" />
+    <TemplateFile Location="Layouts\Bootstrap\css\timeshit.css" />
+    <TemplateFile Location="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\external\jquery.js" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_444444_256x240.png" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_555555_256x240.png" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_777620_256x240.png" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_777777_256x240.png" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_cc0000_256x240.png" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_ffffff_256x240.png" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
+    <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <TemplateFile Location="Layouts\Bootstrap\js\date.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\jquery-1.12.4.min.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\jquery.SPServices-0.7.2.min.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\mightySHP.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\bootstrap.min.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\approave.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\jquery.min.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\timepush.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\timeshit.js" />
+    <TemplateFile Location="Layouts\Pages\Appoverpage.aspx" />
+    <TemplateFile Location="Layouts\Pages\Grid.aspx" />
+    <TemplateFile Location="Layouts\Pages\Timesheet.aspx" />
+  </TemplateFiles>
+  <FeatureManifests>
+    <FeatureManifest Location="Pages_Feature1\Feature.xml" />
+  </FeatureManifests>
+</Solution>

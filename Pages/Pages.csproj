@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{42A11EAE-2C1E-4DF1-90AA-B226B05C6DF0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pages</RootNamespace>
+    <AssemblyName>Pages</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetOfficeVersion>16.0</TargetOfficeVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <MinimumOfficeToolsVersion>14.5</MinimumOfficeToolsVersion>
+    <SandboxedSolution>False</SandboxedSolution>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SharePoint.Client, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.SharePoint" />
+    <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Features\Feature1\Feature1.EventReceiver.cs">
+      <DependentUpon>Feature1.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Pages\Appoverpage.aspx.cs">
+      <DependentUpon>Appoverpage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\Appoverpage.aspx.designer.cs">
+      <DependentUpon>Appoverpage.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Pages\Grid.aspx.cs">
+      <DependentUpon>Grid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\Grid.aspx.designer.cs">
+      <DependentUpon>Grid.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Pages\Timesheet.aspx.cs">
+      <DependentUpon>Timesheet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\Timesheet.aspx.designer.cs">
+      <DependentUpon>Timesheet.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Features\Feature1\Feature1.feature">
+      <FeatureId>{328f48c1-3a4c-4a81-b3e4-0a8836bc7efd}</FeatureId>
+    </None>
+    <None Include="key.snk" />
+    <None Include="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Layouts\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{11bea098-a650-4424-bcbe-47b1d2bf321f}</SharePointProjectItemId>
+    </None>
+    <None Include="Package\Package.package">
+      <PackageId>{0e223389-65f3-47f7-a8aa-a66d43ed9cc5}</PackageId>
+    </None>
+    <None Include="Package\Package.Template.xml">
+      <DependentUpon>Package.package</DependentUpon>
+    </None>
+    <None Include="Timesheets\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{5592482e-489c-49d6-ba3d-c3bd144f4aac}</SharePointProjectItemId>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Features\Feature1\Feature1.Template.xml">
+      <DependentUpon>Feature1.feature</DependentUpon>
+    </Content>
+    <Content Include="Layouts\Bootstrap\css\bootstrap.min.css" />
+    <Content Include="Layouts\Bootstrap\css\timeshit.css" />
+    <Content Include="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\external\jquery.js" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_444444_256x240.png" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_555555_256x240.png" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_777620_256x240.png" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_777777_256x240.png" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
+    <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <Content Include="Layouts\Bootstrap\js\date.js" />
+    <Content Include="Layouts\Bootstrap\js\jquery-1.12.4.min.js" />
+    <Content Include="Layouts\Bootstrap\js\jquery.SPServices-0.7.2.min.js" />
+    <Content Include="Layouts\Bootstrap\js\mightySHP.js" />
+    <Content Include="Layouts\Bootstrap\js\bootstrap.min.js" />
+    <Content Include="Layouts\Bootstrap\js\approave.js" />
+    <Content Include="Layouts\Bootstrap\js\jquery.min.js" />
+    <Content Include="Layouts\Bootstrap\js\timepush.js" />
+    <Content Include="Layouts\Bootstrap\js\timeshit.js" />
+    <Content Include="Layouts\Pages\Appoverpage.aspx" />
+    <Content Include="Layouts\Pages\Grid.aspx" />
+    <Content Include="Layouts\Pages\Timesheet.aspx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\SharePointTools\Microsoft.VisualStudio.SharePoint.targets" Condition="'$(VSToolsPath)' != ''" />
+</Project>
