@@ -43,6 +43,14 @@ namespace Pages.Layouts.Pages
 
         }
 
+        public static SPListItem ReloadListItem(SPListItem item)
+        {
+            if (item == null)
+                return null;
+
+            return item.ParentList.GetItemByUniqueId(item.UniqueId);
+        }
+
         // Save Button Function
         public void Save(Object sender, EventArgs e)
         {

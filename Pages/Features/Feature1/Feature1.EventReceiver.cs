@@ -11,20 +11,13 @@ namespace Pages.Features.Feature1
     /// <remarks>
     /// The GUID attached to this class may be used during packaging and should not be modified.
     /// </remarks>
+    /// 
 
     [Guid("65db1229-bca4-401a-a1b7-f87f32bb6c42")]
     public class Feature1EventReceiver : SPFeatureReceiver
     {
         // Uncomment the method below to handle the event raised after a feature has been activated.
-        //public override void FeatureActivated(SPFeatureReceiverProperties properties)
-        //{
-        //    SPWeb web = properties.Feature.Parent as SPWeb;
-        //    SPContentType ct = web.ContentTypes["TimeSheetTaskList"];
-        //    ct.EditFormUrl = "_layouts/15/Pages/Appoverpage.aspx";
-        //    ct.DisplayFormUrl = "_layouts/15/Pages/Appoverpage.aspx";
-        //    ct.Update(true);
-        //}
-
+        
         public override void FeatureActivated(SPFeatureReceiverProperties properties)
         {
             SPSite spsite = properties.Feature.Parent as SPSite;

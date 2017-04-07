@@ -1,5 +1,55 @@
 
 jQuery(document).ready(function ($) {
+
+    // Query a Task List
+    function QueryTask() {
+        var updateContext = SP.ClientContext.get_current();
+        var myDweb = updateContext.get_web();
+
+        var itemColl = "";
+        var lstItem = "";
+
+        try{
+            var thisList = myDweb.get_lists().getByTitle("TimeSheetTaskList");
+
+            var q = new SP.CamlQuery();
+            q.set_viewXml("<View />");
+            var itemColl = thisList.getItems(q);
+
+            updateContext.load(itemColl);
+            updateContext.executeQueryAsync(happy, saddened);
+        } catch (Ex) {
+            console.error(Ex.message);
+        }
+
+        function saddened(sender, args) { alert(args.get_message()); }
+
+        function happy() {
+            lstItem = itemColl.getEnumerator();
+            browseThem();
+        }// happy()
+
+        function browseThem() {
+            while (lstItem.moveNext()) {
+                var listItem = lstItem.get_current();
+
+                var taskRefID = listItem.get_item("Ref_id");
+                var taskName = listItem.get_item("Title");
+                var taskStats = listItem.get_item("Status0");
+
+                console.log(taskRefID + " " + taskName+" "+taskStats);
+            } // while
+            updateContext.executeQueryAsync(boyboy, gyalgyal);
+        }//browseThem()
+    } // QueryTask
+
+    function boyboy() {  }
+    function gyalgyal(sender, args) { alert(args.get_message()); }
+
+    QueryTask();
+
+
+
     // Default Monday and Sunday Dates of the week
     var sundayy = Date.monday().add(6).days();
     var monday = Date.parse("monday");
@@ -22,9 +72,122 @@ jQuery(document).ready(function ($) {
     $('#saveRowData').on("click", function (event) {
         event.preventDefault();
         saveRecords();
+
+        listREFIds();
     }); // #saveRowData First Func
 
     
+    // ALL THE ELEMENTS NEEDED FOR A TASK LIST
+    var startdate = $('.timeshitStartDate').val();
+    var enddate = $('.timeshitEndDate').val();
+
+
+    // Generate Ref id
+    var onMonday = Date.parse("monday");
+    var onSunday = Date.monday().add(6).days();
+
+    var begin = new Date(1970, 0, 1);
+    var btwn = (onMonday.getTime() - begin.getTime());
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+    var taskNAME = "TASK_" + getRandomInt(onMonday.getTime(), begin.getTime());
+    
+    var curDisName = $('.employeeLoginNames').val();
+    var ref_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
+    var status = "Pending";
+
+
+
+    // listREFIds List Function
+    function listREFIds() {
+        var currCtx = SP.ClientContext.get_current();
+        var myWeb = currCtx.get_web();
+
+        try {
+            // Insertion of RefIds
+            //alert("Ref_id: " + ref_id + " Employee: " + curser);
+            var lstRefID = myWeb.get_lists().getByTitle("TimeSheetTaskList");
+            var Obj = new SP.ListItemCreationInformation();
+
+            var itemCollection = "";
+            var itemToUpdate = "";
+
+            //var approver = "w52r";
+            //var employee = "c2uy";
+
+            var myQuery = new SP.CamlQuery();
+            myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
+            itemCollection = lstRefID.getItems(myQuery);
+            currCtx.load(itemCollection);
+            currCtx.executeQueryAsync(callList, killLst);
+
+            function callList() {
+                itemToUpdate = itemCollection.getEnumerator();
+                finals();
+            }
+
+            function finals() {
+                //alert("Inside finals Func");
+                while (itemToUpdate.moveNext()) {
+                    var myObj = itemToUpdate.get_current();
+                    var taskRefID = myObj.get_item("Ref_id");
+                    var tskstatus = myObj.get_item("Status0");
+
+                    alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
+                    alert("StartDate: "+startdate+" status: "+status+" TaskName: "+taskNAME+" EndDate: "+enddate);
+
+                    if (ref_id == taskRefID && tskstatus != "Completed") {
+                        //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
+                        //myObj.set_item("Ref_id", ref_id);
+                        //myObj.set_item("Status0", status);
+                        //myObj.set_item("Status", "Completed");
+
+                        //myObj.refreshLoad(); // Resolve conflict
+                        //myObj.update();
+                    } else if (ref_id == taskRefID && tskstatus == "Completed") {
+                        alert("Creating another task");
+                        var addingItem = lstRefID.addItem(Obj);
+
+                        addingItem.set_item("Ref_id", ref_id);
+                        addingItem.set_item("StartDate", startdate);
+                        addingItem.set_item("DueDate", enddate);
+                        addingItem.set_item("Status0", status);
+                        addingItem.set_item("Title", taskNAME);
+                        addingItem.update();
+                    } else {
+                        alert("Creating first task");
+                        var addingItem = lstRefID.addItem(Obj);
+
+                        addingItem.set_item("Ref_id", ref_id);
+                        addingItem.set_item("StartDate", startdate);
+                        addingItem.set_item("DueDate", enddate);
+                        addingItem.set_item("Status0", status);
+                        addingItem.set_item("Title", taskNAME);
+                        addingItem.update();
+                    }
+                } //while Loop
+            }
+            function killLst(sender, args) { alert("Error: " + args.get_message()); }
+
+            //addingItem.update();
+
+            currCtx.executeQueryAsync(insertListRef, refrain);
+        } catch (ex) {
+            alert(ex.message);
+        }
+    } //listRefIds
+    function insertListRef() {
+        console.info("Everything working");
+    }
+    function refrain(sender, args) { alert("Error: " + args.get_message()); }
+
+
+
+
 
     // Begin save Functions
     function saveRecords() {
@@ -33,10 +196,7 @@ jQuery(document).ready(function ($) {
 
         //grab the curent logged in user
         var curser = web.get_currentUser();
-
-        var startdate = $('.timeshitStartDate').val();
-        var enddate = $('.timeshitEndDate').val();
-
+        
         try {
             var list = web.get_lists().getByTitle("IPPFTimesheet");
             var itemInfoObj = new SP.ListItemCreationInformation();
@@ -46,33 +206,6 @@ jQuery(document).ready(function ($) {
 
             // Loop through each tr's and get it's input fields' value
             $('.killerTBody tr').each(function (index, item) {
-                // Generate Ref id
-                var onMonday = Date.parse("monday");
-                var onSunday = Date.monday().add(6).days();
-
-                var begin = new Date(1970, 0, 1);
-                var btwn = (onMonday.getTime() - begin.getTime());
-                console.log("Ref_" + btwn);
-
-                // Generate a Ref_id per user
-                var curDisName = $('.employeeLoginNames').val();
-                var realRef = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
-                //alert("Ref_id per user: " + realRef);
-
-                // Generate a Task Name Randomly
-                function getRandomInt(min, max) {
-                    min = Math.ceil(min);
-                    max = Math.floor(max);
-                    return Math.floor(Math.random() * (max - min)) + min;
-                }
-
-                console.log("TASK_" + getRandomInt(onMonday.getTime(), begin.getTime()));
-
-                var taskNAME = "TASK_" + getRandomInt(onMonday.getTime(), begin.getTime());
-                var ref_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
-                var status = "Pending";
-                //var employee = $('.employeeLoginNames').val();
-
                 worktype = $($(this).find('.WorkType')).val();
                 //project = $($(this).find('.projectName')).val();
                 project = $(this).find('.projectName option:selected').text();
@@ -86,7 +219,7 @@ jQuery(document).ready(function ($) {
 
                 var newAddedItem = list.addItem(itemInfoObj);
 
-                newAddedItem.set_item("Ref_id", realRef);
+                newAddedItem.set_item("Ref_id", ref_id);
                 newAddedItem.set_item("Status", "Pending");
 
                 newAddedItem.set_item("WorkType", worktype);
@@ -105,9 +238,7 @@ jQuery(document).ready(function ($) {
 
                 // Invoke listRefIds List
                 newAddedItem.update();
-                context.executeQueryAsync(onQuerySuccess(ref_id, status, startdate, enddate, curser, taskNAME), onQueryFailure);
-                //context.executeQueryAsync(Function.createDelegate(
-                //    this, this.onQuerySuccess), Function.createDelegate(this, this.onQueryFailure));
+                context.executeQueryAsync(onQuerySuccess(retrieveDays), onQueryFailure);
             });
             
             
@@ -116,86 +247,16 @@ jQuery(document).ready(function ($) {
         }
     }// End saveRecords() */
 
-    function onQuerySuccess(ref_id, status, startdate, enddate, curser, taskNAME) {
+    function onQuerySuccess(callback) {
         console.log('Setting changed');
-        listRefIds(ref_id, status, startdate, enddate, curser, taskNAME);
+        callback();
     }
 
     function onQueryFailure(sender, args) {
         alert('Request Failed. ' + args.get_message() + '\n' + args.get_stackTrace());
     }
 
-    // listREFIds List Function
-    function listRefIds(ref_id, status, startdate, enddate, curser, taskNAME) {
-        var ctx = SP.ClientContext.get_current();
-        var myWeb = ctx.get_web();
-
-        try {
-            // Insertion of RefIds
-            //alert("Ref_id: " + ref_id + " Employee: " + curser);
-            var lstRefID = myWeb.get_lists().getByTitle("TimeSheetTaskList");
-            var Obj = new SP.ListItemCreationInformation();
-
-            var itemCollection = "";
-            var itemToUpdate = "";
-
-            
-
-            var myQuery = new SP.CamlQuery();
-            //myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>SYSTEMACCOUNT_1491177600000</Value></Eq></Where></Query></View>`);
-            myQuery.set_viewXml("<View />");
-            itemCollection = lstRefID.getItems(myQuery);
-            ctx.load(itemCollection);
-            ctx.executeQueryAsync(callList, killLst);
-
-            function callList() {
-                itemToUpdate = itemCollection.getEnumerator();
-                finals();
-            }
-
-            function finals() {
-                //alert("Inside finals Func");
-                while (itemToUpdate.moveNext()) {
-                    var myObj = itemToUpdate.get_current();
-                    var taskRefID = myObj.get_item("Ref_id");
-                    var tskstatus = myObj.get_item("Status0");
-
-                    console.log("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id, status);
-
-                    if (ref_id == taskRefID) {
-                        //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
-                        //myObj.set_item("Ref_id", ref_id);
-                        //myObj.set_item("Status0", status);
-                        //myObj.set_item("Status", "Completed");
-
-                        //myObj.refreshLoad(); // Resolve conflict
-                        //myObj.update();
-                    } else {
-                        var addingItem = lstRefID.addItem(Obj);
-
-                        addingItem.set_item("Ref_id", ref_id);
-                        addingItem.set_item("StartDate", startdate);
-                        addingItem.set_item("DueDate", enddate);
-                        addingItem.set_item("Status0", status);
-                        addingItem.set_item("c2uy", curser);
-                        addingItem.set_item("Title", taskNAME);
-                        addingItem.update();
-                    }
-                } //while Loop
-            }
-            function killLst(sender, args) { alert("Error: " + args.get_message()); }
-
-            
-            ctx.executeQueryAsync(insertListRef(retrieveDays), refrain);
-        } catch (ex) {
-            alert(ex.message);
-        }
-    } //listRefIds
-    function insertListRef(callback) { /*alert("We hit the insertListRef func");*/
-        
-        callback(); /*location.reload(true)*/
-    }
-    function refrain(sender, args) { alert("Error: " + args.get_message()); }
+    
 
     // The update function
     //retrieveDays();
@@ -245,7 +306,7 @@ jQuery(document).ready(function ($) {
                 var DayVal = oListItem.get_item("DayVal");
                 var workedhours = oListItem.get_item("WorkedHours");
 
-                console.log("Day value: "+DayVal + " Worked Hours: " + workedhours);
+                console.log("Day value: " + DayVal + " Worked Hours: " + workedhours);
 
                 // Dealing with the Days !!!
                 switch (DayVal) {
