@@ -71,9 +71,7 @@ jQuery(document).ready(function ($) {
 
     $('#saveRowData').on("click", function (event) {
         event.preventDefault();
-        saveRecords();
-
-        listREFIds();
+        saveRecords(listREFIds);
     }); // #saveRowData First Func
 
     
@@ -102,99 +100,18 @@ jQuery(document).ready(function ($) {
 
 
 
-    // listREFIds List Function
-    function listREFIds() {
-        var currCtx = SP.ClientContext.get_current();
-        var myWeb = currCtx.get_web();
-
-        try {
-            // Insertion of RefIds
-            //alert("Ref_id: " + ref_id + " Employee: " + curser);
-            var lstRefID = myWeb.get_lists().getByTitle("TimeSheetTaskList");
-            var Obj = new SP.ListItemCreationInformation();
-
-            var itemCollection = "";
-            var itemToUpdate = "";
-
-            //var approver = "w52r";
-            //var employee = "c2uy";
-
-            var myQuery = new SP.CamlQuery();
-            myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
-            itemCollection = lstRefID.getItems(myQuery);
-            currCtx.load(itemCollection);
-            currCtx.executeQueryAsync(callList, killLst);
-
-            function callList() {
-                itemToUpdate = itemCollection.getEnumerator();
-                finals();
-            }
-
-            function finals() {
-                //alert("Inside finals Func");
-                while (itemToUpdate.moveNext()) {
-                    var myObj = itemToUpdate.get_current();
-                    var taskRefID = myObj.get_item("Ref_id");
-                    var tskstatus = myObj.get_item("Status0");
-
-                    //alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
-                    //alert("StartDate: "+startdate+" status: "+status+" TaskName: "+taskNAME+" EndDate: "+enddate);
-
-                    if (ref_id == taskRefID && tskstatus != "Completed") {
-                        //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
-                        //myObj.set_item("Ref_id", ref_id);
-                        //myObj.set_item("Status0", status);
-                        //myObj.set_item("Status", "Completed");
-
-                        //myObj.refreshLoad(); // Resolve conflict
-                        //myObj.update();
-                    } else if (ref_id == taskRefID && tskstatus == "Completed") {
-                        //alert("Creating another task");
-                        var addingItem = lstRefID.addItem(Obj);
-
-                        addingItem.set_item("Ref_id", ref_id);
-                        addingItem.set_item("StartDate", startdate);
-                        addingItem.set_item("DueDate", enddate);
-                        addingItem.set_item("Status0", status);
-                        addingItem.set_item("Title", taskNAME);
-                        addingItem.update();
-                    } else {
-                        //alert("Creating first task");
-                        var addingItem = lstRefID.addItem(Obj);
-
-                        addingItem.set_item("Ref_id", ref_id);
-                        addingItem.set_item("StartDate", startdate);
-                        addingItem.set_item("DueDate", enddate);
-                        addingItem.set_item("Status0", status);
-                        addingItem.set_item("Title", taskNAME);
-                        addingItem.update();
-                    }
-                } //while Loop
-            }
-            function killLst(sender, args) { alert("Error: " + args.get_message()); }
-
-            //addingItem.update();
-
-            currCtx.executeQueryAsync(insertListRef, refrain);
-        } catch (ex) {
-            alert(ex.message);
-        }
-    } //listRefIds
-    function insertListRef() {
-        console.info("Everything working");
-        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
-    }
-    function refrain(sender, args) { alert("Error: " + args.get_message()); }
+    
 
 
 
 
 
     // Begin save Functions
-    function saveRecords() {
+    function saveRecords(mycallback) {
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
 
+        
         //grab the curent logged in user
         var curser = web.get_currentUser();
         
@@ -282,6 +199,8 @@ jQuery(document).ready(function ($) {
         } catch (Ex) {
             alert(Ex.message);
         }
+
+        mycallback();
     }// End saveRecords() */
 
     function onQuerySuccess() {
@@ -333,4 +252,94 @@ jQuery(document).ready(function ($) {
         $('.timeshitEndDate').val(adate).attr('readonly', 'readonly');
         console.log(adate)
     }
+
+
+    // listREFIds List Function
+    function listREFIds() {
+        var currCtx = SP.ClientContext.get_current();
+        var myWeb = currCtx.get_web();
+
+        try {
+            // Insertion of RefIds
+            //alert("Ref_id: " + ref_id + " Employee: " + curser);
+            var lstRefID = myWeb.get_lists().getByTitle("TimeSheetTaskList");
+            var Obj = new SP.ListItemCreationInformation();
+
+            var itemCollection = "";
+            var itemToUpdate = "";
+
+            //var approver = "w52r";
+            //var employee = "c2uy";
+
+            var myQuery = new SP.CamlQuery();
+            myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
+            itemCollection = lstRefID.getItems(myQuery);
+            currCtx.load(itemCollection);
+            currCtx.executeQueryAsync(callList, killLst);
+
+            function callList() {
+                itemToUpdate = itemCollection.getEnumerator();
+                finals();
+            }
+
+            function finals() {
+                alert("Inside finals Func");
+                while (itemToUpdate.moveNext()) {
+                    var myObj = itemToUpdate.get_current();
+                    var taskRefID = myObj.get_item("Ref_id");
+                    var tskstatus = myObj.get_item("Status");
+
+                    alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
+                    alert("TaskStatus: "+tskstatus+" StartDate: " + startdate + " status: " + status + " TaskName: " + taskNAME + " EndDate: " + enddate);
+
+                    if (ref_id == taskRefID && tskstatus != "Completed") {
+                        //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
+                        //myObj.set_item("Ref_id", ref_id);
+                        //myObj.set_item("Status0", status);
+                        //myObj.set_item("Status", "Completed");
+
+                        //myObj.refreshLoad(); // Resolve conflict
+                        //myObj.update();
+                    } else if (ref_id == taskRefID && tskstatus == "Completed") {
+                        alert("Creating another task");
+                        var addingItem = lstRefID.addItem(Obj);
+
+                        addingItem.set_item("Ref_id", ref_id);
+                        addingItem.set_item("StartDate", startdate);
+                        addingItem.set_item("DueDate", enddate);
+                        addingItem.set_item("Status", status);
+                        addingItem.set_item("Title", taskNAME);
+                        addingItem.update();
+                        currCtx.load(addingItem);
+                        currCtx.executeQueryAsync(insertListRef, refrain);
+
+                    } else {
+                        alert("Creating first task");
+                        var myItem = lstRefID.addItem(Obj);
+
+                        myItem.set_item("Ref_id", ref_id);
+                        myItem.set_item("StartDate", startdate);
+                        myItem.set_item("DueDate", enddate);
+                        myItem.set_item("Status", status);
+                        myItem.set_item("Title", taskNAME);
+                        myItem.update();
+
+                        currCtx.load(myItem);
+                        currCtx.executeQueryAsync(insertListRef, refrain);
+                    }
+                } //while Loop
+            }
+            function killLst(sender, args) { alert("Error: " + args.get_message()); }
+
+            //addingItem.update();
+
+        } catch (ex) {
+            alert(ex.message);
+        }
+    } //listRefIds
+    function insertListRef() {
+        console.info("Everything working");
+        //window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+    }
+    function refrain(sender, args) { alert("Error: " + args.get_message()); }
 });

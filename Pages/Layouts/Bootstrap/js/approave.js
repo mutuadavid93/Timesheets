@@ -32,6 +32,7 @@ $(document).ready(function () {
                           </Eq>
                        </Where>
                     </Query>
+                    <RowLimit>1</RowLimit>
                     <ViewFields>
                        <FieldRef Name='Ref_id' />
                        <FieldRef Name='Status0' />
@@ -245,6 +246,7 @@ $(document).ready(function () {
             if (taskID == realID) {
                 if (tskstatus == "Declined" || tskstatus == "Approved") {
                     $('#approovData, #declineData').fadeOut("slow");
+                    $('.commentsLabel').html("Comments").css("font-weight", "bold");
                     $('#redirectToMains').removeClass("hidden").click(function (event) {
                         event.preventDefault();
 
@@ -368,8 +370,6 @@ $(document).ready(function () {
             while (lstItemToBeUpdated.moveNext()) {
                 var listItem = lstItemToBeUpdated.get_current();
 
-                var ref_id = listItem.get_item("Ref_id");
-                var project = listItem.get_item("ProjectName");
                 var startDate = listItem.get_item("StartDate");
                 var endDate = listItem.get_item("EndDate");
                 //var status = listItem.get_item("Status");
@@ -406,15 +406,15 @@ $(document).ready(function () {
                 }
             } // while Loop
 
-            updateContext.executeQueryAsync(accomplished(ref_id, status, realID), failed);
+            updateContext.executeQueryAsync(accomplished(status, realID), failed);
         } // maulingTheUpdate()
 
     } // approverUpdate()
 
-    function accomplished(ref_id, status, realID) {
+    function accomplished(status, realID) {
         //alert("Inside accomplished Task ID = " + realID);
         console.log("We are done the approval");
-        updateTaskList(ref_id, status, realID);
+        updateTaskList(status, realID);
         //location.reload(true);
     }
 
@@ -515,20 +515,20 @@ $(document).ready(function () {
                 }
             } // while Loop
 
-            updateContext.executeQueryAsync(gogo(ref_id, status, realID), curled);
+            updateContext.executeQueryAsync(gogo(status, realID), curled);
         }
     } // Decline()
 
     function gogo(ref_id, status, realID) {
         //alert("call updateTasklist Func"+status);
-        updateTaskList(ref_id, status, realID);
+        updateTaskList(status, realID);
         console.log("Timesheet declined successfully");
         //location.reload(true);
     }
     function curled(sender, args) { console.error("Error: " + args.get_message()); }
 
     // TASKLIST
-    function updateTaskList(ref_id, status, realID) {
+    function updateTaskList(status, realID) {
         //alert("Inside updateTaskList Func and Task ID = " + realID);
         var updateContext = SP.ClientContext.get_current();
         var myDweb = updateContext.get_web();
@@ -569,16 +569,12 @@ $(document).ready(function () {
 
                     if (realID == taskIDentity) {
                         //alert("Original task ID: " + realID + " Task List taskIDentity: " + taskListRef_id);
-                        //alert("Trying to update because Task ID exists");
-                        //var task = tasks[0];
-                        listItem.set_item("Ref_id", ref_id);
                         listItem.set_item("Status0", status);
                         listItem.set_item("Status", "Completed");
                         listItem.update();
                     } else {
-
+                        // THIS SHOULD NEVER HAPPEN
                         //alert("Trying to create new Record with new Ref_id");
-                        newAddedItem.set_item("Ref_id", ref_id);
                         newAddedItem.set_item("Status0", status);
                         newAddedItem.set_item("Status", "Completed");
                         newAddedItem.update();
