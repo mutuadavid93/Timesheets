@@ -137,8 +137,8 @@ jQuery(document).ready(function ($) {
                     var taskRefID = myObj.get_item("Ref_id");
                     var tskstatus = myObj.get_item("Status0");
 
-                    alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
-                    alert("StartDate: "+startdate+" status: "+status+" TaskName: "+taskNAME+" EndDate: "+enddate);
+                    //alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
+                    //alert("StartDate: "+startdate+" status: "+status+" TaskName: "+taskNAME+" EndDate: "+enddate);
 
                     if (ref_id == taskRefID && tskstatus != "Completed") {
                         //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
                         //myObj.refreshLoad(); // Resolve conflict
                         //myObj.update();
                     } else if (ref_id == taskRefID && tskstatus == "Completed") {
-                        alert("Creating another task");
+                        //alert("Creating another task");
                         var addingItem = lstRefID.addItem(Obj);
 
                         addingItem.set_item("Ref_id", ref_id);
@@ -159,7 +159,7 @@ jQuery(document).ready(function ($) {
                         addingItem.set_item("Title", taskNAME);
                         addingItem.update();
                     } else {
-                        alert("Creating first task");
+                        //alert("Creating first task");
                         var addingItem = lstRefID.addItem(Obj);
 
                         addingItem.set_item("Ref_id", ref_id);
@@ -182,6 +182,7 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
+        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 
@@ -216,7 +217,7 @@ jQuery(document).ready(function ($) {
                 dayText = $(this).find('.day option:selected').text();
                 workedhours = $($(this).find('.WorkedHours')).val();
 
-                alert("Current DAY it's :"+dayText);
+                //alert("Current DAY it's :"+dayText);
 
                 var newAddedItem = list.addItem(itemInfoObj);
 
@@ -254,8 +255,6 @@ jQuery(document).ready(function ($) {
 
                 } // switch
 
-
-                
 
                 newAddedItem.set_item("Ref_id", ref_id);
                 newAddedItem.set_item("Status", "Pending");
