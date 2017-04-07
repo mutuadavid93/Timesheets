@@ -213,11 +213,47 @@ jQuery(document).ready(function ($) {
                 challanges = $($(this).find('.Challenges')).val();
                 action = $($(this).find('.Action')).val();
                 dayVal = $(this).find('.day').val();
-                //dayText = $(this).find('.day option:selected').text();
+                dayText = $(this).find('.day option:selected').text();
                 workedhours = $($(this).find('.WorkedHours')).val();
 
+                alert("Current DAY it's :"+dayText);
 
                 var newAddedItem = list.addItem(itemInfoObj);
+
+                // Try to Add hours and Days into List on Submit
+                switch (dayText) {
+                    case "MON":
+                        newAddedItem.set_item("MON", workedhours);
+                        break;
+
+                    case "TUE":
+                        newAddedItem.set_item("TUE", workedhours);
+                        break;
+
+                    case "WED":
+                        newAddedItem.set_item("WED", workedhours);
+                        break;
+
+                    case "THUR":
+                        newAddedItem.set_item("THUR", workedhours);
+                        break;
+
+                    case "FRI":
+                        newAddedItem.set_item("FRI", workedhours);
+                        break;
+
+                    case "SAT":
+                        newAddedItem.set_item("SAT", workedhours);
+                        break;
+
+                    case "SUN":
+                        newAddedItem.set_item("SUN", workedhours);
+                        break;
+
+                    default:
+
+                } // switch
+
 
                 newAddedItem.set_item("Ref_id", ref_id);
                 newAddedItem.set_item("Status", "Pending");
@@ -238,7 +274,7 @@ jQuery(document).ready(function ($) {
 
                 // Invoke listRefIds List
                 newAddedItem.update();
-                context.executeQueryAsync(onQuerySuccess(retrieveDays), onQueryFailure);
+                context.executeQueryAsync(onQuerySuccess, onQueryFailure);
             });
             
             
@@ -247,9 +283,8 @@ jQuery(document).ready(function ($) {
         }
     }// End saveRecords() */
 
-    function onQuerySuccess(callback) {
+    function onQuerySuccess() {
         console.log('Setting changed');
-        callback();
     }
 
     function onQueryFailure(sender, args) {
@@ -261,112 +296,7 @@ jQuery(document).ready(function ($) {
     // The update function
     //retrieveDays();
 
-    function retrieveDays() {
-        console.log("RetrievDays function called after 5 Seconds");
-        var context = SP.ClientContext.get_current();
-        var myweb = context.get_web();
-
-        var collListItemToBeUpdated = "";
-        var listItemToBeUpdated = "";
-
-        try {
-            var myList = myweb.get_lists().getByTitle("IPPFTimesheet");
-            var q = new SP.CamlQuery();
-            q.set_viewXml(`<View><Query>
-                               <Where>
-                                  <Geq>
-                                     <FieldRef Name='DayVal' />
-                                     <Value Type='Number'>1</Value>
-                                  </Geq>
-                               </Where>
-                            </Query></View>`);
-            var collListItemToBeUpdated = myList.getItems(q);
-            context.load(collListItemToBeUpdated, "Include(DayVal, WorkedHours)"); // Make sure to use load() not loadQuery()
-            context.executeQueryAsync(qualify, disqualify);
-
-        } catch (ex) {
-            alert("Retrieve Error: " + ex.message);
-        }
-
-        function qualify() {
-            //alert("Inside qualify");
-            listItemToBeUpdated = collListItemToBeUpdated.getEnumerator();
-            updateMultipleItems();
-        }
-
-        function updateMultipleItems() {
-            var clientContext = SP.ClientContext.get_current();
-            var oList = clientContext.get_web().get_lists().getByTitle('IPPFTimesheet');
-
-
-
-            while (listItemToBeUpdated.moveNext()) {
-                var oListItem = listItemToBeUpdated.get_current();
-
-                var DayVal = oListItem.get_item("DayVal");
-                var workedhours = oListItem.get_item("WorkedHours");
-
-                console.log("Day value: " + DayVal + " Worked Hours: " + workedhours);
-
-                // Dealing with the Days !!!
-                switch (DayVal) {
-                    case 1:
-                        oListItem.set_item("MON", workedhours);
-                        oListItem.update();
-                        break;
-
-                    case 2:
-                        oListItem.set_item("TUE", workedhours);
-                        oListItem.update();
-                        break;
-
-                    case 3:
-                        oListItem.set_item("WED", workedhours);
-                        oListItem.update();
-                        break;
-
-                    case 4:
-                        oListItem.set_item("THUR", workedhours);
-                        oListItem.update();
-                        break;
-
-                    case 5:
-                        oListItem.set_item("FRI", workedhours);
-                        oListItem.update();
-                        break;
-
-                    case 6:
-                        oListItem.set_item("SAT", workedhours);
-                        oListItem.update();
-                        break;
-
-                    case 7:
-                        oListItem.set_item("SUN", workedhours);
-                        oListItem.update();
-                        break;
-
-                    default:
-                        console.log("Nothing was inserted buddy");
-                } // switch
-            }// while Loop
-
-            context.executeQueryAsync(finalCheck, redCard);
-        } // updateMultipleItems()
-
-        function disqualify(sender, args) {
-            console.warn("Error: " + args.get_message());
-        }
-    }
-
-    function finalCheck() {
-        // stop the time Loop
-        //alert("Days Updated1!!");
-        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
-        //location.reload(true);
-    }
-    function redCard(sender, args) {
-        alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
-    }
+    
 
 
 
