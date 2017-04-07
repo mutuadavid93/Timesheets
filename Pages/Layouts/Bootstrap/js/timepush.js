@@ -259,6 +259,8 @@ jQuery(document).ready(function ($) {
         var currCtx = SP.ClientContext.get_current();
         var myWeb = currCtx.get_web();
 
+        var anEmp = myWeb.get_currentUser();
+
         try {
             // Insertion of RefIds
             //alert("Ref_id: " + ref_id + " Employee: " + curser);
@@ -272,7 +274,8 @@ jQuery(document).ready(function ($) {
             //var employee = "c2uy";
 
             var myQuery = new SP.CamlQuery();
-            myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
+            //myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
+            myQuery.set_viewXml("<View />");
             itemCollection = lstRefID.getItems(myQuery);
             currCtx.load(itemCollection);
             currCtx.executeQueryAsync(callList, killLst);
@@ -300,27 +303,29 @@ jQuery(document).ready(function ($) {
 
                         //myObj.refreshLoad(); // Resolve conflict
                         //myObj.update();
-                    } else if (ref_id == taskRefID && tskstatus == "Completed") {
+                    } /*else if (ref_id == taskRefID && tskstatus == "Completed") {
                         alert("Creating another task");
                         var addingItem = lstRefID.addItem(Obj);
 
                         addingItem.set_item("Ref_id", ref_id);
                         addingItem.set_item("StartDate", startdate);
                         addingItem.set_item("DueDate", enddate);
-                        addingItem.set_item("Status", status);
+                        addingItem.set_item("Status0", status);
+                        addingItem.set_item("c2uy", anEmp);
                         addingItem.set_item("Title", taskNAME);
                         addingItem.update();
                         currCtx.load(addingItem);
                         currCtx.executeQueryAsync(insertListRef, refrain);
 
-                    } else {
+                    } */else {
                         alert("Creating first task");
                         var myItem = lstRefID.addItem(Obj);
 
                         myItem.set_item("Ref_id", ref_id);
                         myItem.set_item("StartDate", startdate);
                         myItem.set_item("DueDate", enddate);
-                        myItem.set_item("Status", status);
+                        myItem.set_item("Status0", status);
+                        myItem.set_item("c2uy", anEmp);
                         myItem.set_item("Title", taskNAME);
                         myItem.update();
 
@@ -339,7 +344,7 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
-        //window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 });
