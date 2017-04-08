@@ -47,6 +47,8 @@
                     <div class="col-sm-3">
                         <span>Employee name</span>
                         <input type="text" class="myEMPloyee form-control" />
+                        <input type="text" class="hidden taskRefIdNeeded" />
+                        <input type="text" class="hidden taskNameNeeded" />
                     </div>
                     <div class="col-sm-3"></div>
 
@@ -180,7 +182,7 @@
                                             <br />
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <p><label>Reviewed by:</label> <span style="display: block;" id="approverName"></span></p>
+                                                    <p><label class="reviwdates hidden">Reviewed by:</label> <span style="display: block;" id="approverName"></span></p>
                                                     <br />
                                                 </div>
                                                 <div class="col-sm-6">
@@ -189,7 +191,7 @@
                                                             
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <p><label>Review date:</label> &nbsp;<span id="reviewDate" style="display='block;'"></span></p>
+                                                            <p class="reviewing hidden"><label>Review date:</label> &nbsp;<span id="reviewDate" style="display:block;"></span></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,7 +199,8 @@
                                             
                                             <span class="commentsLabel">Insert your comments below<span class='required'></span></span>
                                             <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
-                                            <br />
+                                            
+                                             <br />
                                             
                                             <button class="btn btn-success" role="button" id="approovData"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp; Approve </button>
                                             <button class="btn btn-danger" role="button" id="declineData"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp; Decline </button>

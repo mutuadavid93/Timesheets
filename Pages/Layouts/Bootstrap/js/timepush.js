@@ -1,6 +1,5 @@
 
 jQuery(document).ready(function ($) {
-
     // Query a Task List
     function QueryTask() {
         var updateContext = SP.ClientContext.get_current();
@@ -30,20 +29,35 @@ jQuery(document).ready(function ($) {
         }// happy()
 
         function browseThem() {
+
+            var myArray = [];
+            var myObj = {};
+
             while (lstItem.moveNext()) {
                 var listItem = lstItem.get_current();
 
                 var taskRefID = listItem.get_item("Ref_id");
                 var taskName = listItem.get_item("Title");
-                var taskStats = listItem.get_item("Status0");
+                var taskStats = listItem.get_item("Status");
+
+                myArray.push(taskStats);
+                myObj[taskRefID] = taskStats;
 
                 console.log(taskRefID + " " + taskName+" "+taskStats);
             } // while
-            updateContext.executeQueryAsync(boyboy, gyalgyal);
+            updateContext.executeQueryAsync(boyboy(myArray, myObj), gyalgyal);
         }//browseThem()
     } // QueryTask
 
-    function boyboy() {  }
+    function boyboy(myArray, myObj) {
+        //console.log(myArray);
+        console.warn(myObj);
+
+        var newTaskCreate = myArray.indexOf("Not Started");
+        if (newTaskCreate != -1) {
+            console.info("We don't need to create a new item");
+        }
+    }
     function gyalgyal(sender, args) { alert(args.get_message()); }
 
     QueryTask();
@@ -98,14 +112,7 @@ jQuery(document).ready(function ($) {
     var ref_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
     var status = "Pending";
 
-
-
     
-
-
-
-
-
     // Begin save Functions
     function saveRecords(mycallback) {
         var context = SP.ClientContext.get_current();
@@ -182,7 +189,9 @@ jQuery(document).ready(function ($) {
                 newAddedItem.set_item("Challenges", challanges);
                 newAddedItem.set_item("Task", action);
                 newAddedItem.set_item("WorkedHours", workedhours);
+
                 
+                newAddedItem.set_item("TaskName", taskNAME);
 
                 newAddedItem.set_item("DayVal", dayVal);
                 //newAddedItem.set_item("Day", dayText);
@@ -192,6 +201,7 @@ jQuery(document).ready(function ($) {
 
                 // Invoke listRefIds List
                 newAddedItem.update();
+                context.load(curser);
                 context.executeQueryAsync(onQuerySuccess, onQueryFailure);
             });
             
@@ -200,11 +210,12 @@ jQuery(document).ready(function ($) {
             alert(Ex.message);
         }
 
-        mycallback();
+        mycallback(ref_id);
     }// End saveRecords() */
 
     function onQuerySuccess() {
         console.log('Setting changed');
+        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
     }
 
     function onQueryFailure(sender, args) {
@@ -255,7 +266,7 @@ jQuery(document).ready(function ($) {
 
 
     // listREFIds List Function
-    function listREFIds() {
+    function listREFIds(ref_id) {
         var currCtx = SP.ClientContext.get_current();
         var myWeb = currCtx.get_web();
 
@@ -286,53 +297,53 @@ jQuery(document).ready(function ($) {
             }
 
             function finals() {
-                alert("Inside finals Func");
+                //alert("Inside finals Func");
                 while (itemToUpdate.moveNext()) {
                     var myObj = itemToUpdate.get_current();
                     var taskRefID = myObj.get_item("Ref_id");
                     var tskstatus = myObj.get_item("Status");
 
-                    alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
-                    alert("TaskStatus: "+tskstatus+" StartDate: " + startdate + " status: " + status + " TaskName: " + taskNAME + " EndDate: " + enddate);
+                    //alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
+                    //alert("TaskStatus: "+tskstatus+" StartDate: " + startdate + " status: " + status + " TaskName: " + taskNAME + " EndDate: " + enddate);
 
-                    if (ref_id == taskRefID && tskstatus != "Completed") {
-                        //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
-                        //myObj.set_item("Ref_id", ref_id);
-                        //myObj.set_item("Status0", status);
-                        //myObj.set_item("Status", "Completed");
-
-                        //myObj.refreshLoad(); // Resolve conflict
-                        //myObj.update();
-                    } /*else if (ref_id == taskRefID && tskstatus == "Completed") {
-                        alert("Creating another task");
-                        var addingItem = lstRefID.addItem(Obj);
-
-                        addingItem.set_item("Ref_id", ref_id);
-                        addingItem.set_item("StartDate", startdate);
-                        addingItem.set_item("DueDate", enddate);
-                        addingItem.set_item("Status0", status);
-                        addingItem.set_item("c2uy", anEmp);
-                        addingItem.set_item("Title", taskNAME);
-                        addingItem.update();
-                        currCtx.load(addingItem);
-                        currCtx.executeQueryAsync(insertListRef, refrain);
-
-                    } */else {
-                        alert("Creating first task");
-                        var myItem = lstRefID.addItem(Obj);
-
-                        myItem.set_item("Ref_id", ref_id);
-                        myItem.set_item("StartDate", startdate);
-                        myItem.set_item("DueDate", enddate);
-                        myItem.set_item("Status0", status);
-                        myItem.set_item("c2uy", anEmp);
-                        myItem.set_item("Title", taskNAME);
-                        myItem.update();
-
-                        currCtx.load(myItem);
-                        currCtx.executeQueryAsync(insertListRef, refrain);
-                    }
                 } //while Loop
+
+                if (ref_id == taskRefID && tskstatus != "Completed") {
+                    //alert("Incomming Task Ref_id duplicate detected, we are updating Task");
+                    //myObj.set_item("Ref_id", ref_id);
+                    //myObj.set_item("Status0", status);
+                    //myObj.set_item("Status", "Completed");
+
+                    //myObj.refreshLoad(); // Resolve conflict
+                    //myObj.update();
+                } else if (ref_id == taskRefID && tskstatus == "Completed") {
+                    alert("Creating another task");
+                    var addingItem = lstRefID.addItem(Obj);
+
+                    addingItem.set_item("Ref_id", ref_id);
+                    addingItem.set_item("StartDate", startdate);
+                    addingItem.set_item("DueDate", enddate);
+                    addingItem.set_item("Status0", status);
+                    addingItem.set_item("c2uy", anEmp);
+                    addingItem.set_item("Title", taskNAME);
+                    addingItem.update();
+                    currCtx.load(addingItem);
+                    currCtx.executeQueryAsync(insertListRef, refrain);
+                } else {
+                    alert("Creating first task");
+                    var kingItem = lstRefID.addItem(Obj);
+
+                    kingItem.set_item("Ref_id", ref_id);
+                    kingItem.set_item("StartDate", startdate);
+                    kingItem.set_item("DueDate", enddate);
+                    kingItem.set_item("Status0", status);
+                    kingItem.set_item("c2uy", anEmp);
+                    kingItem.set_item("Title", taskNAME);
+                    kingItem.update();
+                    currCtx.load(kingItem);
+                    currCtx.executeQueryAsync(insertListRef, refrain);
+                }
+
             }
             function killLst(sender, args) { alert("Error: " + args.get_message()); }
 

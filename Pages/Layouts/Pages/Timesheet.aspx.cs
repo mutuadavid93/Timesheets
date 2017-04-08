@@ -21,16 +21,17 @@ namespace Pages.Layouts.Pages
                     {
                         if (!IsPostBack)
                         {
+                            SPContext currentContext = SPContext.Current;
                             SPUserCollection siteUsers = powerWeb.AllUsers;
                             foreach (SPUser logUser in siteUsers)
                             {
-                                if(logUser.LoginName.ToUpper() != "")
+                                if (currentContext != null && currentContext.Web.CurrentUser != null)
                                 {
-                                    employeeLoginNames.Value = logUser.Name.ToUpper();
+                                    string userName = SPContext.Current.Web.CurrentUser.Name;
+                                    employeeLoginNames.Value = userName.ToUpper();
                                 }
-                            }// Username
+                            }
                         }
-
                         //Get list item values from SharePoint lists.
                         SPList projects = powerWeb.Lists["LK_Projects"];
                         projectName.DataSource = projects.Items;

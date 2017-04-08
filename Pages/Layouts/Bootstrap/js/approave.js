@@ -32,7 +32,6 @@ $(document).ready(function () {
                           </Eq>
                        </Where>
                     </Query>
-                    <RowLimit>1</RowLimit>
                     <ViewFields>
                        <FieldRef Name='Ref_id' />
                        <FieldRef Name='Status0' />
@@ -54,10 +53,17 @@ $(document).ready(function () {
                 var taskRefID = myObj.get_item("Ref_id");
                 var tskstatus = myObj.get_item("Status0");
                 var taskID = myObj.get_item("ID");
+                var taskNamedHere = myObj.get_item("Title");
                 //alert("Task URL ID: " + taskID+" Task ID: "+realID);
 
                 retrieveItem(taskRefID, tskstatus, taskID, realID);
             }
+
+            // This the Current Task Ref_id based on the URL ID used to update Timesheet during 
+            // Approval.
+            $('.taskRefIdNeeded').val(taskRefID);
+            $('.taskNameNeeded').val(taskNamedHere);
+            console.log(taskRefID + " taskname: " + taskNamedHere);
         }
        function killLst(sender, args){ alert("Error: "+args.get_message()); }
     }// taskListed
@@ -246,8 +252,7 @@ $(document).ready(function () {
             if (taskID == realID) {
                 if (tskstatus == "Declined" || tskstatus == "Approved") {
                     $('#approovData, #declineData').fadeOut("slow");
-                    $('.commentsLabel').html("Comments").css("font-weight", "bold");
-                    $('#redirectToMains').removeClass("hidden").click(function (event) {
+                    $('.reviwdates, .reviewing, #redirectToMains').removeClass("hidden").click(function (event) {
                         event.preventDefault();
 
                         window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
@@ -370,6 +375,8 @@ $(document).ready(function () {
             while (lstItemToBeUpdated.moveNext()) {
                 var listItem = lstItemToBeUpdated.get_current();
 
+                var ref_id = listItem.get_item("Ref_id");
+                var project = listItem.get_item("ProjectName");
                 var startDate = listItem.get_item("StartDate");
                 var endDate = listItem.get_item("EndDate");
                 //var status = listItem.get_item("Status");
@@ -406,15 +413,15 @@ $(document).ready(function () {
                 }
             } // while Loop
 
-            updateContext.executeQueryAsync(accomplished(status, realID), failed);
+            updateContext.executeQueryAsync(accomplished(ref_id, status, realID), failed);
         } // maulingTheUpdate()
 
     } // approverUpdate()
 
-    function accomplished(status, realID) {
+    function accomplished(ref_id, status, realID) {
         //alert("Inside accomplished Task ID = " + realID);
         console.log("We are done the approval");
-        updateTaskList(status, realID);
+        updateTaskList(ref_id, status, realID);
         //location.reload(true);
     }
 
@@ -482,8 +489,13 @@ $(document).ready(function () {
 
         function declining(realID) {
             //alert("Inside declining() with Task ID: " + realID);
+            var shtTaskName = $('.taskNameNeeded').val();
+            var shtTaskRef = $('.taskRefIdNeeded').val();
+            //alert(shtTaskRef);
+
             while (lstItem.moveNext()) {
                 var listItem = lstItem.get_current();
+
 
                 //alert("Review Date: " + reviewDate);
                 // Retrieve all the required items for the Task List
@@ -491,44 +503,50 @@ $(document).ready(function () {
                 var project = listItem.get_item("ProjectName");
                 var startDate = listItem.get_item("StartDate");
                 var endDate = listItem.get_item("EndDate");
+                var thTaskName = listItem.get_item("TaskName");
                 //var status = listItem.get_item("Status");
                 var status = "Declined";
 
+                //alert("Task Ref_id: " + shtTaskRef + " Timesheet Ref_id: " + ref_id);
+                
+                if (shtTaskRef == ref_id && shtTaskName == thTaskName) {
+                    var commented = $('#approveComments').val();
 
-                var commented = $('#approveComments').val();
+                    if (commented == '') {
+                        console.error("Comments can't be blank buddy!!!");
+                        location.reload(true);
+                    } else {
+                        listItem.set_item("Comments", commented);
+                        listItem.update();
 
-                if (commented == '') {
-                    console.error("Comments can't be blank buddy!!!");
-                    location.reload(true);
-                } else {
-                    listItem.set_item("Comments", commented);
-                    listItem.update();
+                        listItem.set_item("Status", "Declined");
+                        listItem.update();
 
-                    listItem.set_item("Status", "Declined");
-                    listItem.update();
+                        listItem.set_item("Approver", currenstUser);
+                        listItem.update();
 
-                    listItem.set_item("Approver", currenstUser);
-                    listItem.update();
-                    
-                    listItem.set_item("ReviewDate", reviewDate);
-                    listItem.update();
+                        listItem.set_item("ReviewDate", reviewDate);
+                        listItem.update();
+                    }
                 }
+
+                
             } // while Loop
 
-            updateContext.executeQueryAsync(gogo(status, realID), curled);
+            updateContext.executeQueryAsync(gogo(ref_id, status, realID), curled);
         }
     } // Decline()
 
     function gogo(ref_id, status, realID) {
         //alert("call updateTasklist Func"+status);
-        updateTaskList(status, realID);
+        updateTaskList(ref_id, status, realID);
         console.log("Timesheet declined successfully");
         //location.reload(true);
     }
     function curled(sender, args) { console.error("Error: " + args.get_message()); }
 
     // TASKLIST
-    function updateTaskList(status, realID) {
+    function updateTaskList(ref_id, status, realID) {
         //alert("Inside updateTaskList Func and Task ID = " + realID);
         var updateContext = SP.ClientContext.get_current();
         var myDweb = updateContext.get_web();
@@ -564,20 +582,24 @@ $(document).ready(function () {
 
                     //var taskListRef_id = listItem.get_item("Ref_id");
                     var taskIDentity = listItem.get_item("ID");
-
+                    
                     //alert("Original task ID: " + realID + " Task List taskIDentity: " + taskIDentity);
 
                     if (realID == taskIDentity) {
                         //alert("Original task ID: " + realID + " Task List taskIDentity: " + taskListRef_id);
+                        //alert("Trying to update because Task ID exists");
+                        //var task = tasks[0];
+                        listItem.set_item("Ref_id", ref_id);
                         listItem.set_item("Status0", status);
                         listItem.set_item("Status", "Completed");
                         listItem.update();
                     } else {
-                        // THIS SHOULD NEVER HAPPEN
-                        //alert("Trying to create new Record with new Ref_id");
-                        newAddedItem.set_item("Status0", status);
-                        newAddedItem.set_item("Status", "Completed");
-                        newAddedItem.update();
+
+                        ////alert("Trying to create new Record with new Ref_id");
+                        //newAddedItem.set_item("Ref_id", ref_id);
+                        //newAddedItem.set_item("Status0", status);
+                        //newAddedItem.set_item("Status", "Completed");
+                        //newAddedItem.update();
                     }
                 } // while Loop
 
@@ -592,6 +614,18 @@ $(document).ready(function () {
         function fail2(sender, args) { alert("Error: " + args.get_message()); }
         function fail1(sender, args) { alert("Error: " + args.get_message()); }
     } // updateTaskList()
+
+    //function printing() {
+    //    var prtContent = document.getElementById("your div id");
+    //    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    //    WinPrint.document.write(prtContent.innerHTML);
+    //    WinPrint.document.close();
+    //    WinPrint.focus();
+    //    WinPrint.print();
+    //    WinPrint.close();
+    //}
+
+
 });
 
 
