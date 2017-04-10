@@ -48,6 +48,7 @@
                         <span>Employee name</span>
                         <input type="text" class="myEMPloyee form-control" />
                         <input type="text" class="hidden taskRefIdNeeded" />
+                        <input type="text" class="hidden taskNameNeeded" />
                     </div>
                     <div class="col-sm-3"></div>
 

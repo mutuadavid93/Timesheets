@@ -36,6 +36,7 @@ $(document).ready(function () {
                        <FieldRef Name='Ref_id' />
                        <FieldRef Name='Status0' />
                        <FieldRef Name='ID' />
+                       <FieldRef Name='Title' />
                     </ViewFields></View>`);
         itemCollection = lst.getItems(myQuery);
         context.load(itemCollection);
@@ -56,7 +57,7 @@ $(document).ready(function () {
                 var taskNamedHere = myObj.get_item("Title");
                 //alert("Task URL ID: " + taskID+" Task ID: "+realID);
 
-                retrieveItem(taskRefID, tskstatus, taskID, realID);
+                retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere);
             }
 
             // This the Current Task Ref_id based on the URL ID used to update Timesheet during 
@@ -72,7 +73,7 @@ $(document).ready(function () {
     //retrieveItem(realID);
 
     // CSOM RETRIEVE LIST ITEMS
-    function retrieveItem(taskRefID, tskstatus, taskID, realID) {
+    function retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere) {
         //alert(realID);
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
@@ -82,7 +83,7 @@ $(document).ready(function () {
         var ienum = "";
 
         var query = new SP.CamlQuery();
-        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + taskRefID + "</Value></Eq></Where></Query></View>");
+        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>"+taskNamedHere+"</Value></Eq></Where></Query></View>");
 
         items = list.getItems(query);
         context.load(items, "Include(Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -358,7 +359,7 @@ $(document).ready(function () {
                                </Where>
                             </Query></View>`);
             var itemCollToBeUpdated  = thisList.getItems(q);
-            updateContext.load(itemCollToBeUpdated, "Include(Ref_id, DayVal, Comments, ProjectName, StartDate,EndDate,Status)");
+            updateContext.load(itemCollToBeUpdated, "Include(Ref_id, DayVal, Comments, ProjectName, StartDate,EndDate,Status, TaskName)");
             updateContext.executeQueryAsync(goThrough, rollBack);
 
         } catch (ex) {
@@ -372,6 +373,9 @@ $(document).ready(function () {
 
         function maulingTheUpdate(realID) {
             //alert("Inside maulingUpdate func Task ID: "+realID);
+            var shtzTaskName = $('.taskNameNeeded').val();
+            var shtzTaskRef = $('.taskRefIdNeeded').val();
+
             while (lstItemToBeUpdated.moveNext()) {
                 var listItem = lstItemToBeUpdated.get_current();
 
@@ -379,38 +383,32 @@ $(document).ready(function () {
                 var project = listItem.get_item("ProjectName");
                 var startDate = listItem.get_item("StartDate");
                 var endDate = listItem.get_item("EndDate");
+                var thzTaskName = listItem.get_item("TaskName");
                 //var status = listItem.get_item("Status");
                 var status = "Approved";
 
                 //console.warn(ref_id, project, status, endDate, startDate);
+                if (shtzTaskRef == ref_id && shtzTaskName == thzTaskName) {
+                    var commented = $('#approveComments').val();
 
-                var commented = $('#approveComments').val();
+                    if (commented == '') {
+                        console.error("Comments can't be blank buddy!!!");
+                        location.reload(true);
+                    } else {
+                        listItem.set_item("Comments", commented);
+                        listItem.update();
 
-                if (commented == '') {
-                    console.error("Comments can't be blank buddy!!!");
-                    location.reload(true);
-                } else {
-                    listItem.set_item("Comments", commented);
-                    listItem.update();
+                        listItem.set_item("Status", "Approved");
+                        listItem.update();
 
-                    listItem.set_item("Status", "Approved");
-                    listItem.update();
+                        listItem.set_item("Approver", curUser);
+                        listItem.update();
 
-                    listItem.set_item("Approver", curUser);
-                    listItem.update();
-
-                    listItem.set_item("ReviewDate", revDate);
-                    listItem.update();
-                    // Try adding to Task List
-                    //newAddedItem.set_item("Ref_id", ref_id);
-                    //newAddedItem.set_item("Title", project);
-                    //newAddedItem.set_item("StartDate", startDate);
-                    //newAddedItem.set_item("DueDate", endDate);
-                    //newAddedItem.set_item("Status0", status);
-
-                    //newAddedItem.update();
-
-                }
+                        listItem.set_item("ReviewDate", revDate);
+                        listItem.update();
+                    }
+                } // end if
+                
             } // while Loop
 
             updateContext.executeQueryAsync(accomplished(ref_id, status, realID), failed);
@@ -466,7 +464,7 @@ $(document).ready(function () {
                                </Where>
                             </Query></View>`);
             var itemColl = thisList.getItems(q);
-            updateContext.load(itemColl, "Include(Ref_id, DayVal, Comments,ProjectName, StartDate,EndDate,Status)");
+            updateContext.load(itemColl, "Include(Ref_id, DayVal, Comments,ProjectName, StartDate,EndDate,Status, TaskName)");
             updateContext.executeQueryAsync(weAreGood, revert);
 
         } catch (ex) {
@@ -528,7 +526,7 @@ $(document).ready(function () {
                         listItem.set_item("ReviewDate", reviewDate);
                         listItem.update();
                     }
-                }
+                } // end if
 
                 
             } // while Loop
