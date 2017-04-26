@@ -1,72 +1,7 @@
 
 jQuery(document).ready(function ($) {
-    // Query a Task List
-    function QueryTask() {
-        var updateContext = SP.ClientContext.get_current();
-        var myDweb = updateContext.get_web();
-
-        var itemColl = "";
-        var lstItem = "";
-
-        try{
-            var thisList = myDweb.get_lists().getByTitle("TimeSheetTaskList");
-
-            var q = new SP.CamlQuery();
-            q.set_viewXml("<View />");
-            var itemColl = thisList.getItems(q);
-
-            updateContext.load(itemColl);
-            updateContext.executeQueryAsync(happy, saddened);
-        } catch (Ex) {
-            console.error(Ex.message);
-        }
-
-        function saddened(sender, args) { alert(args.get_message()); }
-
-        function happy() {
-            lstItem = itemColl.getEnumerator();
-            browseThem();
-        }// happy()
-
-        function browseThem() {
-
-            var myArray = [];
-            var myObj = {};
-
-            while (lstItem.moveNext()) {
-                var listItem = lstItem.get_current();
-
-                var taskRefID = listItem.get_item("Ref_id");
-                var taskName = listItem.get_item("Title");
-                var taskStats = listItem.get_item("Status");
-
-                myArray.push(taskStats);
-                myObj[taskRefID] = taskStats;
-
-                console.log(taskRefID + " " + taskName+" "+taskStats);
-            } // while
-            updateContext.executeQueryAsync(boyboy(myArray, myObj), gyalgyal);
-        }//browseThem()
-    } // QueryTask
-
-    function boyboy(myArray, myObj) {
-        //console.log(myArray);
-        console.warn(myObj);
-
-        var newTaskCreate = myArray.indexOf("Not Started");
-        if (newTaskCreate != -1) {
-            console.info("We don't need to create a new item");
-        }
-    }
-    function gyalgyal(sender, args) { alert(args.get_message()); }
-
-    QueryTask();
-
-
-
-    // Default Monday and Sunday Dates of the week
-    var sundayy = Date.monday().add(6).days();
-    var monday = Date.parse("monday");
+    var monday = moment().startOf("isoweek").toDate();
+    var sundayy = moment().endOf("isoweek").toDate();
     getMeThisSunday(sundayy);   properDate(monday);
 
     $('.employeeLoginNames').attr('readonly', 'readonly');
@@ -80,7 +15,8 @@ jQuery(document).ready(function ($) {
         $('#myrow_id_1').clone().appendTo('#myTable')
             .attr("id", "myrow_id_" + tap.toString()).find("input:text, textarea").each(function (){
                 $(this).val("");
-            });     
+            });
+
     }); // #stampRow
 
     $('#saveRowData').on("click", function (event) {
@@ -93,20 +29,19 @@ jQuery(document).ready(function ($) {
     var startdate = $('.timeshitStartDate').val();
     var enddate = $('.timeshitEndDate').val();
 
-
-    // Generate Ref id
-    var onMonday = Date.parse("monday");
-    var onSunday = Date.monday().add(6).days();
+    
+    var startWk = moment().startOf("isoweek").toDate();
+    var endWk = moment().endOf("isoweek").toDate();
 
     var begin = new Date(1970, 0, 1);
-    var btwn = (onMonday.getTime() - begin.getTime());
+    var btwn = (startWk.getTime() - begin.getTime());
 
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    var taskNAME = "TASK_" + getRandomInt(onMonday.getTime(), begin.getTime());
+    var taskNAME = "TASK_" + getRandomInt(startWk.getTime(), begin.getTime());
     
     var curDisName = $('.employeeLoginNames').val();
     var ref_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
@@ -215,7 +150,7 @@ jQuery(document).ready(function ($) {
 
     function onQuerySuccess() {
         console.log('Setting changed');
-        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
     }
 
     function onQueryFailure(sender, args) {
@@ -317,7 +252,7 @@ jQuery(document).ready(function ($) {
                     //myObj.refreshLoad(); // Resolve conflict
                     //myObj.update();
                 } else if (ref_id == taskRefID && tskstatus == "Completed") {
-                    alert("Creating another task");
+                    //alert("Creating another task");
                     var addingItem = lstRefID.addItem(Obj);
 
                     addingItem.set_item("Ref_id", ref_id);
@@ -330,7 +265,7 @@ jQuery(document).ready(function ($) {
                     currCtx.load(addingItem);
                     currCtx.executeQueryAsync(insertListRef, refrain);
                 } else {
-                    alert("Creating first task");
+                    //alert("Creating first task");
                     var kingItem = lstRefID.addItem(Obj);
 
                     kingItem.set_item("Ref_id", ref_id);
@@ -355,7 +290,10 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
-        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
+
+    // Limit to 2 and only numbers
+
 });

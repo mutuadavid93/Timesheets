@@ -43,6 +43,8 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Server, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Server.UserProfiles, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint.Client, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -72,6 +74,13 @@
     </Compile>
     <Compile Include="Layouts\Pages\Grid.aspx.designer.cs">
       <DependentUpon>Grid.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Pages\Performance.aspx.cs">
+      <DependentUpon>Performance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\Performance.aspx.designer.cs">
+      <DependentUpon>Performance.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="Layouts\Pages\Timesheet.aspx.cs">
       <DependentUpon>Timesheet.aspx</DependentUpon>
@@ -110,6 +119,9 @@
       <DependentUpon>Feature1.feature</DependentUpon>
     </Content>
     <Content Include="Layouts\Bootstrap\css\bootstrap.min.css" />
+    <Content Include="Layouts\Bootstrap\css\mystyels.css" />
+    <Content Include="Layouts\Bootstrap\css\print.css" />
+    <Content Include="Layouts\Bootstrap\css\style.css" />
     <Content Include="Layouts\Bootstrap\css\timeshit.css" />
     <Content Include="Layouts\Bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\external\jquery.js" />
@@ -122,17 +134,22 @@
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <Content Include="Layouts\Bootstrap\js\masterscript.js" />
+    <Content Include="Layouts\Bootstrap\js\perform.js" />
     <Content Include="Layouts\Bootstrap\js\date.js" />
     <Content Include="Layouts\Bootstrap\js\jquery-1.12.4.min.js" />
-    <Content Include="Layouts\Bootstrap\js\jquery.SPServices-0.7.2.min.js" />
     <Content Include="Layouts\Bootstrap\js\mightySHP.js" />
     <Content Include="Layouts\Bootstrap\js\bootstrap.min.js" />
     <Content Include="Layouts\Bootstrap\js\approave.js" />
     <Content Include="Layouts\Bootstrap\js\jquery.min.js" />
+    <Content Include="Layouts\Bootstrap\js\moment.min.js" />
+    <Content Include="Layouts\Bootstrap\js\myj.js" />
+    <Content Include="Layouts\Bootstrap\js\script.js" />
     <Content Include="Layouts\Bootstrap\js\timepush.js" />
     <Content Include="Layouts\Bootstrap\js\timeshit.js" />
     <Content Include="Layouts\Pages\Appoverpage.aspx" />
     <Content Include="Layouts\Pages\Grid.aspx" />
+    <Content Include="Layouts\Pages\Performance.aspx" />
     <Content Include="Layouts\Pages\Timesheet.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

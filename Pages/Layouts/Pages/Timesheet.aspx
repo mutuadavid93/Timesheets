@@ -22,7 +22,8 @@
     <script src="/_layouts/1033/styles/Timesheets/js/bootstrap.min.js" type="text/javascript"></script>
         -->
     <script src="../Bootstrap/js/jquery.min.js" type="text/javascript"></script>
-    <script src="../Bootstrap/js/date.js"></script>
+    <%--<script src="../Bootstrap/js/date.js"></script>--%>
+    <script src="../Bootstrap/js/moment.min.js"></script>
     
 
     <script src="../Bootstrap/jquery-ui-ippf/jquery-ui.min.js" type="text/javascript"></script>
@@ -80,6 +81,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <table class="table table-striped" id="myTable">
+                    <col width="130" />
                     <thead><tr>
                             <th>Work Type</th>
                             <th>Project</th>
@@ -97,14 +99,18 @@
                     <tbody id="killerTBody" class="killerTBody" runat="server">
                         <tr id="myrow_id_1">
                             <td>
-                                <select id="WorkType" class="form-control WorkType">
+                                <%--<select id="WorkType" class="form-control WorkType">
                                     <option value="General">General</option>
                                     <option value="Project" selected=>Project</option>
-                                </select>
+                                </select>--%>
+                                <asp:DropDownList ID="WorkType" AppendDataBoundItems="true" runat="server" CssClass="form-control WorkType required">
+                                    <asp:ListItem Value="Project">Project</asp:ListItem>
+                                    <asp:ListItem Value="General">General</asp:ListItem>
+                                </asp:DropDownList>
                             </td>     
                             <td>
                                 <asp:DropDownList ID="projectName" AppendDataBoundItems="true" runat="server" CssClass="form-control projectName required" data-msg-required="Please select patient's prefered language.">
-                                    <asp:ListItem Value="" Selected="True">Choose project</asp:ListItem>
+                                    <asp:ListItem Value="" Selected="True">Choose</asp:ListItem>
                                 </asp:DropDownList>
                             </td>
                                 
@@ -132,7 +138,7 @@
                             </td>
                                 
                             <td>
-                                <input type="text" class="form-control WorkedHours" id="WorkedHours" runat="server" />
+                                <input type="text" class="form-control WorkedHours" id="WorkedHours" runat="server" maxlength="2" />
                             </td>
 
                             <td>

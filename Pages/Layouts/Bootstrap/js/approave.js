@@ -129,7 +129,8 @@ $(document).ready(function () {
                 
 
                 // The Upper Textfields
-                $('.myEMPloyee').val(emp).attr('readonly', 'readonly');
+                //$('.myEMPloyee').val(emp).attr('readonly', 'readonly');
+                $('.myEMPloyee').html(emp);
                 properDate(startDate);
                 formatDate(endate);
                 
@@ -256,7 +257,7 @@ $(document).ready(function () {
                     $('.reviwdates, .reviewing, #redirectToMains').removeClass("hidden").click(function (event) {
                         event.preventDefault();
 
-                        window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+                        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
                     });
                 }
             }
@@ -277,8 +278,8 @@ $(document).ready(function () {
             if (mm < 10) {
                 mm = '0' + mm
             } adate = mm + '/' + dd + '/' + yyyy;
-            $('.myEndDateApp').val(adate).attr('readonly', 'readonly');
-            
+            //$('.myEndDateApp').val(adate).attr('readonly', 'readonly');
+            $('.myEndDateApp').html(adate);
         } // formartDate()
         function properDate(myDates) {
             var adate = new Date(myDates);
@@ -292,7 +293,8 @@ $(document).ready(function () {
             if (mm < 10) {
                 mm = '0' + mm
             } adate = mm + '/' + dd + '/' + yyyy;
-            $('.myStartDateApp').val(adate).attr('readonly', 'readonly');
+            //$('.myStartDateApp').val(adate).attr('readonly', 'readonly');
+            $('.myStartDateApp').html(adate);
         } // properDate()
         function reviewDates(myDates) {
             var adate = new Date(myDates);
@@ -606,24 +608,11 @@ $(document).ready(function () {
         } // success1()
         function success2() {
             //alert("inside success2");
-                window.location.href = 'http://svrarspdev01/sites/appcenter/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+            //window.location.href = 'http://svrarspdev01/sites/apps/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
+            window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
                 //location.reload(true);
         }
         function fail2(sender, args) { alert("Error: " + args.get_message()); }
         function fail1(sender, args) { alert("Error: " + args.get_message()); }
     } // updateTaskList()
-
-    //function printing() {
-    //    var prtContent = document.getElementById("your div id");
-    //    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-    //    WinPrint.document.write(prtContent.innerHTML);
-    //    WinPrint.document.close();
-    //    WinPrint.focus();
-    //    WinPrint.print();
-    //    WinPrint.close();
-    //}
-
-
 });
-
-

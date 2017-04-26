@@ -11,6 +11,8 @@
     <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.theme.min.css" rel="stylesheet" />
     <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Bootstrap/css/print.css" rel="stylesheet" />
+    <link href="../Bootstrap/css/style.css" rel="stylesheet" />
     <link href="../Bootstrap/css/timeshit.css" rel="stylesheet" />
 
     <script src="../Bootstrap/js/jquery-1.12.4.min.js"></script>
@@ -22,9 +24,12 @@
     <script src="/_layouts/sp.core.js" type="text/javascript"></script>
     <script src="/_layouts/sp.runtime.js" type="text/javascript"></script>
     <script src="/_layouts/sp.js" type="text/javascript"></script>
-    <script src="../Bootstrap/js/date.js"></script>
+    <%--<script src="../Bootstrap/js/date.js"></script>--%>
 
     <script src="../Bootstrap/js/bootstrap.min.js"></script>
+    <%--<script src="../Bootstrap/js/moment.min.js"></script>--%>
+
+    <script src="../Bootstrap/js/myj.js"></script>
     <script src="../Bootstrap/js/approave.js"></script>
 </asp:Content>
 
@@ -33,6 +38,16 @@
          <section class="container-fluid">
              <div class="col-xs-12 col-sm-12">
                  <div class="row">
+                     <div class="col-sm-12">
+                        <button role="button" onclick="PrintDoc();" id="printBtn" class="btn btn-default">
+                            <span class="glyphicon glyphicon-print"></span> &nbsp; Print
+                        </button>
+                        <p>&nbsp;</p>
+                     </div>
+                 </div>
+
+         <div id="printarea">
+            <div class="row">
                 <div class="col-sm-12">
                     <br />
                     <div class="bounce">
@@ -46,7 +61,8 @@
                 <div>
                     <div class="col-sm-3">
                         <span>Employee name</span>
-                        <input type="text" class="myEMPloyee form-control" />
+                        <%--<input type="text" class="myEMPloyee form-control" />--%>
+                        <span class="myEMPloyee" style="display:block;"></span>
                         <input type="text" class="hidden taskRefIdNeeded" />
                         <input type="text" class="hidden taskNameNeeded" />
                     </div>
@@ -56,11 +72,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <span>StartDate</span>
-                                <input type="text" class="myStartDateApp form-control" />
+                                <%--<input type="text" class="myStartDateApp form-control" />--%>
+                                <span class="myStartDateApp" style="display:block;"></span>
                             </div>
                             <div class="col-sm-6">
                                 <span>EndDate</span>s
-                                <input type="text" class="myEndDateApp form-control" />
+                                <%--<input type="text" class="myEndDateApp form-control" />--%>
+                                <span class="myEndDateApp" style="display:block;"></span>
                             </div>
                         </div>
                     </div>
@@ -201,10 +219,15 @@
                                             <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
                                             
                                              <br />
-                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-6">
                                             <button class="btn btn-success" role="button" id="approovData"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp; Approve </button>
                                             <button class="btn btn-danger" role="button" id="declineData"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp; Decline </button>
-
+                                        </div>
+                                        <div class="col-sm-6">
                                             <button class="btn btn-info pull-right hidden" role="button" id="redirectToMains">
                                                 <span class="glyphicon glyphicon-remove"></span>&nbsp; Close</button>
                                         </div>
@@ -215,7 +238,9 @@
                     </table>
                 </div>
             </div>
-             </div>
+        </div><!-- printarea -->
+    </div><!-- col-xs-12 col-sm-12 -->
+
         </section>
     </div>
    

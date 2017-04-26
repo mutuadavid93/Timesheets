@@ -1,2 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Feature xmlns="http://schemas.microsoft.com/sharepoint/" Id="9d0446d1-6a48-4d7d-b636-3ed404b9fd05" ReceiverAssembly="Pages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4a0f57048647858e" ReceiverClass="Pages.Features.Feature1.Feature1EventReceiver" Scope="Site" Title="Pages Feature1"></Feature>
+<Feature xmlns="http://schemas.microsoft.com/sharepoint/" AlwaysForceInstall="TRUE" Id="9d0446d1-6a48-4d7d-b636-3ed404b9fd05" ReceiverAssembly="Pages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4a0f57048647858e" ReceiverClass="Pages.Features.Feature1.Feature1EventReceiver" Scope="Site" Title="Pages Feature1"></Feature>
