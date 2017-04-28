@@ -86,7 +86,7 @@
                             <th>Work Type</th>
                             <th>Project</th>
                             <th>Activity</th>
-                            <th>Action</th>
+                            <th>Task</th>
                             <th>Challenges</th>
                             <th>Day</th>
                             <th>Hours Worked</th>

@@ -93,20 +93,20 @@
                         <caption><strong>PROJECT</strong></caption>
                         <thead>
                             <tr>
-                                <th>Project name</th>
+                                <th>Project Name</th>
                                 <th>Activity</th>
                                 <th>Challenges</th>
-                                <th>TASK</th>
+                                <th>Task</th>
                                 
-                                <th>SUN</th>
-                                <th>MON</th>
-                                <th>TUE</th>
-                                <th>WED</th>
-                                <th>THUR</th>
-                                <th>FRI</th>
-                                <th>SAT</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thur</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
 
-                                <th>TOTAL</th>
+                                <th>Total</th>
                                 
                             </tr>
                         </thead>
@@ -139,20 +139,20 @@
                         <caption><strong>GENERAL WORKING HOURS</strong></caption>
                         <thead>
                             <tr>
-                                <th>General work</th>
+                                <th>General Work</th>
                                 <th>Activity</th>
                                 <th>Challenges</th>
-                                <th>TASK</th>
+                                <th>Task</th>
                                 
-                                <th>SUN</th>
-                                <th>MON</th>
-                                <th>TUE</th>
-                                <th>WED</th>
-                                <th>THUR</th>
-                                <th>FRI</th>
-                                <th>SAT</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thur</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
 
-                                <th>TOTAL</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         

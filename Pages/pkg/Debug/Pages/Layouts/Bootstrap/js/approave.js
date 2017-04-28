@@ -161,6 +161,8 @@ $(document).ready(function () {
 
                           $("#approverTbody").append(myRow);
 
+
+
                           // Add all row cells down each column
                           for (var z = 0; z < $('#approvedTbl tr:eq(0) th:nth-child(4) ~ th').length; z++) {
                               var totAll = 0;

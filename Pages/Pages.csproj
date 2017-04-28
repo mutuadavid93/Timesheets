@@ -68,6 +68,13 @@
     <Compile Include="Layouts\Pages\Appoverpage.aspx.designer.cs">
       <DependentUpon>Appoverpage.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Pages\EmployeeView.aspx.cs">
+      <DependentUpon>EmployeeView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\EmployeeView.aspx.designer.cs">
+      <DependentUpon>EmployeeView.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\Pages\Grid.aspx.cs">
       <DependentUpon>Grid.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -148,6 +155,7 @@
     <Content Include="Layouts\Bootstrap\js\timepush.js" />
     <Content Include="Layouts\Bootstrap\js\timeshit.js" />
     <Content Include="Layouts\Pages\Appoverpage.aspx" />
+    <Content Include="Layouts\Pages\EmployeeView.aspx" />
     <Content Include="Layouts\Pages\Grid.aspx" />
     <Content Include="Layouts\Pages\Performance.aspx" />
     <Content Include="Layouts\Pages\Timesheet.aspx" />

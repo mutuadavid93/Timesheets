@@ -38,6 +38,7 @@
     <TemplateFile Location="Layouts\Bootstrap\js\timepush.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\timeshit.js" />
     <TemplateFile Location="Layouts\Pages\Appoverpage.aspx" />
+    <TemplateFile Location="Layouts\Pages\EmployeeView.aspx" />
     <TemplateFile Location="Layouts\Pages\Grid.aspx" />
     <TemplateFile Location="Layouts\Pages\Performance.aspx" />
     <TemplateFile Location="Layouts\Pages\Timesheet.aspx" />
