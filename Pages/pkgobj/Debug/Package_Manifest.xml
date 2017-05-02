@@ -25,6 +25,7 @@
     <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
     <TemplateFile Location="Layouts\Bootstrap\js\masterscript.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\employee.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\perform.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\date.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\jquery-1.12.4.min.js" />
@@ -38,6 +39,7 @@
     <TemplateFile Location="Layouts\Bootstrap\js\timepush.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\timeshit.js" />
     <TemplateFile Location="Layouts\Pages\Appoverpage.aspx" />
+    <TemplateFile Location="Layouts\Pages\EmpView.aspx" />
     <TemplateFile Location="Layouts\Pages\Grid.aspx" />
     <TemplateFile Location="Layouts\Pages\Performance.aspx" />
     <TemplateFile Location="Layouts\Pages\Timesheet.aspx" />

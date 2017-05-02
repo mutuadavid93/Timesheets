@@ -68,6 +68,13 @@
     <Compile Include="Layouts\Pages\Appoverpage.aspx.designer.cs">
       <DependentUpon>Appoverpage.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Pages\EmpView.aspx.cs">
+      <DependentUpon>EmpView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\EmpView.aspx.designer.cs">
+      <DependentUpon>EmpView.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\Pages\Grid.aspx.cs">
       <DependentUpon>Grid.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -113,7 +120,6 @@
       <SharePointProjectItemId>{5592482e-489c-49d6-ba3d-c3bd144f4aac}</SharePointProjectItemId>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Features\Feature1\Feature1.Template.xml">
       <DependentUpon>Feature1.feature</DependentUpon>
@@ -135,6 +141,7 @@
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
     <Content Include="Layouts\Bootstrap\js\masterscript.js" />
+    <Content Include="Layouts\Bootstrap\js\employee.js" />
     <Content Include="Layouts\Bootstrap\js\perform.js" />
     <Content Include="Layouts\Bootstrap\js\date.js" />
     <Content Include="Layouts\Bootstrap\js\jquery-1.12.4.min.js" />
@@ -148,10 +155,14 @@
     <Content Include="Layouts\Bootstrap\js\timepush.js" />
     <Content Include="Layouts\Bootstrap\js\timeshit.js" />
     <Content Include="Layouts\Pages\Appoverpage.aspx" />
+    <Content Include="Layouts\Pages\EmpView.aspx" />
     <Content Include="Layouts\Pages\Grid.aspx" />
     <Content Include="Layouts\Pages\Performance.aspx" />
     <Content Include="Layouts\Pages\Timesheet.aspx" />
+    <Content Include="Scripts\empViewScript.js" />
+    <Content Include="Scripts\_references.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
