@@ -176,9 +176,6 @@ jQuery(document).ready(function ($) {
                 }
 
               //  ## END RETRIEVE DAYS FUNCTION
-
-
-                
             });
             
             
