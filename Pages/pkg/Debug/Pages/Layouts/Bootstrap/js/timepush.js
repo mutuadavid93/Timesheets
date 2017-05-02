@@ -50,19 +50,26 @@ jQuery(document).ready(function ($) {
     
     // Begin save Functions
     function saveRecords(mycallback) {
-        var context = SP.ClientContext.get_current();
-        var web = context.get_web();
 
-        
-        //grab the curent logged in user
-        var curser = web.get_currentUser();
-        
-        try {
-            var list = web.get_lists().getByTitle("IPPFTimesheet");
-            var itemInfoObj = new SP.ListItemCreationInformation();
+        /*retrieveDays();
+        function retrieveDays() {*/
 
-            var worktype, project, activity, action, day, hoursworked, challanges, employee;
+            //var ref_id = "SHAREPOINTADMIN_1492992000000";
+            //var activity = "Cornerstone laid";
+            //var workedhours = 10;
 
+            //console.log("RetrievDays function called after 5 Seconds");
+            var dcontext = SP.ClientContext.get_current();
+            var myweb = dcontext.get_web();
+            //var infoObj = new SP.ListItemCreationInformation();
+
+            var collListItemToBeUpdated = "";
+            var listItemToBeUpdated = "";
+            var items = null;
+
+            var list = myweb.get_lists().getByTitle("IPPFTimesheet");
+
+            var worktype, project, activity, action, day, workedhours, challanges, employee;
 
             // Loop through each tr's and get it's input fields' value
             $('.killerTBody tr').each(function (index, item) {
@@ -75,111 +82,198 @@ jQuery(document).ready(function ($) {
                 dayVal = $(this).find('.day').val();
                 dayText = $(this).find('.day option:selected').text();
                 workedhours = $($(this).find('.WorkedHours')).val();
-
-                //alert("Current DAY it's :"+dayText);
-
-                var newAddedItem = list.addItem(itemInfoObj);
-
-                // CHECK WHETHER A TASK ANEM EXISTS THEN UPDATE IT'S DAY WORKED HOURS
-
-                /*function retrieveDays() {*/
-                    //console.log("RetrievDays function called after 5 Seconds");
-                    //var dcontext = SP.ClientContext.get_current();
-                    //var myweb = dcontext.get_web();
-
-                    var collListItemToBeUpdated = "";
-                    var listItemToBeUpdated = "";
-
-                    try {
-                        //list = myweb.get_lists().getByTitle("IPPFTimesheet");
-                        var q = new SP.CamlQuery();
-                        q.set_viewXml(`<View><Query><Where><And><Eq><FieldRef Name='Activity' />
-                                        <Value Type='Note'>`+activity+`</Value></Eq><Eq><FieldRef Name='Ref_id' />
-                                        <Value Type='Text'>`+ref_id+`</Value></Eq></And></Where>
+                                
+                try {
+                    var q = new SP.CamlQuery();
+                    q.set_viewXml(`<View><Query><Where><And><Eq><FieldRef Name='Activity' />
+                                        <Value Type='Note'>`+ activity + `</Value></Eq><Eq><FieldRef Name='Ref_id' />
+                                        <Value Type='Text'>`+ ref_id + `</Value></Eq></And></Where>
                             </Query></View>`);
-                        var collListItemToBeUpdated = list.getItems(q);
-                        context.load(collListItemToBeUpdated, "Include(Ref_id,DayVal, WorkedHours,Activity)"); // Make sure to use load() not loadQuery()
-                        context.executeQueryAsync(qualify, disqualify);
+                    var collListItemToBeUpdated = list.getItems(q);
+                    items = dcontext.loadQuery(collListItemToBeUpdated, "Include(Ref_id,DayVal, WorkedHours,Activity)"); // Make sure to use load() not loadQuery()
+                    dcontext.executeQueryAsync(qualify, disqualify);
 
-                    } catch (ex) {
-                        alert("Retrieve Error: " + ex.message);
-                    }
-
-                    function qualify() {
-                        //alert("Inside qualify");
-                        listItemToBeUpdated = collListItemToBeUpdated.getEnumerator();
-                        updateMultipleItems();
-                    }
-
-                    function updateMultipleItems() {
-                        while (listItemToBeUpdated.moveNext()) {
-                            var oListItem = listItemToBeUpdated.get_current();
-
-                            var DayVal = oListItem.get_item("DayVal");
-                            var workedhours = oListItem.get_item("WorkedHours");
-                            var Activity = oListItem.get_item("Activity");
-                            var updateRefId = oListItem.get_item("Ref_id");
-
-                            console.log("Day value: " + DayVal + " Worked Hours: " + workedhours + " Activity: " + Activity);
-
-                            console.warn("ActivityNew: "+activity+" ActivityList: "+Activity+" NewRefID: "+ref_id+" ListRefID: "+updateRefId);
-
-                            if (ref_id == updateRefId && activity == Activity) {
-                                alert("The two conditions are true!!!");
-
-                                if (dayText == "FRI") {
-                                    alert("Friday should be updated");
-                                    oListItem.set_item("FRI", workedhours);
-                                    oListItem.update();
-                                }
-                            } else {
-                                alert("Insert new record");
-
-                                newAddedItem.set_item("Ref_id", ref_id);
-                                newAddedItem.set_item("Status", "Pending");
-
-                                newAddedItem.set_item("WorkType", worktype);
-                                newAddedItem.set_item("ProjectName", project);
-                                newAddedItem.set_item("Activity", activity);
-                                newAddedItem.set_item("Challenges", challanges);
-                                newAddedItem.set_item("Task", action);
-                                newAddedItem.set_item("WorkedHours", workedhours);
-
-
-                                newAddedItem.set_item("DayVal", dayVal);
-                                //newAddedItem.set_item("Day", dayText);
-                                newAddedItem.set_item("StartDate", startdate);
-                                newAddedItem.set_item("Employee", $('.employeeLoginNames').val());
-                                newAddedItem.set_item("EndDate", enddate);
-
-                                // Invoke listRefIds List
-                                newAddedItem.update();
-                                context.executeQueryAsync(onQuerySuccess, onQueryFailure);
-                            }
-
-                        }// while Loop
-
-                        context.executeQueryAsync(finalCheck, redCard);
-                    } // updateMultipleItems()
-
-                    function disqualify(sender, args) {
-                        console.warn("Error: " + args.get_message());
-                    }
-                /*}*/
-
-                function finalCheck() {
-                    // stop the time Loop
-                    alert("RetriveDays() Function Done");
+                } catch (ex) {
+                    alert("Retrieve Error: " + ex.message);
                 }
-                function redCard(sender, args) {
-                    alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
-                }
-
-              //  ## END RETRIEVE DAYS FUNCTION
-
+            }); //End Each Loop
 
                 
-            });
+
+            function qualify() {
+
+                    if (items.length > 0) {
+                        alert(items.length + " items returned");
+                        var item = items[0];
+
+                        switch (dayText) {
+                            case "MON":
+                                item.set_item("MON", workedhours);
+                                item.update();
+                                break;
+
+                            case "TUE":
+                                item.set_item("TUE", workedhours);
+                                item.update();
+                                break;
+
+                            case "WED":
+                                item.set_item("WED", workedhours);
+                                item.update();
+                                break;
+
+                            case "THUR":
+                                item.set_item("THUR", workedhours);
+                                item.update();
+                                break;
+
+                            case "FRI":
+                                item.set_item("FRI", workedhours);
+                                item.update();
+                                break;
+
+                            case "SAT":
+                                item.set_item("SAT", workedhours);
+                                item.update();
+                                break;
+
+                            case "SUN":
+                                item.set_item("SUN", workedhours);
+                                item.update();
+                                break;
+
+                            default:
+
+                        } // switch()
+                        dcontext.executeQueryAsync(success2, fail2);
+                    } else {
+                        console.warn("No items returned");
+                        // Create new Items here
+
+                        //var crxcontext = SP.Clientcontext.get_current();
+                        //var curWeb = crxcontext.get_web();
+
+                        try{
+                            var infoObj = new SP.ListItemCreationInformation();
+                            //var curList = curWeb.get_lists().getByTitle("IPPFTimesheet");
+
+                            //var newAddedItem = curList.addItem(infoObj);
+                                
+                            //    var newAddedItem = curList.addItem(infoObj);
+
+                                // Try to Add hours and Days into List on Submit
+                            var newAddedItem = list.addItem(infoObj);
+
+                            // Try to Add hours and Days into List on Submit
+                            switch (dayText) {
+                                case "MON":
+                                    newAddedItem.set_item("MON", workedhours);
+                                    break;
+
+                                case "TUE":
+                                    newAddedItem.set_item("TUE", workedhours);
+                                    break;
+
+                                case "WED":
+                                    newAddedItem.set_item("WED", workedhours);
+                                    break;
+
+                                case "THUR":
+                                    newAddedItem.set_item("THUR", workedhours);
+                                    break;
+
+                                case "FRI":
+                                    newAddedItem.set_item("FRI", workedhours);
+                                    break;
+
+                                case "SAT":
+                                    newAddedItem.set_item("SAT", workedhours);
+                                    break;
+
+                                case "SUN":
+                                    newAddedItem.set_item("SUN", workedhours);
+                                    break;
+
+                                default:
+
+                            } // switch
+
+
+                            newAddedItem.set_item("Ref_id", ref_id);
+                            newAddedItem.set_item("Status", "Pending");
+
+                            newAddedItem.set_item("WorkType", worktype);
+                            newAddedItem.set_item("ProjectName", project);
+                            newAddedItem.set_item("Activity", activity);
+                            newAddedItem.set_item("Challenges", challanges);
+                            newAddedItem.set_item("Task", action);
+                            newAddedItem.set_item("WorkedHours", workedhours);
+
+
+                            newAddedItem.set_item("TaskName", taskNAME);
+
+                            newAddedItem.set_item("DayVal", dayVal);
+                            //newAddedItem.set_item("Day", dayText);
+                            newAddedItem.set_item("StartDate", startdate);
+                            newAddedItem.set_item("Employee", $('.employeeLoginNames').val());
+                            newAddedItem.set_item("EndDate", enddate);
+
+                            // Invoke listRefIds List
+                            newAddedItem.update();
+                            dcontext.load(newAddedItem);
+                            dcontext.executeQueryAsync(onQuerySuccess, onQueryFailure);
+                        } catch (Ex) {
+                            alert(Ex.message);
+                            console.warn
+                        }
+                    } //else
+                }// qualify
+
+                
+
+
+            function success2() { console.info("we are good"); }
+            function fail2(sender, args) { alert("Error: " + args.get_message()); }
+            
+
+            function disqualify(sender, args) {
+                console.warn("Error: " + args.get_message());
+            }
+        //} //end retriveDays()
+
+            function onQuerySuccess() {
+            // stop the time Loop
+            alert("Insertion Done");
+        }
+            function onQueryFailure(sender, args) {
+            alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+        }
+        //  ## END RETRIEVE DAYS FUNCTION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var context = SP.ClientContext.get_current();
+        var web = context.get_web();
+
+        
+        //grab the curent logged in user
+        var curser = web.get_currentUser();
+        
+        try {
+            var list = web.get_lists().getByTitle("IPPFTimesheet");
+            
             
             
         } catch (Ex) {
@@ -337,5 +431,5 @@ jQuery(document).ready(function ($) {
 
     // Limit to 2 and only numbers
     
-    //retrieveDays();
+    
 });
