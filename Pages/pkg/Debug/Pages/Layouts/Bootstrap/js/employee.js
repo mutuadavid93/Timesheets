@@ -94,6 +94,11 @@ jQuery(document).ready(function ($) {
                                         <td class ="rowDataSd" name="bothGrided"> `+ fri + ` </td>
                                         <td class ="rowDataSd" name="bothGrided"> `+ sat + ` </td>
                                         <td class ="rowDataSd" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
+                                        <td>
+                                            <button role="button" class ="btn btn-xs btn-warning">
+                                                <span class ="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </td>
                                     </tr>`;
                         
 
@@ -133,6 +138,12 @@ jQuery(document).ready(function ($) {
                                         <td class ="generalHRS" name="bothGrided"> `+ fri + ` </td>
                                         <td class ="generalHRS" name="bothGrided"> `+ sat + ` </td>
                                         <td class ="generalHRS" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
+
+                                        <td>
+                                            <button role="button" class ="btn btn-xs btn-warning">
+                                                <span class ="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </td>
                                     </tr>`;
                         $("#generalBody").append(myStaff);
 
@@ -142,12 +153,13 @@ jQuery(document).ready(function ($) {
 
                             $('td.generalHRS:eq(' + y + ')', 'tr').each(function (y) {
                                 myAll = myAll + parseInt($(this).text());
+                                
                             });
 
                             $('tr#gen_tr_id td:nth-child(4) ~ td').eq(y).text(myAll.toFixed(2));
 
                             $('tr#gen_tr_id td:nth-child(4) ~ td').css("font-weight", "bold");
-                            $('tr#gen_tr_id td:last').css({ "color": "red" , "font-size":"1.1em"});
+                            $('tr#gen_tr_id td:last').css({ "color": "red", "font-size": "1.1em" });
                         } // for Loop
                         break;
 
@@ -183,6 +195,7 @@ jQuery(document).ready(function ($) {
         // finalResult()
         function finalResult() {
             console.log("Retrives Done Successffuly");
+            editPopUp(); //Invoke edit btn
         }
         function redCard(sender, args) { console.log("Error: " + args.get_message()); }
 
@@ -237,4 +250,28 @@ jQuery(document).ready(function ($) {
             alert("Error: " + args.get_message());
         }
     } // ### END retrieveItem() REGION
+
+
+
+    //-----------------------------------------------
+    // ### BEGIN THE EMPLOYER CONFIRM AND SUBMIT VIEW
+    //-----------------------------------------------
+    
+    //editPopUp();
+    function editPopUp() {
+        var htag = $('#approverTbody tr, #generalBody tr');
+        console.warn("inside editPopUp(), tr count: " + htag.length);
+
+        htag.each(function (index, item) {
+            $(this).find('.btn-xs').on('click', function(e) {
+                e.preventDefault();
+                /*if (e.target.className == 'glyphicon glyphicon-pencil') {*/
+                    alert("clicked a pencil btn");
+                    console.info("Edit Btn clicked");
+                //}
+            });
+        });
+    } // editPopUp()
+
+    // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
 });

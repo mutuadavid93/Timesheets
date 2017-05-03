@@ -40,6 +40,10 @@
                         <button role="button" onclick="PrintDoc();" id="printBtn" class="hidden btn btn-default">
                             <span class="glyphicon glyphicon-print"></span> &nbsp; Print
                         </button>
+
+                         <%-- Create the Modal Window --%>
+
+
                         <p>&nbsp;</p>
                      </div>
                  </div>
@@ -49,7 +53,7 @@
                 <div class="col-sm-12">
                     <br />
                     <div class="bounce">
-                        <h4>Approver's timesheet view</h4>
+                        <h4>Employee's timesheet view</h4>
                     </div>
                 </div>
             </div>
@@ -107,6 +111,7 @@
 
                                 <th>TOTAL</th>
                                 
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         
@@ -223,12 +228,12 @@
                                     
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <button class="btn btn-success" role="button" id="approovData"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp; Approve </button>
-                                            <button class="btn btn-danger" role="button" id="declineData"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp; Decline </button>
+                                            <button class="btn btn-success" role="button" id="approovData">Submit&nbsp; 
+                                                <span class="glyphicon glyphicon-forward"></span>
+                                            </button>
                                         </div>
                                         <div class="col-sm-6">
-                                            <button class="btn btn-info pull-right hidden" role="button" id="redirectToMains">
-                                                <span class="glyphicon glyphicon-remove"></span>&nbsp; Close</button>
+                                            
                                         </div>
                                     </div>
                                 </td>

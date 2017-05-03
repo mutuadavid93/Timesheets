@@ -29,6 +29,11 @@ namespace Pages.Features.Feature1
                 ct.EditFormUrl = "_layouts/15/Pages/Appoverpage.aspx";
                 ct.DisplayFormUrl = "_layouts/15/Pages/Appoverpage.aspx";
                 ct.Update(true);
+
+                SPContentType empTaskListCT = web.ContentTypes["Emp_TaskListCT"];
+                empTaskListCT.EditFormUrl = "_layouts/15/Pages/EmpView.aspx";
+                empTaskListCT.DisplayFormUrl = "_layouts/15/Pages/EmpView.aspx";
+                empTaskListCT.Update(true);
             }            
         }
 
