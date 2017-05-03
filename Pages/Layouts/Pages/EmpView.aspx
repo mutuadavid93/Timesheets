@@ -68,10 +68,46 @@
                                       <label class="" for="task">Task</label>
                                       <input type="text" class="form-control" id="task">
                                     </div>
-                                    <div class="form-group">
-                                      <label class="" for="day">Day</label>
-                                      <input type="text" class="form-control" id="day">
-                                    </div>
+
+                                    <table class="table-striped">                            
+                                        <thead>
+                                            <tr>
+                                                <th>MON</th>
+                                                <th>TUE</th>
+                                                <th>WED</th>
+                                                <th>THUR</th>
+                                                <th>FRI</th>
+                                                <th>SAT</th>
+                                                <th>SUN</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr class="myrowed">
+                                                <td>
+                                                    <input type="text" class="form-control" id="mond" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="tuesd" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="weds" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="thurs" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="frids" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="sats" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="sunds" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                </table>
 
                                 </div>
                                 <div class="modal-footer">
@@ -266,7 +302,7 @@
                                     
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <button class="btn btn-success" role="button" id="approovData">Submit&nbsp; 
+                                            <button class="btn btn-success" role="button" id="userConfirmSubmit">Submit&nbsp; 
                                                 <span class="glyphicon glyphicon-forward"></span>
                                             </button>
                                         </div>

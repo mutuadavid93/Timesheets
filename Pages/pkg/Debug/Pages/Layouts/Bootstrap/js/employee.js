@@ -86,13 +86,14 @@ jQuery(document).ready(function ($) {
 
                                         <td class ="task"> `+ task + ` </td>
 
-                                        <td class ="rowDataSd" name="bothGrided"> `+ sun + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"> `+ mon + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"> `+ tue + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"> `+ wed + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"> `+ thur + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"> `+ fri + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"> `+ sat + ` </td>
+                                        
+                                        <td class ="rowDataSd monday" name="bothGrided"> `+ mon + ` </td>
+                                        <td class ="rowDataSd tuesday" name="bothGrided"> `+ tue + ` </td>
+                                        <td class ="rowDataSd wednesday" name="bothGrided"> `+ wed + ` </td>
+                                        <td class ="rowDataSd thursday" name="bothGrided"> `+ thur + ` </td>
+                                        <td class ="rowDataSd friday" name="bothGrided"> `+ fri + ` </td>
+                                        <td class ="rowDataSd satarday" name="bothGrided"> `+ sat + ` </td>
+                                        <td class ="rowDataSd sunday" name="bothGrided"> `+ sun + ` </td>
                                         <td class ="rowDataSd" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
                                         <td>
                                             <button role="button" class ="btn btn-xs btn-warning">
@@ -130,13 +131,14 @@ jQuery(document).ready(function ($) {
 
                                         <td class ="task"> `+ task + ` </td>
 
-                                        <td class ="generalHRS" name="bothGrided"> `+ sun + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"> `+ mon + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"> `+ tue + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"> `+ wed + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"> `+ thur + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"> `+ fri + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"> `+ sat + ` </td>
+                                        
+                                        <td class ="generalHRS  monday   " name="bothGrided"> `+ mon + ` </td>
+                                        <td class ="generalHRS  tuesday  " name="bothGrided"> `+ tue + ` </td>
+                                        <td class ="generalHRS  wednesday" name="bothGrided"> `+ wed + ` </td>
+                                        <td class ="generalHRS  thursday " name="bothGrided"> `+ thur + ` </td>
+                                        <td class ="generalHRS  friday   " name="bothGrided"> `+ fri + ` </td>
+                                        <td class ="generalHRS  satarday " name="bothGrided"> `+ sat + ` </td>
+                                        <td class ="generalHRS  sunday   " name="bothGrided"> `+ sun + ` </td>
                                         <td class ="generalHRS" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
 
                                         <td>
@@ -273,35 +275,150 @@ jQuery(document).ready(function ($) {
                     });
 
                 // get the tr's cntrls vals
-                    var array = [];
                     var curTr = $(this).closest('tr');
                     curTr.find('td:not(:last-child)').each(function (f, val) {
                         console.log("Item value: " + $(this).html());
-                        var realItems = $(this).html();
+                        var realItem = $(this).html();
+                        var mval = realItem.trim();
+
+                        
 
                         if ($(this).hasClass('projectid')) {
-                            $('#project').val($(this).html());
+                            $('#project').val(mval);
                         } else if ($(this).hasClass('difficult')) {
-                            $('#chall').val($(this).html());
+                            $('#chall').val(mval);
                         } else if ($(this).hasClass('activities')) {
-                            $('#act').val($(this).html());
+                            $('#act').val(mval);
                         } else if ($(this).hasClass('task')) {
-                            $('#task').val($(this).html());
+                            $('#task').val(mval);
+                        }
+
+                        else if ($(this).hasClass('monday')) {
+                            $('#mond').val(mval);
+                        } else if ($(this).hasClass('tuesday')) {
+                            $('#tuesd').val(mval);
+                        } else if ($(this).hasClass('wednesday')) {
+                            $('#weds').val(mval);
+                        } else if ($(this).hasClass('thursday')) {
+                            $('#thurs').val(mval);
+                        }
+
+                        else if ($(this).hasClass('friday')) {
+                            $('#frids').val(mval);
+                        } else if ($(this).hasClass('satarday')) {
+                            $('#sats').val(mval);
+                        } else if ($(this).hasClass('sunday')) {
+                            $('#sunds').val(mval);
                         } else {
                             //alert("td has nothing");
                         }
-
-                        array.push(realItems);
                     });
-
-                    for (var c = 0; c < array.length; c++) {
-                        console.log(" : " + array[c]);
-
-                        //$('.nimits').append('<p>'+array[c]+"</p>");
-                    }
             });
         });
     } // editPopUp()
+
+
+    // Using the clicked item's ID to get Status and Insert to ApproverTimesheet View
+    // Get the Task ID from URL
+    function getTaskURLID(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var urlTaskID = getTaskURLID("ID", window.location.href);
+
+    //$('#approveComments');
+
+    $('#userConfirmSubmit').on('click', function (event) {
+        event.preventDefault();
+        userconfirm(urlTaskID);
+    });
+    
+
+
+    function userconfirm(urlTaskID) {
+        var currCtx = SP.ClientContext.get_current();
+        var myWeb = currCtx.get_web();
+        var ref_id = "";
+        var anEmp = myWeb.get_currentUser();
+
+        try {
+            // Insertion of RefIds
+            //alert("Ref_id: " + ref_id + " Employee: " + curser);
+            var lstRefID = myWeb.get_lists().getByTitle("Emp_TaskList");
+
+            var itemCollection = "";
+            var itemToUpdate = "";
+            
+            var myQuery = new SP.CamlQuery();
+            //myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
+            myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + urlTaskID + `</Value></Eq></Where></Query></View>`);
+
+
+            itemCollection = lstRefID.getItems(myQuery);
+            currCtx.load(itemCollection);
+            currCtx.executeQueryAsync(taskinserted, taskfailed);
+
+            function taskinserted() {
+                itemToUpdate = itemCollection.getEnumerator();
+                finals();
+            }
+
+            function finals() {
+                //alert("Inside finals Func");
+                while (itemToUpdate.moveNext()) {
+                    var myObj = itemToUpdate.get_current();
+                    var taskRefID = myObj.get_item("TimeSheetRefID");
+                    var tskstatus = myObj.get_item("Status");
+                    var taskNAME = myObj.get_item("Title");
+                    var taskStatus = myObj.get_item("Status0");
+
+                    var startdate = myObj.get_item("StartDate");
+                    var enddate = myObj.get_item("DueDate");
+
+                    var employee = myObj.get_item("Employee");
+                    //var relUser = employee.get_lookupValue();
+
+
+                } //while Loop
+
+                //alert("Creating first task");
+                var timeshList = myWeb.get_lists().getByTitle("TimeSheetTaskList");
+                var Obj = new SP.ListItemCreationInformation();
+                var kingItem = timeshList.addItem(Obj);
+
+                kingItem.set_item("Ref_id", taskRefID);
+                kingItem.set_item("StartDate", startdate);
+                kingItem.set_item("DueDate", enddate);
+                kingItem.set_item("Status0", taskStatus);
+                kingItem.set_item("Status", tskstatus);
+                kingItem.set_item("c2uy", employee);
+                kingItem.set_item("Title", taskNAME);
+
+
+                kingItem.update();
+                currCtx.load(kingItem);
+                currCtx.executeQueryAsync(newapprovertaskcreated, newtaskfailed);
+            }
+            function taskfailed(sender, args) { alert("Error: " + args.get_message()); }
+
+            //addingItem.update();
+
+        } catch (ex) {
+            alert(ex.message);
+        }
+    } //submitTask
+    function newapprovertaskcreated() {
+        console.info("TimesheetTaskList Tasks Added Successfully");
+        //window.location.reload(true);
+
+        // Insert to TimeSheetTaskList
+    }
+    function newtaskfailed(sender, args) { alert("Error: " + args.get_message()); }
 
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
 });
