@@ -40,6 +40,48 @@
                         <button role="button" onclick="PrintDoc();" id="printBtn" class="hidden btn btn-default">
                             <span class="glyphicon glyphicon-print"></span> &nbsp; Print
                         </button>
+
+                         <%-- Create the Modal Window --%>
+                         <!-- Modal -->
+                        <div class="modal fade" id="modal" tabindex="-1">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Update item</h4>
+                                </div>
+                                <div class="modal-body">
+                                
+                                    <div class="form-group">
+                                      <label class="" for="project">Project name</label>
+                                      <input type="text" class="form-control" id="project">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="" for="act">Activity</label>
+                                        <textarea class="form-control" rows="3" id="act"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="" for="chall">Challenges</label>
+                                      <textarea class="form-control" rows="3" id="chall"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="" for="task">Task</label>
+                                      <input type="text" class="form-control" id="task">
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="" for="day">Day</label>
+                                      <input type="text" class="form-control" id="day">
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
                         <p>&nbsp;</p>
                      </div>
                  </div>

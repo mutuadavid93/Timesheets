@@ -78,13 +78,13 @@ jQuery(document).ready(function ($) {
                     case "Project":
                         console.log(work);
                         var myRow = `<tr>
-                                        <td><span>`+ proj + `</span></td>
+                                        <td class ="projectid"> `+ proj + ` </td>
 
-                                        <td><!-- <textarea class="form-control"></textarea> --><span>`+ activity + `</span></td>
+                                        <td class ="activities"> `+ activity + ` </td>
 
-                                        <td><!-- <textarea class ="form-control">< /textarea> --><span>`+ chal + `</span></td>
+                                        <td class ="difficult"> `+ chal + ` </td>
 
-                                        <td><span> `+ task + ` </span></td>
+                                        <td class ="task"> `+ task + ` </td>
 
                                         <td class ="rowDataSd" name="bothGrided"> `+ sun + ` </td>
                                         <td class ="rowDataSd" name="bothGrided"> `+ mon + ` </td>
@@ -122,13 +122,13 @@ jQuery(document).ready(function ($) {
                     case "General":
                         console.log(work);
                         var myStaff = `<tr>
-                                        <td><span>`+ proj + `</span></td>
+                                        <td class ="projectid"> `+ proj + ` </td>
 
-                                        <td><!-- <textarea class="form-control"></textarea> --><span>`+ activity + `</span></td>
+                                        <td class ="activities"> `+ activity + ` </td>
 
-                                        <td><!-- <textarea class ="form-control">< /textarea> --><span>`+ chal + `</span></td>
+                                        <td class ="difficult"> `+ chal + ` </td>
 
-                                        <td><span> `+ task + ` </span></td>
+                                        <td class ="task"> `+ task + ` </td>
 
                                         <td class ="generalHRS" name="bothGrided"> `+ sun + ` </td>
                                         <td class ="generalHRS" name="bothGrided"> `+ mon + ` </td>
@@ -265,10 +265,40 @@ jQuery(document).ready(function ($) {
         htag.each(function (index, item) {
             $(this).find('.btn-xs').on('click', function(e) {
                 e.preventDefault();
-                /*if (e.target.className == 'glyphicon glyphicon-pencil') {*/
-                    alert("clicked a pencil btn");
+                    //alert("clicked a pencil btn");
                     console.info("Edit Btn clicked");
-                //}
+
+                    $('#modal').modal({
+                        show: true
+                    });
+
+                // get the tr's cntrls vals
+                    var array = [];
+                    var curTr = $(this).closest('tr');
+                    curTr.find('td:not(:last-child)').each(function (f, val) {
+                        console.log("Item value: " + $(this).html());
+                        var realItems = $(this).html();
+
+                        if ($(this).hasClass('projectid')) {
+                            $('#project').val($(this).html());
+                        } else if ($(this).hasClass('difficult')) {
+                            $('#chall').val($(this).html());
+                        } else if ($(this).hasClass('activities')) {
+                            $('#act').val($(this).html());
+                        } else if ($(this).hasClass('task')) {
+                            $('#task').val($(this).html());
+                        } else {
+                            //alert("td has nothing");
+                        }
+
+                        array.push(realItems);
+                    });
+
+                    for (var c = 0; c < array.length; c++) {
+                        console.log(" : " + array[c]);
+
+                        //$('.nimits').append('<p>'+array[c]+"</p>");
+                    }
             });
         });
     } // editPopUp()
