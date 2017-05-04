@@ -51,6 +51,7 @@
                                 <h4 class="modal-title" id="myModalLabel">Update item</h4>
                                 </div>
                                 <div class="modal-body">
+                                    <label id="recordID"></label>
                                 
                                     <div class="form-group">
                                       <label class="" for="project">Project name</label>
@@ -83,7 +84,7 @@
                                         </thead>
 
                                         <tbody>
-                                            <tr class="myrowed">
+                                            <tr id="myrowed">
                                                 <td>
                                                     <input type="text" class="form-control" id="mond" />
                                                 </td>
@@ -112,7 +113,7 @@
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="button" id="saveFromPopUp" class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                             </div>
@@ -175,13 +176,14 @@
                                 <th>Challenges</th>
                                 <th>TASK</th>
                                 
-                                <th>SUN</th>
+                                
                                 <th>MON</th>
                                 <th>TUE</th>
                                 <th>WED</th>
                                 <th>THUR</th>
                                 <th>FRI</th>
                                 <th>SAT</th>
+                                <th>SUN</th>
 
                                 <th>TOTAL</th>
                                 
@@ -222,13 +224,14 @@
                                 <th>Challenges</th>
                                 <th>TASK</th>
                                 
-                                <th>SUN</th>
+                                
                                 <th>MON</th>
                                 <th>TUE</th>
                                 <th>WED</th>
                                 <th>THUR</th>
                                 <th>FRI</th>
                                 <th>SAT</th>
+                                <th>SUN</th>
 
                                 <th>TOTAL</th>
                             </tr>
@@ -302,7 +305,13 @@
                                     
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <button class="btn btn-success" role="button" id="userConfirmSubmit">Submit&nbsp; 
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" />
+                                                    &nbsp; Do you want to sumit?
+                                                </label>
+                                            </div><!-- checkbox -->
+                                            <button class="btn btn-success hidden" role="button" id="userConfirmSubmit">Submit&nbsp; 
                                                 <span class="glyphicon glyphicon-forward"></span>
                                             </button>
                                         </div>

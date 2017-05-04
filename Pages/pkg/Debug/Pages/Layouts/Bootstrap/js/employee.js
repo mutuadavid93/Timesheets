@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
         query.set_viewXml(`<View><Query><Where><Geq><FieldRef Name='Ref_id' /><Value Type='Text'>` + TimeSheetRef_id + `</Value></Geq></Where></Query></View>`);
 
         items = list.getItems(query);
-        context.load(items, "Include(Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
+        context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
         context.executeQueryAsync(MasterPiece, fail);
 
         function MasterPiece() {
@@ -64,7 +64,8 @@ jQuery(document).ready(function ($) {
                 var reviewDate = listObj.get_item("ReviewDate");
                 var reviewStatus = listObj.get_item("Status");
                 var comments = listObj.get_item("Comments");
-                
+
+                var recordID = listObj.get_item("ID");
 
                 // The Upper Textfields
                 //$('.myEMPloyee').val(emp).attr('readonly', 'readonly');
@@ -78,6 +79,8 @@ jQuery(document).ready(function ($) {
                     case "Project":
                         console.log(work);
                         var myRow = `<tr>
+                                        <td class ="recordID hidden"> `+ recordID + ` </td>
+
                                         <td class ="projectid"> `+ proj + ` </td>
 
                                         <td class ="activities"> `+ activity + ` </td>
@@ -123,6 +126,9 @@ jQuery(document).ready(function ($) {
                     case "General":
                         console.log(work);
                         var myStaff = `<tr>
+
+                                        <td class ="recordID hidden"> `+ recordID + ` </td>
+
                                         <td class ="projectid"> `+ proj + ` </td>
 
                                         <td class ="activities"> `+ activity + ` </td>
@@ -277,7 +283,7 @@ jQuery(document).ready(function ($) {
                 // get the tr's cntrls vals
                     var curTr = $(this).closest('tr');
                     curTr.find('td:not(:last-child)').each(function (f, val) {
-                        console.log("Item value: " + $(this).html());
+                        //console.log("Item value: " + $(this).html());
                         var realItem = $(this).html();
                         var mval = realItem.trim();
 
@@ -309,7 +315,19 @@ jQuery(document).ready(function ($) {
                             $('#sats').val(mval);
                         } else if ($(this).hasClass('sunday')) {
                             $('#sunds').val(mval);
-                        } else {
+                        }
+
+                        else if ($(this).hasClass('recordID')) {
+                            $('#recordID').html("<p class='text-center'>This item ID is " + mval + "</p>");
+                            
+                            $('#saveFromPopUp').on('click', function (event) {
+                                event.preventDefault();
+                                updateFromPopUp(mval);
+                            });
+                            
+                        }
+
+                        else {
                             //alert("td has nothing");
                         }
                     });
@@ -356,7 +374,7 @@ jQuery(document).ready(function ($) {
             
             var myQuery = new SP.CamlQuery();
             //myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
-            myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + urlTaskID + `</Value></Eq></Where></Query></View>`);
+            myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + urlTaskID + `</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
 
 
             itemCollection = lstRefID.getItems(myQuery);
@@ -390,6 +408,7 @@ jQuery(document).ready(function ($) {
                 var timeshList = myWeb.get_lists().getByTitle("TimeSheetTaskList");
                 var Obj = new SP.ListItemCreationInformation();
                 var kingItem = timeshList.addItem(Obj);
+                var usercomments = $('#approveComments').val();
 
                 kingItem.set_item("Ref_id", taskRefID);
                 kingItem.set_item("StartDate", startdate);
@@ -398,7 +417,7 @@ jQuery(document).ready(function ($) {
                 kingItem.set_item("Status", tskstatus);
                 kingItem.set_item("c2uy", employee);
                 kingItem.set_item("Title", taskNAME);
-
+                kingItem.set_item("User_x0020_Comments", usercomments);
 
                 kingItem.update();
                 currCtx.load(kingItem);
@@ -414,11 +433,112 @@ jQuery(document).ready(function ($) {
     } //submitTask
     function newapprovertaskcreated() {
         console.info("TimesheetTaskList Tasks Added Successfully");
-        //window.location.reload(true);
+        window.location.reload(true);
 
         // Insert to TimeSheetTaskList
     }
     function newtaskfailed(sender, args) { alert("Error: " + args.get_message()); }
 
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
+
+
+    // ### START UPDATING THE TIMESHEET FROM POPUP WINDOW
+
+    function updateFromPopUp(popID) {
+        //alert("This item ID is: " + popID);
+
+        var drcontext = SP.ClientContext.get_current();
+        var web = drcontext.get_web();
+        var lst = web.get_lists().getByTitle("IPPFTimesheet");
+        var itemCollection = "";
+
+        var itemCollToBeUpdated = "";
+        var lstItemToBeUpdated = "";
+
+        var myQuery = new SP.CamlQuery();
+        myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + popID + `</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
+
+        itemCollToBeUpdated = lst.getItems(myQuery);
+        drcontext.load(itemCollToBeUpdated, "Include(ID,ProjectName, Activity, Challenges, Task, WorkedHours,SUN,MON,TUE,WED,THUR,FRI,SAT)");
+        drcontext.executeQueryAsync(moveToNext, popupfailed);
+
+        function moveToNext() {
+            lstItemToBeUpdated = itemCollToBeUpdated.getEnumerator();
+            popupsuccess();
+        }
+
+        function popupsuccess() {
+            //alert("Inside popupsuccess()");
+            while (lstItemToBeUpdated.moveNext()) {
+                var listItem = lstItemToBeUpdated.get_current();
+                // Get values from available controls
+                var proj = $('#project').val();
+                var act = $('#act').val();
+                var chall = $('#chall').val();
+                var task = $('#task').val();
+
+                var realIDentity = listItem.get_item("ID");
+
+                console.log("List ID: "+realIDentity+" UI ID: "+popID);
+                // update columns
+                if (realIDentity == popID) {
+                    listItem.set_item("ProjectName", proj);
+                    listItem.set_item("Activity", act);
+                    listItem.set_item("Challenges", chall);
+                    listItem.set_item("Task", task);
+
+                    $('#myrowed input').each(function (yii, item) {
+                        //console.log($(this).filter("[id='mond']"));
+                        if ($(this).attr("id") == 'mond') {
+                            var mond = $('#mond').val();
+                            listItem.set_item("MON", mond);
+                        } else if ($(this).attr("id") == 'tuesd') {
+                            var tues = $('#tuesd').val();
+                            listItem.set_item("TUE", tues);
+                        } else if ($(this).attr("id") == 'weds') {
+                            var weds = $('#weds').val();
+                            listItem.set_item("WED", weds);
+                        } else if ($(this).attr("id") == 'thurs') {
+                            var thurs = $('#thurs').val();
+                            listItem.set_item("THUR", thurs);
+                        } else if ($(this).attr("id") == 'frids') {
+                            var frids = $('#frids').val();
+                            listItem.set_item("FRI", frids);
+                        } else if ($(this).attr("id") == 'sats') {
+                            var sats = $('#sats').val();
+                            listItem.set_item("SAT", sats);
+                        } else if ($(this).attr("id") == 'sunds') {
+                            var sunds = $('#sunds').val();
+                            listItem.set_item("SUN", sunds);
+                        }
+                    });
+
+                    listItem.update();
+                    drcontext.executeQueryAsync(listupdated, listfailed);
+                }
+                
+            }
+        }
+    }// uodateFromPopUp
+
+    
+    function popupfailed(sender, args) { console.warn("Error: "+args.get_message()); }
+
+    function listupdated() {
+        console.log("Updated from popup updating");
+        window.location.reload(true);
+    }
+    function listfailed(sender, args){ alert("Error on Pop Up: "+args.get_message()) }
+
+
+    // Show the Submit Btn
+    $('input[type="checkbox"] ').on("change", function (event) {
+        if ($(this).is(':checked')) {
+            $('#userConfirmSubmit').removeClass('hidden').fadeIn("slow");
+        } else {
+            $('#userConfirmSubmit').fadeOut("slow").addClass('hidden');
+        }
+    });
+
+    // ### END UPDATING THE TIMESHEET FROM POPUP WINDOW
 });
