@@ -540,5 +540,10 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    $('#closeSubmit').on('click', function (event) {
+        event.preventDefault();
+        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+    });
+
     // ### END UPDATING THE TIMESHEET FROM POPUP WINDOW
 });

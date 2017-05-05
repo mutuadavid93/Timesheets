@@ -316,7 +316,9 @@
                                             </button>
                                         </div>
                                         <div class="col-sm-6">
-                                            
+                                            <button class="btn btn-danger pull-right" role="button" id="closeSubmit">Close&nbsp; 
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
