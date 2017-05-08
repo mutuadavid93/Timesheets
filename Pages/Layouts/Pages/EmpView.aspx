@@ -51,7 +51,7 @@
                                 <h4 class="modal-title" id="myModalLabel">Update item</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <label id="recordID"></label>
+                                    <label></label>
                                 
                                     <div class="form-group">
                                       <label class="" for="project">Project name</label>
@@ -134,7 +134,8 @@
             </div>
             <br />
             
-            <div class="row">
+             <div id="masterpage_container">
+                 <div class="row">
                 <div>
                     <div class="col-sm-3">
                         <span>Employee name</span>
@@ -327,6 +328,8 @@
                     </table>
                 </div>
             </div>
+             </div><%--masterpage_container--%>
+            
         </div><!-- printarea -->
     </div><!-- col-xs-12 col-sm-12 -->
 

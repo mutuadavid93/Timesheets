@@ -9,8 +9,6 @@ jQuery(document).ready(function ($) {
 
     console.log("This Week's Ref_id for You is: "+TimeSheetRef_id);
 
-    retrieveItem(TimeSheetRef_id); //Invoke retrieveItem()
-
     function retrieveItem(TimeSheetRef_id) {
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
@@ -290,7 +288,7 @@ jQuery(document).ready(function ($) {
                         
 
                         if ($(this).hasClass('projectid')) {
-                            $('#project').val(mval);
+                            $('#project').val(mval).prop('readonly', true);
                         } else if ($(this).hasClass('difficult')) {
                             $('#chall').val(mval);
                         } else if ($(this).hasClass('activities')) {
@@ -318,7 +316,7 @@ jQuery(document).ready(function ($) {
                         }
 
                         else if ($(this).hasClass('recordID')) {
-                            $('#recordID').html("<p class='text-center'>This item ID is " + mval + "</p>");
+                            //$('#recordID').html("<p class='text-center'>This item ID is " + mval + "</p>");
                             
                             $('#saveFromPopUp').on('click', function (event) {
                                 event.preventDefault();
@@ -356,7 +354,36 @@ jQuery(document).ready(function ($) {
         userconfirm(urlTaskID);
     });
     
+    // Determine What to SHow if Refids are not equal
+    // ### START QUERY EMP_TASKLIST FOR REF_ID COMPARISON
+    var querytASkRefID = function (TimeSheetRef_id) {
+        var context = SP.ClientContext.get_current();
+        var listRefID = context.get_web().get_lists().getByTitle("Emp_TaskList");
 
+        var q = new SP.CamlQuery();
+        q.set_viewXml(`"<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + urlTaskID + `</Value></Eq></Where></Query></View>`);
+
+        var fetchedItems = listRefID.getItems(q);
+        var items = context.loadQuery(fetchedItems);
+        context.executeQueryAsync(itemsreturned, itemsnotreturned);
+
+        function itemsreturned() {
+            if (items.length > 0) {
+                var myItem = items[0];
+                var taskRef = myItem.get_item("TimeSheetRefID");
+
+                if (TimeSheetRef_id != taskRef) {
+                    $('#masterpage_container').html(`<p class ="lead text-center" style="color:red;">You don't have any active timesheet under this section</p>`);
+                } else {
+                    retrieveItem(TimeSheetRef_id); //Invoke retrieveItem()
+                }
+            }
+        }
+        function itemsnotreturned(sender, args) { alert("Error on Comparing URL & Task Refs"+args.get_message()); }
+    }(TimeSheetRef_id);
+
+    // ### END QUERY EMP_TASKLIST FOR REF_ID COMPARISON
+    
 
     function userconfirm(urlTaskID) {
         var currCtx = SP.ClientContext.get_current();
@@ -440,6 +467,7 @@ jQuery(document).ready(function ($) {
     function newtaskfailed(sender, args) { alert("Error: " + args.get_message()); }
 
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
+
 
 
     // ### START UPDATING THE TIMESHEET FROM POPUP WINDOW
@@ -540,6 +568,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    // Redirect to Home Page on Close
     $('#closeSubmit').on('click', function (event) {
         event.preventDefault();
         window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
