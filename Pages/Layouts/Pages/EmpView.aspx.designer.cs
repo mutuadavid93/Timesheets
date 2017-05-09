@@ -13,6 +13,15 @@ namespace Pages.Layouts.Pages {
     public partial class EmpView {
         
         /// <summary>
+        /// newproject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList newproject;
+        
+        /// <summary>
         /// genRef_ID control.
         /// </summary>
         /// <remarks>

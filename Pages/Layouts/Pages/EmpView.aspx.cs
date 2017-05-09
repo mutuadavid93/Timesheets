@@ -26,6 +26,13 @@ namespace Pages.Layouts.Pages
                                     genRef_ID.Value = userName.ToUpper();
                                 }
                             }
+
+                            //Get list item values from SharePoint lists.
+                            SPList projectz = powerWeb.Lists["LK_Projects"];
+                            newproject.DataSource = projectz.Items;
+                            newproject.DataValueField = "ID";
+                            newproject.DataTextField = "Title";
+                            newproject.DataBind();
                         }
                     }
                 }

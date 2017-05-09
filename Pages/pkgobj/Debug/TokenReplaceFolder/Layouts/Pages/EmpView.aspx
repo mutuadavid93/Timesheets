@@ -123,6 +123,103 @@
                      </div>
                  </div>
 
+                 <%-- start modal two--%>
+
+                 <div class="modal fade" id="addnewtask-modal" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Add new timesheet task</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+                          <div class="form-group">
+                            <label class="" for="worktyped">Work type</label>
+                            <select class="form-control" id="worktyped">
+                                <option value="Project">Project</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <%--<label class="" for="newproject">Project</label>
+                            <select class="form-control" id="newproject">
+                                <option value="SharePoint Installation">SharePoint Installation</option>
+                                <option value="SQL Configuration">SQL Configuration</option>
+                            </select>--%>
+                            <asp:DropDownList id="newproject" AppendDataBoundItems="true" runat="server" CssClass="form-control projectName required" data-msg-required="Please select patient's prefered language.">
+                                    <asp:ListItem Value="" Selected="True">Choose project name</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="" for="newactivity">Activity</label>
+                            <input type="text" class="form-control" id="newactivity" placeholder="Activity" />
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="" for="newtask">Task</label>
+                            <input type="text" class="form-control" id="newtask" placeholder="New Task" />
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="" for="newchallenges">Challenges</label>
+                            <textarea class="form-control" placeholder="Task Challenges" id="newchallenges" rows="3"></textarea>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="" for="newday">Day</label>
+                            <select id="newday" class="form-control">
+                                    <option value="" selected>Choose Day</option>
+                                    <option value="1">MON</option>
+                                    <option value="2">TUE</option>
+                                    <option value="3">WED</option>
+                                    <option value="4">THUR</option>
+                                    <option value="5">FRI</option>
+                                    <option value="6">SAT</option>
+                                    <option value="7">SUN</option>
+                                </select>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="" for="newworkedhrs">Hours Worked</label>
+                            <input type="text" class="form-control" id="newworkedhrs" placeholder="Number of Worked Hours" />
+                        </div>
+
+                          <div class="form-group">
+                            <input type="text" class="form-control newtaskname hidden" />
+                        </div>
+                          <div class="form-group">
+                            <input type="text" class="form-control newtaskrefid hidden" />
+                        </div>
+
+                          <div class="form-group">
+                            <input type="text" class="form-control newtaskStartDate hidden" />
+                        </div>
+                          <div class="form-group">
+                            <input type="text" class="form-control newtaskDueDate hidden" />
+                        </div>
+
+                          <div class="form-group">
+                            <input type="text" class="form-control taskStartDate hidden" />
+                        </div>
+                          <div class="form-group">
+                            <input type="text" class="form-control DueDate hidden" />
+                        </div>
+
+                      </div> <%--modal-body--%>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="submitnewtask" class="btn btn-primary">Submit</button>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                 
+
+                 <%-- end modal two--%>
+
          <div id="printarea">
             <div class="row">
                 <div class="col-sm-12">
@@ -280,23 +377,12 @@
                                     <div class="row">
                                         <div class='col-sm-12'>
                                             <br />
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <p><label class="reviwdates hidden">Reviewed by:</label> <span style="display: block;" id="approverName"></span></p>
-                                                    <br />
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <p class="reviewing hidden"><label>Review date:</label> &nbsp;<span id="reviewDate" style="display:block;"></span></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             
+                                            <button class="btn btn-info" id="addNewTaskBtn">
+                                                <span class="glyphicon glyphicon-plus"></span> New task
+                                            </button><br /><br />
+                                            <p>&nbsp;</p>
+
                                             <span class="commentsLabel">Insert your comments below<span class='required'></span></span>
                                             <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
                                             
