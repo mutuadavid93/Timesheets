@@ -624,10 +624,7 @@ jQuery(document).ready(function ($) {
 
     // ### END ADD NEW TASK POPUP
 
-
-
-
-
+    
 
     // ### INSERT INTO TimesheetTaskList ONCLICK OF EMP_SUBMIT BTN
     function timeListREFIds(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate) {
@@ -669,30 +666,23 @@ jQuery(document).ready(function ($) {
                     var taskRefID = myObj.get_item("Ref_id");
                     var TtaskName = myObj.get_item("Title");
                     var tskstatus = myObj.get_item("Status");
-
-                    //alert("Task Ref_id: " + taskRefID + " TimeSheet Ref_id: " + ref_id);
-                    //alert("TaskStatus: "+tskstatus+" StartDate: " + startdate + " status: " + status + " TaskName: " + taskNAME + " EndDate: " + enddate);
-
                 } //while Loop
 
-                if (EmpRefId == taskRefID && tskstatus != "Completed" && EmpTaskName == TtaskName) {
-                    //Do nothing
-                } else if (EmpRefId == taskRefID && tskstatus == "Completed") {
-                    alert("Creating another task");
-                    var addingItem = lstRefID.addItem(Obj);
+                alert("EmpTaskName : " + EmpTaskName + " TtaskName: " + TtaskName);
 
-                    addingItem.set_item("Ref_id", EmpRefId);
-                    addingItem.set_item("StartDate", EmpStartDate);
-                    addingItem.set_item("DueDate", EmpDueDate);
-                    addingItem.set_item("Status0", EmpTaskStatus);
-                    addingItem.set_item("c2uy", anEmp);
-                    addingItem.set_item("User_x0020_Comments", empComments);
-                    addingItem.set_item("Title", EmpTaskName);  
-                    addingItem.update();
-                    currCtx.load(addingItem);
+                if (EmpTaskName == TtaskName) {
+                    // Update Existing Task in TimesheetTaskList[ Change Status = Awaiting Approval ]);
+                    myObj.set_item("Status0", EmpTaskStatus);
+                    myObj.set_item("User_x0020_Comments", empComments);
+                    myObj.update();
                     currCtx.executeQueryAsync(insertListRef, refrain);
+
+                    // Update Emp_TaskList Task [TaskStatus = Completed]
+
+
+                    // Update IPPFTimesheet [ Status = Awaiting Approval ]
                 } else {
-                    alert("Creating first task");
+                    // Create new Task in TimesheetTaskList
                     var kingItem = lstRefID.addItem(Obj);
 
                     kingItem.set_item("Ref_id", EmpRefId);
@@ -700,11 +690,13 @@ jQuery(document).ready(function ($) {
                     kingItem.set_item("DueDate", EmpDueDate);
                     kingItem.set_item("Status0", EmpTaskStatus);
                     kingItem.set_item("User_x0020_Comments", empComments);
-                    kingItem.set_item("c2uy", anEmp); 
+                    kingItem.set_item("c2uy", anEmp);
                     kingItem.set_item("Title", EmpTaskName);
                     kingItem.update();
                     currCtx.load(kingItem);
                     currCtx.executeQueryAsync(insertListRef, refrain);
+
+                    // Update Emp_TaskList [ TaskStatus = Completed ]
                 }
 
             }
@@ -723,4 +715,13 @@ jQuery(document).ready(function ($) {
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 
     // ### END INTO TimesheetTaskList ONCLICK OF EMP_SUBMIT BTN
+
+
+
+    // ### START UPDATE Emp_TaskList:
+
+    
+
+    // ### END UPDATE Emp_TaskList:
+
 });

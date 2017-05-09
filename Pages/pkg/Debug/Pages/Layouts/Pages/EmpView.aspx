@@ -186,27 +186,6 @@
                             <input type="text" class="form-control" id="newworkedhrs" placeholder="Number of Worked Hours" />
                         </div>
 
-                          <div class="form-group">
-                            <input type="text" class="form-control newtaskname hidden" />
-                        </div>
-                          <div class="form-group">
-                            <input type="text" class="form-control newtaskrefid hidden" />
-                        </div>
-
-                          <div class="form-group">
-                            <input type="text" class="form-control newtaskStartDate hidden" />
-                        </div>
-                          <div class="form-group">
-                            <input type="text" class="form-control newtaskDueDate hidden" />
-                        </div>
-
-                          <div class="form-group">
-                            <input type="text" class="form-control taskStartDate hidden" />
-                        </div>
-                          <div class="form-group">
-                            <input type="text" class="form-control DueDate hidden" />
-                        </div>
-
                       </div> <%--modal-body--%>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -219,6 +198,29 @@
                  
 
                  <%-- end modal two--%>
+
+                  <%-- START DEAD HIDDEN HOLDERS--%>S
+                 <div class="form-group">
+                    <input type="text" class="form-control newtaskname hidden" />
+                </div>
+                    <div class="form-group">
+                    <input type="text" class="form-control newtaskrefid hidden" />
+                </div>
+
+                    <div class="form-group">
+                    <input type="text" class="form-control newtaskStartDate hidden" />
+                </div>
+                    <div class="form-group">
+                    <input type="text" class="form-control newtaskDueDate hidden" />
+                </div>
+
+                    <div class="form-group">
+                    <input type="text" class="form-control taskStartDate hidden" />
+                </div>
+                    <div class="form-group">
+                    <input type="text" class="form-control DueDate hidden" />
+                </div>
+                 <%--END DEAD HIDDEN HOLDERS--%>
 
          <div id="printarea">
             <div class="row">

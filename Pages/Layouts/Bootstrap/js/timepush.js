@@ -164,11 +164,6 @@ jQuery(document).ready(function ($) {
 
     // The update function
     //retrieveDays();
-
-    
-
-
-
     function properDate(myDates) {
         var adate = new Date(myDates);
         var dd = adate.getDate();
