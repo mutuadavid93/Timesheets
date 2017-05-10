@@ -39,7 +39,7 @@
              <div class="col-xs-12 col-sm-12">
                  <div class="row">
                      <div class="col-sm-12">
-                        <button role="button" onclick="PrintDoc();" id="printBtn" class="btn btn-default">
+                        <button role="button" onclick="PrintDoc();" id="printBtn" class="btn btn-info">
                             <span class="glyphicon glyphicon-print"></span> &nbsp; Print
                         </button>
                         <p>&nbsp;</p>
@@ -196,7 +196,7 @@
                             <tr>
                                 <td colspan="12">
                                     <div class="row">
-                                        <div class='col-sm-12'>
+                                        <div class='col-sm-12' id="approversSection">
                                             <br />
                                             <div class="row">
                                                 <div class="col-sm-6">
@@ -214,9 +214,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="usercomments hidden">
+                                                <span id="comentLABel"></span>
+                                                <textarea id="usercomments" rows="6" class="form-control"></textarea>
+                                                <p>&nbsp;</p>
+                                            </div>
+
+                                                <span class="commentsLabel">Insert your comments below<span class='required'></span></span>
+                                                <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
                                             
-                                            <span class="commentsLabel">Insert your comments below<span class='required'></span></span>
-                                            <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
+                                            
                                             
                                              <br />
                                         </div>

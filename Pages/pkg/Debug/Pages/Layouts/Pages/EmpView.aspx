@@ -214,9 +214,7 @@
                     <div class="form-group">
                     <input type="text" class="form-control taskStartDate hidden" />
                 </div>
-                    <div class="form-group">
-                    <input type="text" class="form-control DueDate hidden" />
-                </div>
+                   <label class="emptaskstatus_real"></label>
                  <%--END DEAD HIDDEN HOLDERS--%>
 
          <div id="printarea">
@@ -251,7 +249,7 @@
                                 <span class="myStartDateApp" style="display:block;"></span>
                             </div>
                             <div class="col-sm-6">
-                                <span>EndDate</span>s
+                                <span>EndDate</span>
                                 <%--<input type="text" class="myEndDateApp form-control" />--%>
                                 <span class="myEndDateApp" style="display:block;"></span>
                             </div>
@@ -283,8 +281,6 @@
                                 <th>SUN</th>
 
                                 <th>TOTAL</th>
-                                
-                                <th col width="30">&nbsp;</th>
                             </tr>
                         </thead>
                         
@@ -304,7 +300,7 @@
                                 <td></td>
                                 <td></td>
 
-                                <td></td>
+                                <td col width="30">&nbsp;</td>
                             </tr>
                         </tfoot>
                         
@@ -391,15 +387,15 @@
                                     
                                     <div class="row">
                                         <div class="col-sm-6">
+                                            <button class="btn btn-success hidden" role="button" id="userConfirmSubmit">Submit&nbsp; 
+                                                <span class="glyphicon glyphicon-send"></span>
+                                            </button>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" />
                                                     &nbsp; Do you want to sumit?
                                                 </label>
                                             </div><!-- checkbox -->
-                                            <button class="btn btn-success hidden" role="button" id="userConfirmSubmit">Submit&nbsp; 
-                                                <span class="glyphicon glyphicon-forward"></span>
-                                            </button>
                                         </div>
                                         <div class="col-sm-6">
                                             <button class="btn btn-danger pull-right" role="button" id="closeSubmit">Close&nbsp; 

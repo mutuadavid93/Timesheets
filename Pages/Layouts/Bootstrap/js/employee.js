@@ -97,10 +97,10 @@ jQuery(document).ready(function ($) {
                                         <td class ="rowDataSd sunday" name="bothGrided"> `+ sun + ` </td>
                                         <td class ="rowDataSd" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
                                         <td>
-                                            <button role="button" class ="btn btn-xs btn-info">
+                                            <button style="min-width: 2em;" role="button" class ="btn btn-xs btn-info">
                                                 <span class ="glyphicon glyphicon-pencil"></span>
                                             </button>
-                                            <button role="button" class ="btn btn-xs btn-danger">
+                                            <button style="min-width: 2em;" role="button" class ="btn btn-xs btn-danger">
                                                 <span class ="glyphicon glyphicon-trash"></span>
                                             </button>
                                         </td>
@@ -149,10 +149,10 @@ jQuery(document).ready(function ($) {
                                         <td class ="generalHRS" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
 
                                         <td>
-                                            <button role="button" class ="btn btn-xs btn-info">
+                                            <button role="button" class ="btn btn-xs btn-info" style="min-width: 2em;">
                                                 <span class ="glyphicon glyphicon-pencil"></span>
                                             </button>
-                                            <button role="button" class ="btn btn-xs btn-danger">
+                                            <button role="button" class ="btn btn-xs btn-danger" style="min-width: 2em;" >
                                                 <span class ="glyphicon glyphicon-trash"></span>
                                             </button>
                                         </td>
@@ -209,6 +209,12 @@ jQuery(document).ready(function ($) {
             console.log("Retrives Done Successffuly");
             editPopUp(); //Invoke edit btn
             deleteITEm(); // Invoke delete FUNC
+
+            // Hide Edit/Delete Btns
+            if ($('.emptaskstatus_real').html() == "Completed") {
+                $('#approverTbody tr td, #generalBody tr td').find('.btn-xs').addClass("hidden");
+            }
+
         }
         function redCard(sender, args) { console.log("Error: " + args.get_message()); }
 
@@ -276,10 +282,6 @@ jQuery(document).ready(function ($) {
         dtag.each(function (i, item) {
             $(this).find('.btn-danger').on('click', function (e) {
                 e.preventDefault();
-                // alert("Clicked the Delete Item Btn");
-
-                // get the ID of the clicked item and delete
-                // ID = recordID
                 var curTr = $(this).closest('tr');
                 curTr.find('td:not(:last-child)').each(function (f, val) {
                     var realItem = $(this).html();
@@ -401,7 +403,7 @@ jQuery(document).ready(function ($) {
 
     $('#userConfirmSubmit').on('click', function (event) {
         event.preventDefault();
-        userconfirm(timeListREFIds);
+        userconfirm(timeListREFIds, update_TsskList);
     });
     
     
@@ -421,24 +423,35 @@ jQuery(document).ready(function ($) {
             if (items.length > 0) {
                 var myItem = items[0];
                 var taskRef = myItem.get_item("TimeSheetRefID");
+                var taskStats = myItem.get_item("Status");
 
                 var taskRefTitle = myItem.get_item("Title");
                 var taskStartDate = myItem.get_item("StartDate");
                 var taskDueDate = myItem.get_item("DueDate");
+                var Comments = myItem.get_item("Comments");
 
                 $('.newtaskname').val(taskRefTitle);
                 $('.newtaskrefid').val(taskRef);
                 $('.newtaskStartDate').val(taskStartDate);
                 $('.newtaskDueDate').val(taskDueDate);
+                $(".emptaskstatus_real").html(taskStats);
 
                 retrieveItem(taskRefTitle); //Invoke retrieveItem()
+
+                //alert(taskStats);
+                if (taskStats == "Completed") {
+                    $('#approveComments').val(Comments).attr("readonly", "true");
+                    $('#addNewTaskBtn').addClass("hidden");
+                    $('div.checkbox').addClass("hidden");
+                }
+                
             }
         }
         function itemsnotreturned(sender, args) { alert("Error on Comparing URL & Task Refs"+args.get_message()); }
     }(urlTaskID);
 
     // ### END QUERY EMP_TASKLIST FOR REF_ID COMPARISON
-    function userconfirm(callback) {
+    function userconfirm(callback, callback2) {
         // SET values for the callback
         var EmpTaskName = $('.newtaskname').val();
         var EmpRefId = $('.newtaskrefid').val();
@@ -446,6 +459,9 @@ jQuery(document).ready(function ($) {
         var EmpDueDate = moment($('.newtaskDueDate').val()).format('MM/DD/YYYY');
 
         callback(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate); // invoke submission to a TimesheetTaskList
+
+        // Update Emp_TaskList [ TaskStatus = Completed ]
+        callback2();
     } //submitTask
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
 
@@ -720,12 +736,6 @@ jQuery(document).ready(function ($) {
                     myObj.set_item("User_x0020_Comments", empComments);
                     myObj.update();
                     currCtx.executeQueryAsync(insertListRef, refrain);
-
-                    // Update Emp_TaskList Task [TaskStatus = Completed]
-                   update_TsskList("Emp_TaskList"); // Invoke Emp_TaskList Update
-
-                    // Update IPPFTimesheet [ Status = Awaiting Approval ]
-                    //updateIPPFtimesheet("IPPFTimesheet"); // invoke IPPFTimesheet update
                 } else {
                     // Create new Task in TimesheetTaskList
                     var kingItem = lstRefID.addItem(Obj);
@@ -765,26 +775,27 @@ jQuery(document).ready(function ($) {
 
     // ### START UPDATE Emp_TaskList:
 
-    function update_TsskList(listName) {
+    function update_TsskList() {
         var updateContext = SP.ClientContext.get_current();
         var myDweb = updateContext.get_web();
 
-        var TaskList = myDweb.get_lists().getByTitle(listName);
+        var mylistz = myDweb.get_lists().getByTitle("Emp_TaskList");
 
-        var EmpTask = $('.newtaskname').val();
+        //var EmpTask = $('.newtaskname').val();
+        //alert(EmpTask);
         var query = new SP.CamlQuery();
-
-        qitems = TaskList.getItems(query);
-        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>` + EmpTask + `</Value></Eq></Where></Query></View>`);
-        var tasks = updateContext.loadQuery(qitems, "Include(Status)");
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>TIMESHEET_943665970543</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
+        var qitems = mylistz.getItems(query);
+        var tasks = updateContext.loadQuery(qitems);
         
         updateContext.executeQueryAsync(emptasklistsucceed, emptasklistfail);
 
         function emptasklistsucceed() {
-            alert("Trying to Update List: " + tasks.length+" ListNAMe: "+listName);
             if (tasks.length > 0) {
                 var task = tasks[0];
                 task.set_item("Status", "Completed");
+                task.set_item("Comments", $('#approveComments').val());
+                task.set_item("Status0", "Awaiting Approval"); 
                 task.update();
                 updateContext.executeQueryAsync(listsucceed, emptasklistfail);
             }

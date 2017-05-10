@@ -36,6 +36,7 @@ $(document).ready(function () {
                        <FieldRef Name='Ref_id' />
                        <FieldRef Name='Status0' />
                        <FieldRef Name='ID' />
+                       <FieldRef Name='User_x0020_Comments' />
                        <FieldRef Name='Title' />
                     </ViewFields></View>`);
         itemCollection = lst.getItems(myQuery);
@@ -54,7 +55,8 @@ $(document).ready(function () {
                 var taskRefID = myObj.get_item("Ref_id");
                 var tskstatus = myObj.get_item("Status0");
                 var taskID = myObj.get_item("ID");
-                var taskNamedHere = myObj.get_item("Title");
+                var taskComments = myObj.get_item("User_x0020_Comments");
+                var taskNamedHere = myObj.get_item("Title"); 
                 //alert("Task URL ID: " + taskID+" Task ID: "+realID);
 
                 retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere);
@@ -65,6 +67,13 @@ $(document).ready(function () {
             $('.taskRefIdNeeded').val(taskRefID);
             $('.taskNameNeeded').val(taskNamedHere);
             console.log(taskRefID + " taskname: " + taskNamedHere);
+
+            //alert(tskstatus + "  User Comments" + taskComments);
+            if (tskstatus == "Awaiting Approval") {
+                $('#comentLABel').html("Employee Comments:");
+                $('.usercomments').removeClass("hidden");
+                $('#usercomments').val(taskComments).attr("readonly", "true");
+            }
         }
        function killLst(sender, args){ alert("Error: "+args.get_message()); }
     }// taskListed
