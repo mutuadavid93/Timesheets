@@ -8,15 +8,12 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EmpView.aspx.cs" Inherits="Pages.Layouts.Pages.EmpView" DynamicMasterPageFile="~masterurl/default.master" %>
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
-    <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.theme.min.css" rel="stylesheet" />
-    <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/print.css" rel="stylesheet" />
     <link href="../Bootstrap/css/style.css" rel="stylesheet" />
     <link href="../Bootstrap/css/timeshit.css" rel="stylesheet" />
 
     <script src="../Bootstrap/js/jquery-1.12.4.min.js"></script>
-    <script src="../Bootstrap/jquery-ui-ippf/jquery-ui.min.js"></script>
     <script src="../Bootstrap/js/moment.min.js"></script>
 
     <!-- JS for CSOM to work -->    
@@ -183,7 +180,7 @@
                     
                         <div class="form-group">
                             <label class="" for="newworkedhrs">Hours Worked</label>
-                            <input type="text" class="form-control" id="newworkedhrs" placeholder="Number of Worked Hours" />
+                            <input type="text" maxlength="2" class="form-control" id="newworkedhrs" placeholder="Number of Worked Hours" />
                         </div>
 
                       </div> <%--modal-body--%>
@@ -199,7 +196,7 @@
 
                  <%-- end modal two--%>
 
-                  <%-- START DEAD HIDDEN HOLDERS--%>S
+                  <%-- START DEAD HIDDEN HOLDERS--%>
                  <div class="form-group">
                     <input type="text" class="form-control newtaskname hidden" />
                 </div>
@@ -287,7 +284,7 @@
 
                                 <th>TOTAL</th>
                                 
-                                <th>&nbsp;</th>
+                                <th col width="30">&nbsp;</th>
                             </tr>
                         </thead>
                         
@@ -353,7 +350,7 @@
                                 <td></td>
                                 <td></td>
 
-                                <td></td>
+                                <td col width="30">&nbsp;</td>
                             </tr>
                             <tr><td colspan="12">&nbsp;</td></tr>
                             <tr id="bothGridsSummed">

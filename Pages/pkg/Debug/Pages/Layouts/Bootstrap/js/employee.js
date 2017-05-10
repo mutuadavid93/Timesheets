@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
 
     console.log("This Week's Ref_id for You is: "+TimeSheetRef_id);
 
-    function retrieveItem(TimeSheetRef_id) {
+    function retrieveItem(emptaskname) {
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
         var list = web.get_lists().getByTitle("IPPFTimesheet");
@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
 
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
-        query.set_viewXml(`<View><Query><Where><Geq><FieldRef Name='Ref_id' /><Value Type='Text'>` + TimeSheetRef_id + `</Value></Geq></Where></Query></View>`);
+        query.set_viewXml(`<View><Query><Where><Geq><FieldRef Name='TaskName' /><Value Type='Text'>` + emptaskname + `</Value></Geq></Where></Query></View>`);
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -97,8 +97,11 @@ jQuery(document).ready(function ($) {
                                         <td class ="rowDataSd sunday" name="bothGrided"> `+ sun + ` </td>
                                         <td class ="rowDataSd" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
                                         <td>
-                                            <button role="button" class ="btn btn-xs btn-warning">
+                                            <button role="button" class ="btn btn-xs btn-info">
                                                 <span class ="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                            <button role="button" class ="btn btn-xs btn-danger">
+                                                <span class ="glyphicon glyphicon-trash"></span>
                                             </button>
                                         </td>
                                     </tr>`;
@@ -146,8 +149,11 @@ jQuery(document).ready(function ($) {
                                         <td class ="generalHRS" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
 
                                         <td>
-                                            <button role="button" class ="btn btn-xs btn-warning">
+                                            <button role="button" class ="btn btn-xs btn-info">
                                                 <span class ="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                            <button role="button" class ="btn btn-xs btn-danger">
+                                                <span class ="glyphicon glyphicon-trash"></span>
                                             </button>
                                         </td>
                                     </tr>`;
@@ -202,6 +208,7 @@ jQuery(document).ready(function ($) {
         function finalResult() {
             console.log("Retrives Done Successffuly");
             editPopUp(); //Invoke edit btn
+            deleteITEm(); // Invoke delete FUNC
         }
         function redCard(sender, args) { console.log("Error: " + args.get_message()); }
 
@@ -262,6 +269,49 @@ jQuery(document).ready(function ($) {
     //-----------------------------------------------
     // ### BEGIN THE EMPLOYER CONFIRM AND SUBMIT VIEW
     //-----------------------------------------------
+
+    // Delete Selected Item
+    var deleteITEm = function() {
+        var dtag = $('#approverTbody tr, #generalBody tr');
+        dtag.each(function (i, item) {
+            $(this).find('.btn-danger').on('click', function (e) {
+                e.preventDefault();
+                // alert("Clicked the Delete Item Btn");
+
+                // get the ID of the clicked item and delete
+                // ID = recordID
+                var curTr = $(this).closest('tr');
+                curTr.find('td:not(:last-child)').each(function (f, val) {
+                    var realItem = $(this).html();
+                    var mval = realItem.trim();
+
+                    if ($(this).hasClass('recordID')) {
+                        var currentItemID = mval;
+
+                        // now delete
+                        var clientContext = SP.ClientContext.get_current();
+                        var oList = clientContext.get_web().get_lists().getByTitle('IPPFTimesheet');
+
+                        if (confirm('Delete this item ?')) {
+                            var oListItem = oList.getItemById(currentItemID);
+                            oListItem.deleteObject(); //Delete it
+
+                            clientContext.executeQueryAsync(welldeleted(currentItemID), nodeleted);
+                            window.location.reload(true);
+                        }                        
+                    }
+                });
+
+            });
+        });
+
+        function welldeleted(curid) {
+            console.log("deleted item ID: " + curid);
+        }
+        function nodeleted(sender, args) {
+            console.warn("Error: " + args.get_message() + " Stack Trace: " + args.get_stackTrace());
+        }
+    };
     
     //editPopUp();
     function editPopUp() {
@@ -269,7 +319,7 @@ jQuery(document).ready(function ($) {
         console.warn("inside editPopUp(), tr count: " + htag.length);
 
         htag.each(function (index, item) {
-            $(this).find('.btn-xs').on('click', function(e) {
+            $(this).find('.btn-info').on('click', function (e) {
                 e.preventDefault();
                     //alert("clicked a pencil btn");
                     console.info("Edit Btn clicked");
@@ -356,7 +406,7 @@ jQuery(document).ready(function ($) {
     
     
     // ### START QUERY EMP_TASKLIST FOR REF_ID COMPARISON
-    var querytASkRefID = function (TimeSheetRef_id) {
+    var querytASkRefID = function (urlTaskID) {
         var context = SP.ClientContext.get_current();
         var listRefID = context.get_web().get_lists().getByTitle("Emp_TaskList");
 
@@ -381,17 +431,11 @@ jQuery(document).ready(function ($) {
                 $('.newtaskStartDate').val(taskStartDate);
                 $('.newtaskDueDate').val(taskDueDate);
 
-                
-
-                if (TimeSheetRef_id != taskRef) {
-                    $('#masterpage_container').html(`<p class ="lead text-center" style="color:red;">You don't have any active timesheet under this section</p>`);
-                } else {
-                    retrieveItem(TimeSheetRef_id); //Invoke retrieveItem()
-                }
+                retrieveItem(taskRefTitle); //Invoke retrieveItem()
             }
         }
         function itemsnotreturned(sender, args) { alert("Error on Comparing URL & Task Refs"+args.get_message()); }
-    }(TimeSheetRef_id);
+    }(urlTaskID);
 
     // ### END QUERY EMP_TASKLIST FOR REF_ID COMPARISON
     function userconfirm(callback) {
@@ -678,9 +722,10 @@ jQuery(document).ready(function ($) {
                     currCtx.executeQueryAsync(insertListRef, refrain);
 
                     // Update Emp_TaskList Task [TaskStatus = Completed]
-
+                   update_TsskList("Emp_TaskList"); // Invoke Emp_TaskList Update
 
                     // Update IPPFTimesheet [ Status = Awaiting Approval ]
+                    //updateIPPFtimesheet("IPPFTimesheet"); // invoke IPPFTimesheet update
                 } else {
                     // Create new Task in TimesheetTaskList
                     var kingItem = lstRefID.addItem(Obj);
@@ -720,8 +765,41 @@ jQuery(document).ready(function ($) {
 
     // ### START UPDATE Emp_TaskList:
 
-    
+    function update_TsskList(listName) {
+        var updateContext = SP.ClientContext.get_current();
+        var myDweb = updateContext.get_web();
+
+        var TaskList = myDweb.get_lists().getByTitle(listName);
+
+        var EmpTask = $('.newtaskname').val();
+        var query = new SP.CamlQuery();
+
+        qitems = TaskList.getItems(query);
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>` + EmpTask + `</Value></Eq></Where></Query></View>`);
+        var tasks = updateContext.loadQuery(qitems, "Include(Status)");
+        
+        updateContext.executeQueryAsync(emptasklistsucceed, emptasklistfail);
+
+        function emptasklistsucceed() {
+            alert("Trying to Update List: " + tasks.length+" ListNAMe: "+listName);
+            if (tasks.length > 0) {
+                var task = tasks[0];
+                task.set_item("Status", "Completed");
+                task.update();
+                updateContext.executeQueryAsync(listsucceed, emptasklistfail);
+            }
+        }
+    } // updateEmp_TsskList()
+
+    function listsucceed() { console.log("Successfully updated Emp_TaskList"); }
+    function emptasklistfail(sender, args){ console.log("Error on Updating Emp_TaskList: "+args.get_message()) }
 
     // ### END UPDATE Emp_TaskList:
+
+
+    // ### START UPDATE IPPFTIMEsheet:
+
+    
+    // ### END UPDATE IPPTimesheet:
 
 });
