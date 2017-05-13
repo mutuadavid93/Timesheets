@@ -11,8 +11,8 @@
     <!-- CUSTOM CSS -->
     <!--<link type="text/css" rel="stylesheet" href="/_layouts/1033/STYLES/Timesheets/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="/_layouts/1033/STYLES/Timesheets/css/timeshit.css" /> -->
-    <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.theme.min.css" rel="stylesheet" />
-    <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.min.css" rel="stylesheet" />
+    <%--<link href="../Bootstrap/jquery-ui-ippf/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="../Bootstrap/jquery-ui-ippf/jquery-ui.min.css" rel="stylesheet" />--%>
 
     <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/timeshit.css" rel="stylesheet" />
@@ -26,7 +26,7 @@
     <script src="../Bootstrap/js/moment.min.js"></script>
     
 
-    <script src="../Bootstrap/jquery-ui-ippf/jquery-ui.min.js" type="text/javascript"></script>
+    <%--<script src="../Bootstrap/jquery-ui-ippf/jquery-ui.min.js" type="text/javascript"></script>--%>
     <script src="../Bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     
     <!-- JS for CSOM to work -->    

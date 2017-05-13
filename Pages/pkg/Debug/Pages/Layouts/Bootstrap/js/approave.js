@@ -37,7 +37,7 @@ $(document).ready(function () {
                        <FieldRef Name='Status0' />
                        <FieldRef Name='ID' />
                        <FieldRef Name='User_x0020_Comments' />
-                       <FieldRef Name='Title' />
+                       <FieldRef Name='Title' />s
                     </ViewFields></View>`);
         itemCollection = lst.getItems(myQuery);
         context.load(itemCollection);
@@ -58,8 +58,6 @@ $(document).ready(function () {
                 var taskComments = myObj.get_item("User_x0020_Comments");
                 var taskNamedHere = myObj.get_item("Title"); 
                 //alert("Task URL ID: " + taskID+" Task ID: "+realID);
-
-                retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere);
             }
 
             // This the Current Task Ref_id based on the URL ID used to update Timesheet during 
@@ -68,12 +66,16 @@ $(document).ready(function () {
             $('.taskNameNeeded').val(taskNamedHere);
             console.log(taskRefID + " taskname: " + taskNamedHere);
 
+            //alert(taskNamedHere);
+
             //alert(tskstatus + "  User Comments" + taskComments);
             if (tskstatus == "Awaiting Approval") {
                 $('#comentLABel').html("Employee Comments:");
                 $('.usercomments').removeClass("hidden");
                 $('#usercomments').val(taskComments).attr("readonly", "true");
             }
+
+            retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere);
         }
        function killLst(sender, args){ alert("Error: "+args.get_message()); }
     }// taskListed
@@ -92,7 +94,7 @@ $(document).ready(function () {
         var ienum = "";
 
         var query = new SP.CamlQuery();
-        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>"+taskNamedHere+"</Value></Eq></Where></Query></View>");
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>` + taskRefID + `</Value></Eq></Where></Query></View>`);
 
         items = list.getItems(query);
         context.load(items, "Include(Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */

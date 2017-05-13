@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
 
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
-        query.set_viewXml(`<View><Query><Where><Geq><FieldRef Name='TaskName' /><Value Type='Text'>` + emptaskname + `</Value></Geq></Where></Query></View>`);
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>` + emptaskname + `</Value></Eq></Where></Query></View>`);
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -728,7 +728,7 @@ jQuery(document).ready(function ($) {
                     var tskstatus = myObj.get_item("Status");
                 } //while Loop
 
-                alert("EmpTaskName : " + EmpTaskName + " TtaskName: " + TtaskName);
+                //alert("EmpTaskName : " + EmpTaskName + " TtaskName: " + TtaskName);
 
                 if (EmpTaskName == TtaskName) {
                     // Update Existing Task in TimesheetTaskList[ Change Status = Awaiting Approval ]);
@@ -781,10 +781,10 @@ jQuery(document).ready(function ($) {
 
         var mylistz = myDweb.get_lists().getByTitle("Emp_TaskList");
 
-        //var EmpTask = $('.newtaskname').val();
+        var EmpTask = $('.newtaskname').val();
         //alert(EmpTask);
         var query = new SP.CamlQuery();
-        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>TIMESHEET_943665970543</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>` + EmpTask + `</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
         var qitems = mylistz.getItems(query);
         var tasks = updateContext.loadQuery(qitems);
         

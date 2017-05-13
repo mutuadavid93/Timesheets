@@ -21,9 +21,10 @@ jQuery(document).ready(function ($) {
 
     $('#saveRowData').on("click", function (event) {
         event.preventDefault();
-
+        $(this).addClass("hidden");
         // Invoke functions to do Insertion to Emp_TaskList and TimesheetTaskList Lists
-        saveRecords(submitEmpTask);
+        
+        queryEmpTaskList(ref_id, taskNAME);
     }); // #saveRowData First Func
 
     
@@ -45,13 +46,52 @@ jQuery(document).ready(function ($) {
     }
     var taskNAME = "TIMESHEET_" + getRandomInt(startWk.getTime(), begin.getTime());
     
+    
     var curDisName = $('.employeeLoginNames').val();
     var ref_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
-    var status = "Pending";
+    var status = "In Progress";
 
     
+    
+    // Query Emp_TaskList First
+    function queryEmpTaskList(genRefID, genTaskName) {
+        var context = SP.ClientContext.get_current();
+        var web = context.get_web();
+        var lst = web.get_lists().getByTitle("Emp_TaskList");
+
+        var myQuery = new SP.CamlQuery();
+        myQuery.set_viewXml(`<View><Query><Where><And><Eq><FieldRef Name='TimeSheetRefID' /><Value Type='Text'>` + genRefID + `</Value></Eq><Neq><FieldRef Name='Status' /><Value Type='Choice'>Completed</Value></Neq></And></Where></Query></View>`);
+        var someItems = lst.getItems(myQuery);
+
+        var items = context.loadQuery(someItems, "Include(Title, Status, TimeSheetRefID)");
+        context.executeQueryAsync(empsuccess, emptfailed);
+
+        function empsuccess() {
+            if (items.length > 0) {
+                var anItem = items[0];
+
+                var emp_refid = anItem.get_item("TimeSheetRefID");
+                var empTaskStatus = anItem.get_item("Status");
+                var empTaskName = anItem.get_item("Title");
+
+                if (genRefID == emp_refid && empTaskStatus != "Completed") {
+                    // Create a Record in IPPF with EmpTaskName
+                    //alert("Emp TaskName: " + empTaskName);
+                    saveRecords(empTaskName, submitEmpTask);
+                } else {
+                    // Create a Record in IPPF with genTaskName
+                    //alert("Gen TaskName: " + genTaskName);
+                    saveRecords(genTaskName, submitEmpTask);
+                }
+            }
+        }
+        function emptfailed(sender, args) { alert("Error Querying EmpTaskList onLoad: " + args.get_message());}
+    }// queryEmpTaskList
+
+    
+    
     // Begin save Functions
-    function saveRecords(/*mycallback,*/ mycallback1) {
+    function saveRecords(empTaskName, mycallback1) {
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
 
@@ -118,7 +158,7 @@ jQuery(document).ready(function ($) {
 
 
                 newAddedItem.set_item("Ref_id", ref_id);
-                newAddedItem.set_item("Status", "Pending");
+                newAddedItem.set_item("Status", "In Progress");
 
                 newAddedItem.set_item("WorkType", worktype);
                 newAddedItem.set_item("ProjectName", project);
@@ -128,7 +168,7 @@ jQuery(document).ready(function ($) {
                 newAddedItem.set_item("WorkedHours", workedhours);
 
                 
-                newAddedItem.set_item("TaskName", taskNAME);
+                newAddedItem.set_item("TaskName", empTaskName);
 
                 newAddedItem.set_item("DayVal", dayVal);
                 //newAddedItem.set_item("Day", dayText);
@@ -148,7 +188,7 @@ jQuery(document).ready(function ($) {
         }
 
         /*mycallback(ref_id);*/ // Invokes listRefIDs()
-        mycallback1(ref_id); // Invokes submitEmpTask()
+        mycallback1(ref_id, taskNAME); // Invokes submitEmpTask()
     }// End saveRecords() */
 
     function onQuerySuccess() {
@@ -208,7 +248,7 @@ jQuery(document).ready(function ($) {
     // ### BEGING THE INSERT INTO  Emp_TaskList LIST
     //----------------------------------------------
 
-    function submitEmpTask(empTaskRef_id) {
+    function submitEmpTask(empTaskRef_id, taskNAME) {
         var currCtx = SP.ClientContext.get_current();
         var myWeb = currCtx.get_web();
         var ref_id = "";
@@ -244,12 +284,16 @@ jQuery(document).ready(function ($) {
                     var myObj = itemToUpdate.get_current();
                     var taskRefID = myObj.get_item("TimeSheetRefID");
                     var tskstatus = myObj.get_item("Status");
+                    var tasknamed = myObj.get_item("Title");
                 } //while Loop
 
                 // NB: Logic Outside The Loop
                 if (empTaskRef_id == taskRefID && tskstatus != "Completed") {
+                    // Don't create another task
                 } else if (empTaskRef_id == taskRefID && tskstatus == "Completed") {
                     //alert("Creating another task");
+
+                    //alert(empTaskRef_id+" "+taskNAME)
                     var addingItem = lstRefID.addItem(Obj);
 
                     addingItem.set_item("TimeSheetRefID", empTaskRef_id);
