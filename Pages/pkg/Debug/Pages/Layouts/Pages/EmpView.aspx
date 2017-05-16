@@ -198,6 +198,9 @@
 
                   <%-- START DEAD HIDDEN HOLDERS--%>
                  <div class="form-group">
+                    <input type="text" class="form-control empnamefromtask hidden" />
+                </div>
+                 <div class="form-group">
                     <input type="text" class="form-control newtaskname hidden" />
                 </div>
                     <div class="form-group">
@@ -379,7 +382,7 @@
                                             <p>&nbsp;</p>
 
                                             <span class="commentsLabel">Insert your comments below<span class='required'></span></span>
-                                            <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
+                                            <textarea id="employeeComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
                                             
                                              <br />
                                         </div>

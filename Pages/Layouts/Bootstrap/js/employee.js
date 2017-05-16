@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
 
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
-        query.set_viewXml(`<View><Query><Where><Geq><FieldRef Name='TaskName' /><Value Type='Text'>` + emptaskname + `</Value></Geq></Where></Query></View>`);
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>`+emptaskname+`</Value></Eq></Where></Query></View>`);
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -403,7 +403,7 @@ jQuery(document).ready(function ($) {
 
     $('#userConfirmSubmit').on('click', function (event) {
         event.preventDefault();
-        userconfirm(timeListREFIds, update_TsskList);
+        userconfirm(timeListREFIds);
     });
     
     
@@ -413,13 +413,14 @@ jQuery(document).ready(function ($) {
         var listRefID = context.get_web().get_lists().getByTitle("Emp_TaskList");
 
         var q = new SP.CamlQuery();
-        q.set_viewXml(`"<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + urlTaskID + `</Value></Eq></Where></Query></View>`);
+        q.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>`+urlTaskID+`</Value></Eq></Where></Query></View>`);
 
         var fetchedItems = listRefID.getItems(q);
         var items = context.loadQuery(fetchedItems);
         context.executeQueryAsync(itemsreturned, itemsnotreturned);
 
         function itemsreturned() {
+            //alert(items.length);
             if (items.length > 0) {
                 var myItem = items[0];
                 var taskRef = myItem.get_item("TimeSheetRefID");
@@ -429,6 +430,11 @@ jQuery(document).ready(function ($) {
                 var taskStartDate = myItem.get_item("StartDate");
                 var taskDueDate = myItem.get_item("DueDate");
                 var Comments = myItem.get_item("Comments");
+                var EMpName = myItem.get_item("Employee");
+                var sendBy = EMpName.get_lookupValue();
+                //alert("Employee sending data is: " + sendBy);
+
+                //alert(taskRefTitle + " Ref_ID now: " + taskRef);
 
                 $('.newtaskname').val(taskRefTitle);
                 $('.newtaskrefid').val(taskRef);
@@ -436,7 +442,8 @@ jQuery(document).ready(function ($) {
                 $('.newtaskDueDate').val(taskDueDate);
                 $(".emptaskstatus_real").html(taskStats);
 
-                retrieveItem(taskRefTitle); //Invoke retrieveItem()
+                retrieveItem($('.newtaskrefid').val()); //Invoke retrieveItem()
+                //retrieveItem(taskRefTitle);
 
                 //alert(taskStats);
                 if (taskStats == "Completed") {
@@ -451,17 +458,17 @@ jQuery(document).ready(function ($) {
     }(urlTaskID);
 
     // ### END QUERY EMP_TASKLIST FOR REF_ID COMPARISON
-    function userconfirm(callback, callback2) {
+    function userconfirm(callback) {
         // SET values for the callback
         var EmpTaskName = $('.newtaskname').val();
         var EmpRefId = $('.newtaskrefid').val();
+
         var EmpStartDate = moment($('.newtaskStartDate').val()).format('MM/DD/YYYY');
         var EmpDueDate = moment($('.newtaskDueDate').val()).format('MM/DD/YYYY');
 
         callback(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate); // invoke submission to a TimesheetTaskList
 
         // Update Emp_TaskList [ TaskStatus = Completed ]
-        callback2();
     } //submitTask
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
 
@@ -688,6 +695,7 @@ jQuery(document).ready(function ($) {
 
     // ### INSERT INTO TimesheetTaskList ONCLICK OF EMP_SUBMIT BTN
     function timeListREFIds(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate) {
+        //alert("We are inside timeListREFIds");
         var currCtx = SP.ClientContext.get_current();
         var myWeb = currCtx.get_web();
 
@@ -702,11 +710,9 @@ jQuery(document).ready(function ($) {
             var itemCollection = "";
             var itemToUpdate = "";
             var EmpTaskStatus = "Awaiting Approval";
+            var neTaskStatus = "Not Started";
             var empComments = $('#approveComments').val();
-
-            //var approver = "w52r";
-            //var employee = "c2uy";
-
+            
             var myQuery = new SP.CamlQuery();
             //myQuery.set_viewXml("<View><RowLimit>1</RowLimit></View>");
             myQuery.set_viewXml("<View />");
@@ -728,11 +734,12 @@ jQuery(document).ready(function ($) {
                     var tskstatus = myObj.get_item("Status");
                 } //while Loop
 
-                alert("EmpTaskName : " + EmpTaskName + " TtaskName: " + TtaskName);
+                //alert("EmpTaskName : " + EmpTaskName + " TtaskName: " + TtaskName);
 
                 if (EmpTaskName == TtaskName) {
                     // Update Existing Task in TimesheetTaskList[ Change Status = Awaiting Approval ]);
                     myObj.set_item("Status0", EmpTaskStatus);
+                    myObj.set_item("Status", neTaskStatus);
                     myObj.set_item("User_x0020_Comments", empComments);
                     myObj.update();
                     currCtx.executeQueryAsync(insertListRef, refrain);
@@ -765,7 +772,7 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
-        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+        update_TsskList();
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 
@@ -776,25 +783,27 @@ jQuery(document).ready(function ($) {
     // ### START UPDATE Emp_TaskList:
 
     function update_TsskList() {
+        alert("Inside update_TsskList()");
         var updateContext = SP.ClientContext.get_current();
         var myDweb = updateContext.get_web();
 
         var mylistz = myDweb.get_lists().getByTitle("Emp_TaskList");
 
-        //var EmpTask = $('.newtaskname').val();
-        //alert(EmpTask);
+        var EmpTask = $('.newtaskname').val();
+        alert(EmpTask);
         var query = new SP.CamlQuery();
-        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>TIMESHEET_943665970543</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>`+EmpTask+`</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
         var qitems = mylistz.getItems(query);
         var tasks = updateContext.loadQuery(qitems);
         
         updateContext.executeQueryAsync(emptasklistsucceed, emptasklistfail);
 
         function emptasklistsucceed() {
+            alert(tasks.length + " Inside the EMp_Task Update");
             if (tasks.length > 0) {
                 var task = tasks[0];
                 task.set_item("Status", "Completed");
-                task.set_item("Comments", $('#approveComments').val());
+                task.set_item("Comments", $('#employeeComments').val());
                 task.set_item("Status0", "Awaiting Approval"); 
                 task.update();
                 updateContext.executeQueryAsync(listsucceed, emptasklistfail);
@@ -802,7 +811,10 @@ jQuery(document).ready(function ($) {
         }
     } // updateEmp_TsskList()
 
-    function listsucceed() { console.log("Successfully updated Emp_TaskList"); }
+    function listsucceed() {
+        console.log("Successfully updated Emp_TaskList");
+        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+    }
     function emptasklistfail(sender, args){ console.log("Error on Updating Emp_TaskList: "+args.get_message()) }
 
     // ### END UPDATE Emp_TaskList:

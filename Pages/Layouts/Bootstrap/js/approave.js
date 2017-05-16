@@ -24,23 +24,9 @@ $(document).ready(function () {
         var itemToUpdate = "";
 
         var myQuery = new SP.CamlQuery();
-        myQuery.set_viewXml(`<View><Query>
-                       <Where>
-                          <Eq>
-                             <FieldRef Name='ID' />
-                             <Value Type='Counter'>`+realID+`</Value>
-                          </Eq>
-                       </Where>
-                    </Query>
-                    <ViewFields>
-                       <FieldRef Name='Ref_id' />
-                       <FieldRef Name='Status0' />
-                       <FieldRef Name='ID' />
-                       <FieldRef Name='User_x0020_Comments' />
-                       <FieldRef Name='Title' />
-                    </ViewFields></View>`);
+        myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + realID + `</Value></Eq></Where></Query></View>`);
         itemCollection = lst.getItems(myQuery);
-        context.load(itemCollection);
+        context.load(itemCollection, "Include(Status,Ref_id,Status0,ID,Title,User_x0020_Comments, Approver_x0020_Comments)");
         context.executeQueryAsync(callList, killLst);
 
         function callList() {
@@ -54,26 +40,27 @@ $(document).ready(function () {
                 var myObj = itemToUpdate.get_current();
                 var taskRefID = myObj.get_item("Ref_id");
                 var tskstatus = myObj.get_item("Status0");
-                var taskID = myObj.get_item("ID");
+                var mystat = myObj.get_item("Status");
+                var apcomment = myObj.get_item("Approver_x0020_Comments");
+                var taskID = myObj.get_item("ID"); 
                 var taskComments = myObj.get_item("User_x0020_Comments");
                 var taskNamedHere = myObj.get_item("Title"); 
                 //alert("Task URL ID: " + taskID+" Task ID: "+realID);
 
-                retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere);
+                retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere, mystat, apcomment);
             }
+
+            //alert(tskstatus + "  User Comments" + taskComments);
+            $('#comentLABel').html("Employee Comments:");
+            $('.usercomments').removeClass("hidden");
+            $('#usercomments').val(taskComments).attr("readonly", "true");
 
             // This the Current Task Ref_id based on the URL ID used to update Timesheet during 
             // Approval.
             $('.taskRefIdNeeded').val(taskRefID);
             $('.taskNameNeeded').val(taskNamedHere);
-            console.log(taskRefID + " taskname: " + taskNamedHere);
+            console.log(taskRefID + " taskname: " + taskNamedHere + " Taask STatus: " + mystat+ "Aprover Comment: "+apcomment);
 
-            //alert(tskstatus + "  User Comments" + taskComments);
-            if (tskstatus == "Awaiting Approval") {
-                $('#comentLABel').html("Employee Comments:");
-                $('.usercomments').removeClass("hidden");
-                $('#usercomments').val(taskComments).attr("readonly", "true");
-            }
         }
        function killLst(sender, args){ alert("Error: "+args.get_message()); }
     }// taskListed
@@ -82,7 +69,7 @@ $(document).ready(function () {
     //retrieveItem(realID);
 
     // CSOM RETRIEVE LIST ITEMS
-    function retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere) {
+    function retrieveItem(taskRefID, tskstatus, taskID, realID, taskNamedHere, mystat, apcomment) {
         //alert(realID);
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
@@ -92,7 +79,7 @@ $(document).ready(function () {
         var ienum = "";
 
         var query = new SP.CamlQuery();
-        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>"+taskNamedHere+"</Value></Eq></Where></Query></View>");
+        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>`+taskRefID+`</Value></Eq></Where></Query></View>`);
 
         items = list.getItems(query);
         context.load(items, "Include(Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -248,21 +235,23 @@ $(document).ready(function () {
             console.log(totaTues);
 
             
-            context.executeQueryAsync(finalResult(reviewStatus, reviewedBy, reviewDate, tskstatus, comments, taskID, realID), redCard);
+            context.executeQueryAsync(finalResult(apcomment,mystat, reviewStatus, reviewedBy, reviewDate, tskstatus, comments, taskID, realID), redCard);
         }
 
         // finalResult()
-        function finalResult(reviewStatus, reviewedBy, reviewDate, tskstatus, comments, taskID, realID) {
+        function finalResult(apcomment,mystat, reviewStatus, reviewedBy, reviewDate, tskstatus, comments, taskID, realID) {
             //alert("Reviewed By: " + reviewedBy.get_lookupValue()+ " Comments: " + comments);
-            $('#approverName').html(reviewedBy.get_lookupValue());
-            $('#approveComments').val(comments);
+            //$('#approverName').html(reviewedBy.get_lookupValue());
+            //$('#approveComments').val(comments);
             
             reviewDates(reviewDate);
             console.log("We are done retrieving in approvers grid "+reviewStatus);
             //alert("Task Status: "+tskstatus);
             if (taskID == realID) {
-                if (tskstatus == "Declined" || tskstatus == "Approved") {
+                if (mystat == "Completed") {
+                    //alert("Yeah we are good");
                     $('#approovData, #declineData').fadeOut("slow");
+                    $('#approveComments').val(apcomment).attr("readonly", "true");
                     $('.reviwdates, .reviewing, #redirectToMains').removeClass("hidden").click(function (event) {
                         event.preventDefault();
 
@@ -601,6 +590,7 @@ $(document).ready(function () {
                         listItem.set_item("Ref_id", ref_id);
                         listItem.set_item("Status0", status);
                         listItem.set_item("Status", "Completed");
+                        listItem.set_item("Approver_x0020_Comments", $('#approveComments').val())
                         listItem.update();
                     } else {
 
