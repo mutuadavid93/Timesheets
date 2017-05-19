@@ -31,6 +31,12 @@
 
     <script src="../Bootstrap/js/myj.js"></script>
     <script src="../Bootstrap/js/approave.js"></script>
+    <script src="../Bootstrap/js/log.js"></script>
+    <script type="text/javascript">
+        if (typeof console == "undefined") {
+            this.console = { log: function () { } };
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
@@ -200,7 +206,7 @@
                                             <br />
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <p><label class="reviwdates hidden">Reviewed by:</label> <span style="display: block;" id="approverName"></span></p>
+                                                    <p></p>
                                                     <br />
                                                 </div>
                                                 <div class="col-sm-6">
@@ -209,7 +215,7 @@
                                                             
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <p class="reviewing hidden"><label>Review date:</label> &nbsp;<span id="reviewDate" style="display:block;"></span></p>
+                                                            <p></p>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -8,12 +8,12 @@ function PrintDoc() {
 
     popupWin.document.open();
 
-    popupWin.document.write(`
-            <html>
-            <head><title>::Preview::</title>
-            <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-            <link href="../Bootstrap/css/print.css" rel="stylesheet" />
-            </head><body onload="window.print()">`)
+    popupWin.document.write(
+           "<html>"+
+    "<head><title>::Preview::</title>"+
+    "<link href='../Bootstrap/css/bootstrap.min.css' rel='stylesheet' />"+
+    "<link href='../Bootstrap/css/print.css' rel='stylesheet' />"+
+    "</head><body onload='window.print()'>");
 
     popupWin.document.write(toPrint.innerHTML);
 

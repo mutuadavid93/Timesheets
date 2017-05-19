@@ -11,6 +11,7 @@
     <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/mystyels.css" rel="stylesheet" />
 
+    <script src="../Bootstrap/js/log.js"></script>
     <!-- JS for CSOM to work -->    
     <script src="/_layouts/init.js" type="text/javascript"></script>
     <script src="/_layouts/MicrosoftAjax.js" type="text/javascript"></script>

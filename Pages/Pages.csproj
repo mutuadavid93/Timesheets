@@ -140,6 +140,7 @@
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <Content Include="Layouts\Bootstrap\js\log.js" />
     <Content Include="Layouts\Bootstrap\js\masterscript.js" />
     <Content Include="Layouts\Bootstrap\js\employee.js" />
     <Content Include="Layouts\Bootstrap\js\perform.js" />

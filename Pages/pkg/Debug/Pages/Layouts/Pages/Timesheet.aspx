@@ -22,6 +22,7 @@
     <script src="/_layouts/1033/styles/Timesheets/js/bootstrap.min.js" type="text/javascript"></script>
         -->
     <script src="../Bootstrap/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../Bootstrap/js/log.js"></script>
     <%--<script src="../Bootstrap/js/date.js"></script>--%>
     <script src="../Bootstrap/js/moment.min.js"></script>
     

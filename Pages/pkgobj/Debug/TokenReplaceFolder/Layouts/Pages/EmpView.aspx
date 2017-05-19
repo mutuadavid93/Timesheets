@@ -26,6 +26,12 @@
 
     <script src="../Bootstrap/js/bootstrap.min.js"></script>
     <script src="../Bootstrap/js/employee.js"></script>
+    <script src="../Bootstrap/js/log.js"></script>
+    <script type="text/javascript">
+        if (typeof console == "undefined") {
+            this.console = { log: function () { } };
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
@@ -382,7 +388,7 @@
                                             <p>&nbsp;</p>
 
                                             <span class="commentsLabel">Insert your comments below<span class='required'></span></span>
-                                            <textarea id="employeeComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
+                                            <textarea id="approveComments" rows='6' class="form-control" placeholder="type your comments here about the work done"></textarea>
                                             
                                              <br />
                                         </div>

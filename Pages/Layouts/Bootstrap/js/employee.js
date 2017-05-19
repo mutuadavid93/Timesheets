@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
 
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
-        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>`+emptaskname+`</Value></Eq></Where></Query></View>`);
+        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq></Where></Query></View>");
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -76,35 +76,35 @@ jQuery(document).ready(function ($) {
                 switch (work) {
                     case "Project":
                         console.log(work);
-                        var myRow = `<tr>
-                                        <td class ="recordID hidden"> `+ recordID + ` </td>
+                        var myRow = "<tr>"+
+                                        "<td class ='recordID hidden'> "+ recordID + " </td>"+
 
-                                        <td class ="projectid"> `+ proj + ` </td>
+                                        "<td class ='projectid'> "+ proj + " </td>"+
 
-                                        <td class ="activities"> `+ activity + ` </td>
+                                        "<td class ='activities'> "+ activity + " </td>"+
 
-                                        <td class ="difficult"> `+ chal + ` </td>
+                                        "<td class ='difficult'> "+ chal + " </td>"+
 
-                                        <td class ="task"> `+ task + ` </td>
+                                        "<td class ='task'>"+ task + " </td>"+
 
                                         
-                                        <td class ="rowDataSd monday" name="bothGrided"> `+ mon + ` </td>
-                                        <td class ="rowDataSd tuesday" name="bothGrided"> `+ tue + ` </td>
-                                        <td class ="rowDataSd wednesday" name="bothGrided"> `+ wed + ` </td>
-                                        <td class ="rowDataSd thursday" name="bothGrided"> `+ thur + ` </td>
-                                        <td class ="rowDataSd friday" name="bothGrided"> `+ fri + ` </td>
-                                        <td class ="rowDataSd satarday" name="bothGrided"> `+ sat + ` </td>
-                                        <td class ="rowDataSd sunday" name="bothGrided"> `+ sun + ` </td>
-                                        <td class ="rowDataSd" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
-                                        <td>
-                                            <button style="min-width: 2em;" role="button" class ="btn btn-xs btn-info">
-                                                <span class ="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <button style="min-width: 2em;" role="button" class ="btn btn-xs btn-danger">
-                                                <span class ="glyphicon glyphicon-trash"></span>
-                                            </button>
-                                        </td>
-                                    </tr>`;
+                                        "<td class ='rowDataSd monday' name='bothGrided'> "+ mon + " </td>"+
+                                        "<td class ='rowDataSd tuesday' name='bothGrided'> "+ tue + " </td>"+
+                                        "<td class ='rowDataSd wednesday' name='bothGrided'> "+ wed + " </td>"+
+                                        "<td class ='rowDataSd thursday' name='bothGrided'> "+ thur + " </td>"+
+                                        "<td class ='rowDataSd friday' name='bothGrided'> "+ fri + " </td>"+
+                                        "<td class ='rowDataSd satarday' name='bothGrided'> "+ sat + " </td>"+
+                                        "<td class ='rowDataSd sunday' name='bothGrided'> "+ sun + " </td>"+
+                                        "<td class ='rowDataSd' name='bothGrided'><strong> "+ totalRekt.toFixed(2) + " </strong></td>"+
+                                        "<td>"+
+                                            "<button style='min-width: 2em;' role='button' class ='btn btn-xs btn-info'>"+
+                                                "<span class ='glyphicon glyphicon-pencil'></span>"+
+                                            "</button>"+
+                                            "<button style='min-width: 2em;' role='button' class ='btn btn-xs btn-danger'>"+
+                                                "<span class ='glyphicon glyphicon-trash'></span>"+
+                                            "</button>"+
+                                        "</td>"+
+                                    "</tr>";
                         
 
                         $("#approverTbody").append(myRow);
@@ -126,37 +126,37 @@ jQuery(document).ready(function ($) {
 
                     case "General":
                         console.log(work);
-                        var myStaff = `<tr>
+                        var myStaff = "<tr>"+
+                                        "<td class ='recordID hidden'> "+ recordID + " </td>"+
 
-                                        <td class ="recordID hidden"> `+ recordID + ` </td>
+                                        "<td class ='projectid'> "+ proj + " </td>"+
 
-                                        <td class ="projectid"> `+ proj + ` </td>
+                                        "<td class ='activities'> "+ activity + " </td>"+
 
-                                        <td class ="activities"> `+ activity + ` </td>
+                                        "<td class ='difficult'> "+ chal + " </td>"+
 
-                                        <td class ="difficult"> `+ chal + ` </td>
-
-                                        <td class ="task"> `+ task + ` </td>
+                                        "<td class ='task'>"+ task + " </td>"+
 
                                         
-                                        <td class ="generalHRS  monday   " name="bothGrided"> `+ mon + ` </td>
-                                        <td class ="generalHRS  tuesday  " name="bothGrided"> `+ tue + ` </td>
-                                        <td class ="generalHRS  wednesday" name="bothGrided"> `+ wed + ` </td>
-                                        <td class ="generalHRS  thursday " name="bothGrided"> `+ thur + ` </td>
-                                        <td class ="generalHRS  friday   " name="bothGrided"> `+ fri + ` </td>
-                                        <td class ="generalHRS  satarday " name="bothGrided"> `+ sat + ` </td>
-                                        <td class ="generalHRS  sunday   " name="bothGrided"> `+ sun + ` </td>
-                                        <td class ="generalHRS" name="bothGrided"><strong> `+ totalRekt.toFixed(2) + ` </strong></td>
+                                        "<td class ='generalHRS  monday   ' name='bothGrided'> "+ mon + " </td>"+
+                                        "<td class ='generalHRS  tuesday  ' name='bothGrided'> "+ tue + " </td>"+
+                                        "<td class ='generalHRS  wednesday' name='bothGrided'> "+ wed + " </td>"+
+                                        "<td class ='generalHRS  thursday ' name='bothGrided'> "+ thur + " </td>"+
+                                        "<td class ='generalHRS  friday   ' name='bothGrided'> "+ fri + " </td>"+
+                                        "<td class ='generalHRS  satarday ' name='bothGrided'> "+ sat + " </td>"+
+                                        "<td class ='generalHRS  sunday   ' name='bothGrided'> "+ sun + " </td>"+
+                                        "<td class ='generalHRS' name='bothGrided'><strong> "+ totalRekt.toFixed(2) + " </strong>"+
 
-                                        <td>
-                                            <button role="button" class ="btn btn-xs btn-info" style="min-width: 2em;">
-                                                <span class ="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <button role="button" class ="btn btn-xs btn-danger" style="min-width: 2em;" >
-                                                <span class ="glyphicon glyphicon-trash"></span>
-                                            </button>
-                                        </td>
-                                    </tr>`;
+                                        "<td>"+
+                                            "<button style='min-width: 2em;' role='button' class ='btn btn-xs btn-info'>"+
+                                                "<span class ='glyphicon glyphicon-pencil'></span>"+
+                                            "</button>"+
+                                            "<button style='min-width: 2em;' role='button' class ='btn btn-xs btn-danger'>"+
+                                                "<span class ='glyphicon glyphicon-trash'></span>"+
+                                            "</button>"+
+                                        "</td>"+
+                                    "</tr>";
+
                         $("#generalBody").append(myStaff);
 
                         // Add all row cells down each column
@@ -403,7 +403,7 @@ jQuery(document).ready(function ($) {
 
     $('#userConfirmSubmit').on('click', function (event) {
         event.preventDefault();
-        userconfirm(timeListREFIds);
+        userconfirm(timeListREFIds, update_TsskList);
     });
     
     
@@ -413,7 +413,7 @@ jQuery(document).ready(function ($) {
         var listRefID = context.get_web().get_lists().getByTitle("Emp_TaskList");
 
         var q = new SP.CamlQuery();
-        q.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>`+urlTaskID+`</Value></Eq></Where></Query></View>`);
+        q.set_viewXml("<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>"+urlTaskID+"</Value></Eq></Where></Query></View>");
 
         var fetchedItems = listRefID.getItems(q);
         var items = context.loadQuery(fetchedItems);
@@ -458,7 +458,7 @@ jQuery(document).ready(function ($) {
     }(urlTaskID);
 
     // ### END QUERY EMP_TASKLIST FOR REF_ID COMPARISON
-    function userconfirm(callback) {
+    function userconfirm(callback, callback2) {
         // SET values for the callback
         var EmpTaskName = $('.newtaskname').val();
         var EmpRefId = $('.newtaskrefid').val();
@@ -469,6 +469,7 @@ jQuery(document).ready(function ($) {
         callback(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate); // invoke submission to a TimesheetTaskList
 
         // Update Emp_TaskList [ TaskStatus = Completed ]
+        callback2();
     } //submitTask
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
 
@@ -488,7 +489,7 @@ jQuery(document).ready(function ($) {
         var lstItemToBeUpdated = "";
 
         var myQuery = new SP.CamlQuery();
-        myQuery.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>` + popID + `</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
+        myQuery.set_viewXml("<View><Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + popID + "</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>");
 
         itemCollToBeUpdated = lst.getItems(myQuery);
         drcontext.load(itemCollToBeUpdated, "Include(ID,ProjectName, Activity, Challenges, Task, WorkedHours,SUN,MON,TUE,WED,THUR,FRI,SAT)");
@@ -695,7 +696,7 @@ jQuery(document).ready(function ($) {
 
     // ### INSERT INTO TimesheetTaskList ONCLICK OF EMP_SUBMIT BTN
     function timeListREFIds(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate) {
-        //alert("We are inside timeListREFIds");
+        alert("We are inside timeListREFIds");
         var currCtx = SP.ClientContext.get_current();
         var myWeb = currCtx.get_web();
 
@@ -772,7 +773,7 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
-        update_TsskList();
+        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 
@@ -783,27 +784,25 @@ jQuery(document).ready(function ($) {
     // ### START UPDATE Emp_TaskList:
 
     function update_TsskList() {
-        alert("Inside update_TsskList()");
         var updateContext = SP.ClientContext.get_current();
         var myDweb = updateContext.get_web();
 
         var mylistz = myDweb.get_lists().getByTitle("Emp_TaskList");
 
         var EmpTask = $('.newtaskname').val();
-        alert(EmpTask);
+        //alert(EmpTask);
         var query = new SP.CamlQuery();
-        query.set_viewXml(`<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>`+EmpTask+`</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>`);
+        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Text'>" + EmpTask + "</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>");
         var qitems = mylistz.getItems(query);
         var tasks = updateContext.loadQuery(qitems);
         
         updateContext.executeQueryAsync(emptasklistsucceed, emptasklistfail);
 
         function emptasklistsucceed() {
-            alert(tasks.length + " Inside the EMp_Task Update");
             if (tasks.length > 0) {
                 var task = tasks[0];
                 task.set_item("Status", "Completed");
-                task.set_item("Comments", $('#employeeComments').val());
+                task.set_item("Comments", $('#approveComments').val());
                 task.set_item("Status0", "Awaiting Approval"); 
                 task.update();
                 updateContext.executeQueryAsync(listsucceed, emptasklistfail);
@@ -811,10 +810,7 @@ jQuery(document).ready(function ($) {
         }
     } // updateEmp_TsskList()
 
-    function listsucceed() {
-        console.log("Successfully updated Emp_TaskList");
-        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
-    }
+    function listsucceed() { console.log("Successfully updated Emp_TaskList"); }
     function emptasklistfail(sender, args){ console.log("Error on Updating Emp_TaskList: "+args.get_message()) }
 
     // ### END UPDATE Emp_TaskList:
