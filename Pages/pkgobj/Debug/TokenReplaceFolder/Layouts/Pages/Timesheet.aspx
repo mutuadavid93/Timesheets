@@ -86,7 +86,7 @@
                     <thead><tr>
                             <th>Work Type</th>
                             <th>Project</th>
-                            <th>Activity</th>
+                            <th>Task</th>
                             <th>Action</th>
                             <th>Challenges</th>
                             <th>Day</th>
@@ -111,7 +111,7 @@
                             </td>     
                             <td>
                                 <asp:DropDownList ID="projectName" AppendDataBoundItems="true" runat="server" CssClass="form-control projectName required" data-msg-required="Please select patient's prefered language.">
-                                    <asp:ListItem Value="" Selected="True">Choose</asp:ListItem>
+                                    
                                 </asp:DropDownList>
                             </td>
                                 

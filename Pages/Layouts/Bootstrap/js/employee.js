@@ -19,7 +19,8 @@ jQuery(document).ready(function ($) {
 
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
-        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq></Where></Query></View>");
+        //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + emptaskname + "</Value></Eq></Where></Query></View>");
+        query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq><Eq><FieldRef Name='Status' /><Value Type='Text'>PENDING</Value></Eq></And></Where></Query></View>");
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -409,6 +410,7 @@ jQuery(document).ready(function ($) {
     
     // ### START QUERY EMP_TASKLIST FOR REF_ID COMPARISON
     var querytASkRefID = function (urlTaskID) {
+        alert("First hit is querytASkRefID function");
         var context = SP.ClientContext.get_current();
         var listRefID = context.get_web().get_lists().getByTitle("Emp_TaskList");
 
@@ -442,6 +444,7 @@ jQuery(document).ready(function ($) {
                 $('.newtaskDueDate').val(taskDueDate);
                 $(".emptaskstatus_real").html(taskStats);
 
+                // Filter the Tasks by Ref_id and Status equal Pending
                 retrieveItem($('.newtaskrefid').val()); //Invoke retrieveItem()
                 //retrieveItem(taskRefTitle);
 
@@ -696,7 +699,7 @@ jQuery(document).ready(function ($) {
 
     // ### INSERT INTO TimesheetTaskList ONCLICK OF EMP_SUBMIT BTN
     function timeListREFIds(EmpRefId, EmpTaskName, EmpStartDate, EmpDueDate) {
-        alert("We are inside timeListREFIds");
+        //alert("We are inside timeListREFIds");
         var currCtx = SP.ClientContext.get_current();
         var myWeb = currCtx.get_web();
 
