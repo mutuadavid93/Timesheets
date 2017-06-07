@@ -157,7 +157,7 @@
                     
                         <div class="form-group">
                             <label class="" for="newactivity">Activity</label>
-                            <input type="text" class="form-control" id="newactivity" placeholder="Activity" />
+                            <input type="text" required class="form-control" id="newactivity" placeholder="Activity" />
                         </div>
                     
                         <div class="form-group">

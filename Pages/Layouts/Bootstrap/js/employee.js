@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
 
     console.log("This Week's Ref_id for You is: "+TimeSheetRef_id);
 
-    function retrieveItem(emptaskname) {
+    function retrieveItem(emptaskname, emprefid) {
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
         var list = web.get_lists().getByTitle("IPPFTimesheet");
@@ -20,7 +20,8 @@ jQuery(document).ready(function ($) {
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + emptaskname + "</Value></Eq></Where></Query></View>");
-        query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq><Eq><FieldRef Name='Status' /><Value Type='Text'>PENDING</Value></Eq></And></Where></Query></View>");
+        //query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + emptaskname + "</Value></Eq><Eq><FieldRef Name='Status' /><Value Type='Text'>PENDING</Value></Eq></And></Where></Query></View>");
+        query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='TaskName' /><Value Type='Text'>"+emprefid+"</Value></Eq><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq></And></Where></Query></View>");
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -115,7 +116,8 @@ jQuery(document).ready(function ($) {
                             var totAll = 0;
 
                             $('td.rowDataSd:eq(' + z + ')', 'tr').each(function (z) {
-                                totAll = totAll + parseInt($(this).text());
+                                totAll = totAll + parseFloat($(this).text());
+                                //totAll = totAll + parseInt($(this).text());
                             });
 
                             $('#approvedTbl tr:last td:nth-child(4) ~ td').eq(z).text(totAll.toFixed(2));
@@ -165,7 +167,7 @@ jQuery(document).ready(function ($) {
                             var myAll = 0;
 
                             $('td.generalHRS:eq(' + y + ')', 'tr').each(function (y) {
-                                myAll = myAll + parseInt($(this).text());
+                                myAll = myAll + parseFloat($(this).text());
                                 
                             });
 
@@ -184,7 +186,7 @@ jQuery(document).ready(function ($) {
                 for (var f = 0; f < $('#approvedTbl tr:eq(0) th:nth-child(4) ~ th, #generaliZed tr:eq(0) th:nth-child(4) ~ th').length; f++) {
                     var bothGrids = 0;
                     $('td[name^=bothGrided]:eq(' + f + ')', 'tr').each(function (f) {
-                        bothGrids = bothGrids + parseInt($(this).text());
+                        bothGrids = bothGrids + parseFloat($(this).text());
                         //console.warn("Index: " + f + " Item Value: " + bothGrids);
                     });
 
@@ -193,7 +195,8 @@ jQuery(document).ready(function ($) {
                     $('tr#bothGridsSummed td:last').css("color", "red");
                 } // for Loop
                 
-                totalDays += parseInt(workedHrs);
+                // Total Both Project and General Worked Worked Hours
+                totalDays += parseFloat(workedHrs);
                        
             } // while Loop
 
@@ -404,13 +407,13 @@ jQuery(document).ready(function ($) {
 
     $('#userConfirmSubmit').on('click', function (event) {
         event.preventDefault();
-        userconfirm(timeListREFIds, update_TsskList);
+        userconfirm(timeListREFIds, update_TsskList, updateIppfTimesheetStatus);
     });
     
     
     // ### START QUERY EMP_TASKLIST FOR REF_ID COMPARISON
     var querytASkRefID = function (urlTaskID) {
-        alert("First hit is querytASkRefID function");
+        //alert("First hit is querytASkRefID function");
         var context = SP.ClientContext.get_current();
         var listRefID = context.get_web().get_lists().getByTitle("Emp_TaskList");
 
@@ -445,7 +448,7 @@ jQuery(document).ready(function ($) {
                 $(".emptaskstatus_real").html(taskStats);
 
                 // Filter the Tasks by Ref_id and Status equal Pending
-                retrieveItem($('.newtaskrefid').val()); //Invoke retrieveItem()
+                retrieveItem($('.newtaskrefid').val(), taskRefTitle); //Invoke retrieveItem()
                 //retrieveItem(taskRefTitle);
 
                 //alert(taskStats);
@@ -461,7 +464,7 @@ jQuery(document).ready(function ($) {
     }(urlTaskID);
 
     // ### END QUERY EMP_TASKLIST FOR REF_ID COMPARISON
-    function userconfirm(callback, callback2) {
+    function userconfirm(callback, callback2, callback3) {
         // SET values for the callback
         var EmpTaskName = $('.newtaskname').val();
         var EmpRefId = $('.newtaskrefid').val();
@@ -473,6 +476,9 @@ jQuery(document).ready(function ($) {
 
         // Update Emp_TaskList [ TaskStatus = Completed ]
         callback2();
+
+        // Update IPPFTimesheet Status to Awaiting Approval
+        callback3();
     } //submitTask
     // ### END THE EMPLOYER CONFIRM AND SUBMIT VIEW
 
@@ -821,6 +827,37 @@ jQuery(document).ready(function ($) {
 
     // ### START UPDATE IPPFTIMEsheet:
 
+    function updateIppfTimesheetStatus() {
+        //alert("We are inside updateIppfTimesheetStatus()");
+        var someCtxr = SP.ClientContext.get_current();
+        var myDweb = someCtxr.get_web();
+
+        var mylistz = myDweb.get_lists().getByTitle("IPPFTimesheet");
+
+        var EmpTask = $('.newtaskname').val();
+        var EmpTaskRefid = $('.newtaskrefid').val();
+        //alert(EmpTask + " and " + EmpTaskRefid);
+
+        var q = new SP.CamlQuery();
+        q.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='TaskName' /><Value Type='Text'>TIMESHEET_116188671552</Value></Eq><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>SHAREPOINTADMIN_1496620800000</Value></Eq></And></Where></Query>><RowLimit>1</RowLimit></View>");
+        var queitems = mylistz.getItems(q);
+        var tasks = someCtxr.loadQuery(queitems, "Include(Status, Ref_id, TaskName)");
+        //alert(tasks);
+
+        someCtxr.executeQueryAsync(successINFO, failureINFO);
+
+        function successINFO() {
+            //alert("We have "+tasks.length);
+            if (tasks.length > 0) {
+                var task = tasks[0];
+                task.set_item("Status", "Awaiting Approval");
+                task.update();
+                someCtxr.executeQueryAsync(updateSuccess, timesheetlistfail);
+            }
+        }
+    } // updateIppfTimesheetStatus()
+    function updateSuccess() { console.log("Successfully updated IPPTimesheet Status"); }
+    function timesheetlistfail(sender, args) { console.log("Error on Updating IPPFTimesheet: " + args.get_message()) }
     
     // ### END UPDATE IPPTimesheet:
 

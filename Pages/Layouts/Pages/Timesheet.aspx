@@ -111,7 +111,7 @@
                             </td>     
                             <td>
                                 <asp:DropDownList ID="projectName" AppendDataBoundItems="true" runat="server" CssClass="form-control projectName required" data-msg-required="Please select patient's prefered language.">
-                                    
+                                    <asp:ListItem Value="" Selected="True">Choose</asp:ListItem>
                                 </asp:DropDownList>
                             </td>
                                 
@@ -139,7 +139,7 @@
                             </td>
                                 
                             <td>
-                                <input type="text" class="form-control WorkedHours" id="WorkedHours" runat="server" maxlength="2" />
+                                <input type="text" class="form-control WorkedHours" id="WorkedHours" runat="server" maxlength="2"/>
                             </td>
 
                             <td>

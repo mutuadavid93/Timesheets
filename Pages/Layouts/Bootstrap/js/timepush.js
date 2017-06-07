@@ -19,12 +19,36 @@ jQuery(document).ready(function ($) {
 
     }); // #stampRow
 
-    $('#saveRowData').on("click", function (event) {
+    /*$('#saveRowData').on("click", function (event) {
         event.preventDefault();
 
         // Invoke functions to do Insertion to Emp_TaskList and TimesheetTaskList Lists
         saveRecords(submitEmpTask);
-    }); // #saveRowData First Func
+    }); // #saveRowData First Func*/
+
+
+   
+        $('#saveRowData').click(function (evt) {
+            evt.preventDefault();
+            var errored = "";
+
+            $.each($('.killerTBody tr'), function (index, item) {
+                if ($($(this).find('.Activity')).val() == '' || $($(this).find('.Challenges')).val() == ''
+                    || $($(this).find('.Action')).val() == ''
+                    || $($(this).find('.WorkedHours')).val() == '') {
+                    errored += "EmptyFields";
+                }
+            });
+
+            if (errored.length > 0) {
+                alert("Please fill in all the fields");
+                return false;
+            } else {
+                // Submit to LIST and Disable Btn for Users not to Keep clicking
+                $('#saveRowData').attr("disabled", "disabled");
+                saveRecords(submitEmpTask);
+            }
+        });
 
     
     // ALL THE ELEMENTS NEEDED FOR A TASK LIST
@@ -65,9 +89,12 @@ jQuery(document).ready(function ($) {
 
             var worktype, project, activity, action, day, hoursworked, challanges, employee;
 
+            // Detect blank fields
+            var errored = "";
 
             // Loop through each tr's and get it's input fields' value
             $('.killerTBody tr').each(function (index, item) {
+                
                 worktype = $($(this).find('.WorkType')).val();
                 //project = $($(this).find('.projectName')).val();
                 project = $(this).find('.projectName option:selected').text();
