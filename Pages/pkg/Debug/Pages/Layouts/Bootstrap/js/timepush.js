@@ -2,7 +2,13 @@
 jQuery(document).ready(function ($) {
     var monday = moment().startOf("isoweek").toDate();
     var sundayy = moment().endOf("isoweek").toDate();
-    getMeThisSunday(sundayy);   properDate(monday);
+    getMeThisSunday(sundayy); properDate(monday);
+
+    var begin = new Date(1970, 0, 1);
+    var btwn = (monday.getTime() - begin.getTime());
+    var curDisName = $('.employeeLoginNames').val();
+    var SheetRef_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
+    //alert(SheetRef_id);
 
     $('.employeeLoginNames').attr('readonly', 'readonly');
 
@@ -27,15 +33,37 @@ jQuery(document).ready(function ($) {
     }); // #saveRowData First Func*/
 
 
+    var checkexistingtask = function (WeekRefID) {
+        var contextCrx = SP.ClientContext.get_current();
+        var listRefID = contextCrx.get_web().get_lists().getByTitle("Emp_TaskList");
+
+        var q = new SP.CamlQuery();
+        q.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='TimeSheetRefID' /><Value Type='Text'>" + WeekRefID + "</Value></Eq><Eq><FieldRef Name='Status0' /><Value Type='Text'>Pending</Value></Eq></And></Where></Query></View>");
+
+        var fetchedItems = listRefID.getItems(q);
+        var items = contextCrx.loadQuery(fetchedItems);
+        contextCrx.executeQueryAsync(itemsreturned, itemsnotreturned);
+
+        function itemsreturned() {
+            //alert(items.length);
+            if (items.length > 0) {
+                //$('#stampRow, #saveRowData').addClass('hidden');
+                $("#myTable").html(
+                    "<div style='margin-top:50px;' class='col-sm-6 col-sm-offset-3'> <p class='lead'>You have Pending Tasks in your Timesheet<br />"+
+                    "<a href='http://svrarspdev01/sites/apps/SitePages/MyTimesheet.aspx' class='btn btn-info'>Continue</a></p></div>"
+                    );
+            }
+        }
+        function itemsnotreturned(sender, args) { alert("Error on Comparing URL & Task Refs" + args.get_message()); }
+    }(SheetRef_id);
+
    
         $('#saveRowData').click(function (evt) {
             evt.preventDefault();
             var errored = "";
 
             $.each($('.killerTBody tr'), function (index, item) {
-                if ($($(this).find('.Activity')).val() == '' || $($(this).find('.Challenges')).val() == ''
-                    || $($(this).find('.Action')).val() == ''
-                    || $($(this).find('.WorkedHours')).val() == '') {
+                if ($($(this).find('.Activity')).val() == '' || $($(this).find('.WorkedHours')).val() == '') {
                     errored += "EmptyFields";
                 }
             });

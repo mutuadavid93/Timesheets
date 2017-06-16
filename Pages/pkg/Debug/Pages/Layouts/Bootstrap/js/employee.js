@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
 
     console.log("This Week's Ref_id for You is: "+TimeSheetRef_id);
 
-    function retrieveItem(emptaskname, emprefid) {
+    function retrieveItem(emptaskname) {
         var context = SP.ClientContext.get_current();
         var web = context.get_web();
         var list = web.get_lists().getByTitle("IPPFTimesheet");
@@ -19,9 +19,9 @@ jQuery(document).ready(function ($) {
 
         var query = new SP.CamlQuery();
         //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='TaskName' /><Value Type='Text'>" + taskNamedHere + "</Value></Eq></Where></Query></View>");
-        //query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + emptaskname + "</Value></Eq></Where></Query></View>");
+        query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + emptaskname + "</Value></Eq></Where></Query></View>");
         //query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>" + emptaskname + "</Value></Eq><Eq><FieldRef Name='Status' /><Value Type='Text'>PENDING</Value></Eq></And></Where></Query></View>");
-        query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='TaskName' /><Value Type='Text'>"+emprefid+"</Value></Eq><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq></And></Where></Query></View>");
+        //query.set_viewXml("<View><Query><Where><And><Eq><FieldRef Name='TaskName' /><Value Type='Text'>"+emprefid+"</Value></Eq><Eq><FieldRef Name='Ref_id' /><Value Type='Text'>"+emptaskname+"</Value></Eq></And></Where></Query></View>");
 
         items = list.getItems(query);
         context.load(items, "Include(ID,Status, ReviewDate, Approver, DayVal, WorkType, Employee, ProjectName, Activity, Challenges, Task, StartDate, EndDate, WorkedHours, Comments, SUN,MON,TUE,WED,THUR,FRI,SAT,TOTAL)"); /*, */
@@ -448,7 +448,7 @@ jQuery(document).ready(function ($) {
                 $(".emptaskstatus_real").html(taskStats);
 
                 // Filter the Tasks by Ref_id and Status equal Pending
-                retrieveItem($('.newtaskrefid').val(), taskRefTitle); //Invoke retrieveItem()
+                retrieveItem($('.newtaskrefid').val()); //Invoke retrieveItem()
                 //retrieveItem(taskRefTitle);
 
                 //alert(taskStats);

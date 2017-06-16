@@ -162,7 +162,7 @@ $(document).ready(function () {
                             var totAll = 0;
 
                             $('td.rowDataSd:eq(' + z + ')', 'tr').each(function (z) {
-                                totAll = totAll + parseInt($(this).text());
+                                totAll = totAll + parseFloat($(this).text());
                                   });
 
                             $('#approvedTbl tr:last td:nth-child(4) ~ td').eq(z).text(totAll.toFixed(2));
@@ -174,24 +174,24 @@ $(document).ready(function () {
 
                   case "General":
                       console.log(work);
-                                      var myStaff = "<tr>"+
-                                        "<td class ='projectid'> "+ proj + " </td>"+
+                      var myStaff = "<tr>" +
+                        "<td class ='projectid'> " + proj + " </td>" +
 
-                                        "<td class ='activities'> "+ activity + " </td>"+
+                        "<td class ='activities'> " + activity + " </td>" +
 
-                                        "<td class ='difficult'> "+ chal + " </td>"+
+                        "<td class ='difficult'> " + chal + " </td>" +
 
-                                        "<td class ='task'>"+ task + " </td>"+
+                        "<td class ='task'>" + task + " </td>" +
 
-                                        
-                                        "<td class ='generalHRS  monday   ' name='bothGrided'> "+ mon + " </td>"+
-                                        "<td class ='generalHRS  tuesday  ' name='bothGrided'> "+ tue + " </td>"+
-                                        "<td class ='generalHRS  wednesday' name='bothGrided'> "+ wed + " </td>"+
-                                        "<td class ='generalHRS  thursday ' name='bothGrided'> "+ thur + " </td>"+
-                                        "<td class ='generalHRS  friday   ' name='bothGrided'> "+ fri + " </td>"+
-                                        "<td class ='generalHRS  satarday ' name='bothGrided'> "+ sat + " </td>"+
-                                        "<td class ='generalHRS  sunday   ' name='bothGrided'> "+ sun + " </td>"+
-                                        "<td class ='generalHRS' name='bothGrided'><strong> "+ totalRekt.toFixed(2) + " </strong>"+
+
+                        "<td class ='generalHRS  monday   ' name='bothGrided'> " + mon + " </td>" +
+                        "<td class ='generalHRS  tuesday  ' name='bothGrided'> " + tue + " </td>" +
+                        "<td class ='generalHRS  wednesday' name='bothGrided'> " + wed + " </td>" +
+                        "<td class ='generalHRS  thursday ' name='bothGrided'> " + thur + " </td>" +
+                        "<td class ='generalHRS  friday   ' name='bothGrided'> " + fri + " </td>" +
+                        "<td class ='generalHRS  satarday ' name='bothGrided'> " + sat + " </td>" +
+                        "<td class ='generalHRS  sunday   ' name='bothGrided'> " + sun + " </td>" +
+                        "<td class ='generalHRS' name='bothGrided'><strong> " + totalRekt.toFixed(2) + " </strong></td></tr>";
 
                                       $("#generalBody").append(myStaff);
 
@@ -200,7 +200,7 @@ $(document).ready(function () {
                                               var myAll = 0;
 
                                               $('td.generalHRS:eq(' + y + ')', 'tr').each(function (y) {
-                                                  myAll = myAll + parseInt($(this).text());
+                                                  myAll = myAll + parseFloat($(this).text());
                                               });
 
                                               $('tr#gen_tr_id td:nth-child(4) ~ td').eq(y).text(myAll.toFixed(2));
@@ -218,7 +218,7 @@ $(document).ready(function () {
                         for (var f = 0; f < $('#approvedTbl tr:eq(0) th:nth-child(4) ~ th, #generaliZed tr:eq(0) th:nth-child(4) ~ th').length; f++) {
                             var bothGrids = 0;
                             $('td[name^=bothGrided]:eq(' + f + ')', 'tr').each(function (f) {
-                                bothGrids = bothGrids + parseInt($(this).text());
+                                bothGrids = bothGrids + parseFloat($(this).text());
                                 //console.warn("Index: " + f + " Item Value: " + bothGrids);
                             });
 
@@ -227,7 +227,7 @@ $(document).ready(function () {
                             $('tr#bothGridsSummed td:last').css("color", "red");
                         } // for Loop
                 
-                        totalDays += parseInt(workedHrs);
+                        totalDays += parseFloat(workedHrs);
                        
                 } // while Loop
 

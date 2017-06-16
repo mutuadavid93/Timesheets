@@ -86,7 +86,7 @@
                     <thead><tr>
                             <th>Work Type</th>
                             <th>Project</th>
-                            <th>Task</th>
+                            <th>Activity</th>
                             <th>Action</th>
                             <th>Challenges</th>
                             <th>Day</th>
@@ -139,7 +139,7 @@
                             </td>
                                 
                             <td>
-                                <input type="text" class="form-control WorkedHours" id="WorkedHours" runat="server" maxlength="2"/>
+                                <input type="text" class="form-control WorkedHours" id="WorkedHours" runat="server" maxlength="4"/>
                             </td>
 
                             <td>

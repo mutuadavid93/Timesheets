@@ -40,6 +40,8 @@
             
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
+
+                    <label class="ObjectRefIDHere hidden"></label>
                     
                         <table class="table borderless">
                             <tr>
@@ -172,28 +174,28 @@
                                             <th>Agreed Rating</th>
                                         </tr>
                                     </thead>
-                                <tbody class="section_one">
+                                <tbody class="section_one" id="section_one">
                                     <tr id="sectone_row_1">
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="APB" runat="server" />
+                                            <input type="text" class="form-control performObj" runat="server" />
                                         </td> 
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="Text1" runat="server" />
+                                            <input type="text" class="form-control weighting" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="Text2" runat="server" />
+                                            <input type="text" class="form-control Evidence" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="Text3" runat="server" />
+                                            <input type="text" class="form-control hinders" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="Text4" runat="server" />
+                                            <input type="text" class="form-control selRating" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="Text5" runat="server" />
+                                            <input type="text" class="form-control mgersRate" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control APBObj" id="Text6" runat="server" />
+                                            <input type="text" class="form-control agreedRate" runat="server" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -230,7 +232,7 @@
                                     <tr>
                                         <td>
                                             <label>Appraisee:</label>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="userAppraisee" type="text" />
                                         </td>
                                         <td>
                                             <label>Date: </label>
@@ -241,11 +243,11 @@
                                     <tr>
                                         <td>
                                             <label>Immediate Supervisor: </label>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="immediateManager" type="text" />
                                         </td>
                                         <td>
                                             <label>Date: </label>
-                                            <input class="form-control performDate" id="supervisorDate" type="text" />
+                                            <input class="form-control performDate" id="superDate" type="text" />
                                         </td>
                                     </tr>
 
@@ -253,12 +255,12 @@
 
                                     <tr>
                                         <td>
-                                            <label>Next Level Supervisor (In case of disagreement): </label>
-                                            <input class="form-control" type="text" />
+                                            <label class="hidden">Next Level Supervisor (In case of disagreement): </label>
+                                            <input class="form-control hidden" type="text" />
                                         </td>
                                         <td>
-                                            <label>Date: </label>
-                                            <input class="form-control performDate" id="nextLevelDate" type="text" />
+                                            <label class="hidden">Date: </label>
+                                            <input class="form-control performDate hidden" id="nextLevelDate" type="text" />
                                         </td>
                                     </tr>
                                 </table>
@@ -270,10 +272,13 @@
                                         <li>In case of disagreement on the scoring between the appraisee and the immediate supervisor the next level supervisor should be consulted and an amicable solution reached.</li>
                                     </ul>
                                 </div>
+
                                 
                                 <button role="button" class="btn btn-success pull-right">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                                     
+                                <button role="button" class="btn btn-success" id="saveSectOne">
+                                    Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
                             </div><!-- monday SECTION 1 END -->
 
                             <div class="tab-pane" id="tuesday">
@@ -292,22 +297,30 @@
 
                                         <th>1</th>
                                         <th>2</th>
-                                        <th>3</th>
-                                        <th>4</th>
-                                        <th>5</th>
                                         <th>Av. Score</th>
                                     </tr>
                                 </thead>
                                     <tr>
                                         <td class="matter">Organisation Focus</td>
-                                        <td>
+                                        <td class="col-md-3">
                                             <strong>Creativity</strong>
                                             <ul>
                                                 <li>This is about how we set vision and direction in the organization. It is our thinking skills including strategic vision and direction setting, championing innovation, problem solving and decision-making and our ability to learn from our experiences.</li>
                                             </ul>
                                         </td>
 
-                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            <textarea rows="8"  class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -318,8 +331,18 @@
                                                 <li>These two separate competencies measure our ability to get things done and to deliver. Driving results requires us to plan and organise, have drive and enthusiasm, communicate effectively and be results oriented.</li>
                                             </ul>
                                         </td>
-
-                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            <textarea rows="8" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -332,7 +355,18 @@
                                             </ul>
                                         </td>
 
-                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            <textarea rows="8"  class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -344,7 +378,18 @@
                                             </ul>
                                         </td>
 
-                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            <textarea rows="8"  class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -357,7 +402,18 @@
                                             </ul>
                                         </td>
 
-                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            <textarea rows="8" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" type="text" readonly/>
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -367,7 +423,18 @@
                                             <p>&nbsp;</p>
                                         </td>
 
-                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                         <td>
+                                            
+                                        </td>
+                                         <td>
+                                            
+                                        </td>
                                     </tr>
                             </table>
                                 
@@ -393,6 +460,9 @@
                                 
                                 <button role="button" class="btn btn-success pull-right">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
+                            
+                                <button role="button" class="btn btn-success">
+                                    Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
                             </div><!-- tuesday SECTION TWO ENDS HERE-->
                             
                             <div class="tab-pane" id="wednesday">
@@ -412,13 +482,13 @@
                                         <td>Support Needed</td>
                                     </tr>
 
-                                    <tbody>
+                                    <tbody id="section_three">
                                         <tr id="section3_row_1">
                                             <td>
                                                 <input class="objectives form-control" type="text" />
                                             </td>
                                             <td>
-                                                <input class="weighting form-control" type="text" />
+                                                <input class="weighing form-control" type="text" />
                                             </td>
                                             <td>
                                                 <input class="measures form-control" type="text" />
@@ -451,6 +521,10 @@
                                 
                                 <button role="button" class="btn btn-success pull-right">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
+                            
+                                <button role="button" class="btn btn-success" id="saveSectionThree">
+                                        Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
+                            
                             </div><!-- wednesday  SECTION 3 ENDS HERE-->
                             
                             <div class="tab-pane" id="thursady">
@@ -502,7 +576,7 @@
                                     </th>
                                 </thead>
 
-                                <tbody>
+                                <tbody id="section_four">
                                     <tr id="section4_row_1">
                                         <td>
                                             <input type="text" class="rqrement form-control" />
@@ -538,6 +612,9 @@
                               
                                 <button role="button" class="btn btn-success pull-right">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
+                            
+                                <button role="button" class="btn btn-success" id="saveSectionFour">
+                                        Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
                             </div><!-- thursday SECTION 4 ENDS HERE -->
                             
                             <div class="tab-pane" id="friday">
@@ -545,17 +622,13 @@
                                 <h5 class="matter">SECTION 5: GENERAL OVERVIEW AND COMMENTS</h5>
                     
                                 <p>Please note down any specific issues or areas of concern. For example, your current level of satisfaction with role, what your Supervisor can do to support you effectively over the next year, effectiveness of communication across your team/Division/CO/RO etc.</p>
-                                <textarea class="form-control" rows="5"></textarea>
-
+                                
+                                <label for="appraise">Overall Comments: Appraisee</label>
+                                <textarea class="form-control" id="appraise" rows="5"></textarea>
                                 <br />
 
                                 <label for="super">Overall Comments: Supervisor:</label>
                                 <textarea class="form-control" id="super" rows="5"></textarea>
-
-                                <br />
-
-                                <label for="appraise">Overall Comments: Appraisee</label>
-                                <textarea class="form-control" id="appraise" rows="5"></textarea>
 
                                 <br />
                                 <p>
@@ -566,6 +639,7 @@
                                 <div class="col-sm-3">
                                     <label for="appraisee">Name of Appraisee:</label>
                                     <input type="text" class="form-control" id="appraisee" />
+                                    <input type="text" class="form-control hidden" id="appraiseeLoginName" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="appraiseDates">Date:</label>
@@ -576,6 +650,7 @@
                                 <div class="col-sm-3">
                                     <label for="superName">Name of Supervisor:</label>
                                     <input type="text" class="form-control" id="superName" />
+                                    <input type="text" class="form-control hidden" id="superLoginName" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="superDates">Date:</label>
@@ -588,8 +663,9 @@
                                 <br />
                             </div>
                                 
-                                <button role="button" class="btn btn-success pull-right">
+                                <button role="button" class="btn btn-success pull-right" id="saveSectionFive">
                                     Submit &nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
+                            
                             </div><!-- friday SECTION 5 ENDS HERE -->
                             
                         </section><!-- tabbable tabs -->
