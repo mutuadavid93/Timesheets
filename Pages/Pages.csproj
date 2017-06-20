@@ -68,6 +68,13 @@
     <Compile Include="Layouts\Pages\Appoverpage.aspx.designer.cs">
       <DependentUpon>Appoverpage.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Pages\Appraisee.aspx.cs">
+      <DependentUpon>Appraisee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\Appraisee.aspx.designer.cs">
+      <DependentUpon>Appraisee.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\Pages\EmpView.aspx.cs">
       <DependentUpon>EmpView.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -140,6 +147,7 @@
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <Content Include="Layouts\Bootstrap\js\appraisee.js" />
     <Content Include="Layouts\Bootstrap\js\log.js" />
     <Content Include="Layouts\Bootstrap\js\masterscript.js" />
     <Content Include="Layouts\Bootstrap\js\employee.js" />
@@ -156,6 +164,7 @@
     <Content Include="Layouts\Bootstrap\js\timepush.js" />
     <Content Include="Layouts\Bootstrap\js\timeshit.js" />
     <Content Include="Layouts\Pages\Appoverpage.aspx" />
+    <Content Include="Layouts\Pages\Appraisee.aspx" />
     <Content Include="Layouts\Pages\EmpView.aspx" />
     <Content Include="Layouts\Pages\Grid.aspx" />
     <Content Include="Layouts\Pages\Performance.aspx" />

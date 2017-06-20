@@ -233,6 +233,7 @@
                                         <td>
                                             <label>Appraisee:</label>
                                             <input class="form-control" id="userAppraisee" type="text" />
+                                            <input class="form-control hidden" id="appraiseeUserName" type="text" />
                                         </td>
                                         <td>
                                             <label>Date: </label>

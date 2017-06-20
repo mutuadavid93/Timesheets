@@ -52,6 +52,7 @@ jQuery(document).ready(function ($) {
             //console.log(data.d.AccountName+ " "+data.d.DisplayName);
             $('#ctl00_PlaceHolderMain_supervisorMgr').val(data.d.ExtendedManagers.results[1]).prop('readonly', true);
             $('#userAppraisee').val(data.d.DisplayName);
+            $('#appraiseeUserName').val(data.d.AccountName);
             $('#immediateManager').val(data.d.ExtendedManagers.results[1]).prop('readonly', true);
 
             GetUserIdFromUserName(data.d.ExtendedManagers.results[1], 'superLoginName'); //Invoke it now
@@ -120,7 +121,7 @@ jQuery(document).ready(function ($) {
     $('.ObjectRefIDHere').html(globalRefID);
     var ObjectRefIDHere = $('.ObjectRefIDHere').text();
 
-    function apbObjectivesSection(ObjectiveRefID) {
+    function apbObjectivesSection() {
         alert("We are in the first function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
@@ -128,6 +129,12 @@ jQuery(document).ready(function ($) {
         try {
             var list = web.get_lists().getByTitle("MyObjectives");
             var itemInfoObj = new SP.ListItemCreationInformation();
+
+            // Collect UserName
+            var appraiseUserName = $('#appraiseeUserName').val();
+            var managerUserName = $('#immediateManager').val();
+
+            var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
 
             // Loop through the trs
             $('#section_one tr').each(function (index, item) {
@@ -138,18 +145,20 @@ jQuery(document).ready(function ($) {
                 var selRating = $($(this).find('.selRating')).val();
                 var mgerRate = $($(this).find('.mgersRate')).val();
                 var agreedRate = $($(this).find('.agreedRate')).val();
+                
 
                 var newAddedItem = list.addItem(itemInfoObj);
 
                 console.warn("Tr number: " + index + " " + apbObj + " " + weight + " " + agreedRate);
 
-                newAddedItem.set_item("Title", ObjectiveRefID);
+                newAddedItem.set_item("Title", realRef);
                 newAddedItem.set_item("Weighting", weight);
                 newAddedItem.set_item("AchievementEvidence", evidence);
                 newAddedItem.set_item("HinderingFactors", hinders);
                 newAddedItem.set_item("SelfRating", selRating);
                 newAddedItem.set_item("ManagerRating", mgerRate);
-                newAddedItem.set_item("AgreedRating", agreedRate);
+                newAddedItem.set_item("APBObjective", apbObj);
+                newAddedItem.set_item("AgreedRating", agreedRate); 
                 newAddedItem.update();
                 currentCrx.executeQueryAsync(onQuerySuccess, onQueryFailure);
             }); //End Each Loop
@@ -168,7 +177,7 @@ jQuery(document).ready(function ($) {
 
     $('#saveSectOne').click(function (event) {
         event.preventDefault();
-        apbObjectivesSection(ObjRefID); // invoke the func
+        apbObjectivesSection(); // invoke the func
     });
     // ## End APB Section 1
 
@@ -176,7 +185,7 @@ jQuery(document).ready(function ($) {
 
     // ## Start Section Four
     
-    function learnDevelopement(ObjectRefIDHere) {
+    function learnDevelopement() {
         alert("We are in the learnDevelopement function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
@@ -184,6 +193,8 @@ jQuery(document).ready(function ($) {
         try {
             var list = web.get_lists().getByTitle("LearnDev");
             var itemInfoObj = new SP.ListItemCreationInformation();
+
+            var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
 
             // Loop through the trs
             $('#section_four tr').each(function (index, item) {
@@ -194,7 +205,7 @@ jQuery(document).ready(function ($) {
 
                 var newAddedItem = list.addItem(itemInfoObj);
 
-                newAddedItem.set_item("Title", ObjectRefIDHere);
+                newAddedItem.set_item("Title", realRef);
                 newAddedItem.set_item("Requirement", rqment);
                 newAddedItem.set_item("Priority", priority);
                 newAddedItem.set_item("References", opportunity);
@@ -217,7 +228,7 @@ jQuery(document).ready(function ($) {
 
     $('#saveSectionFour').click(function (event) {
         event.preventDefault();
-        learnDevelopement(ObjectRefIDHere); // invoke the func
+        learnDevelopement(); // invoke the func
     });
 
     // ## End Section Four
@@ -225,7 +236,7 @@ jQuery(document).ready(function ($) {
 
     // ## Start Section Three
 
-    function nextReviewPlans(ObjectRefIDHere) {
+    function nextReviewPlans() {
         alert("We are in the nextReviewPlans function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
@@ -233,6 +244,8 @@ jQuery(document).ready(function ($) {
         try {
             var list = web.get_lists().getByTitle("NextReviewPlans");
             var itemInfoObj = new SP.ListItemCreationInformation();
+
+            var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
 
             // Loop through the trs
             $('#section_three tr').each(function (index, item) {
@@ -244,7 +257,7 @@ jQuery(document).ready(function ($) {
 
                 var newAddedItem = list.addItem(itemInfoObj);
 
-                newAddedItem.set_item("Title", ObjectRefIDHere);
+                newAddedItem.set_item("Title", realRef);
                 newAddedItem.set_item("Objective", objs);
                 newAddedItem.set_item("Weighting", weighing);
                 newAddedItem.set_item("Measures", measures);
@@ -268,7 +281,7 @@ jQuery(document).ready(function ($) {
 
     $('#saveSectionThree').click(function (event) {
         event.preventDefault();
-        nextReviewPlans(ObjectRefIDHere); // invoke the func
+        nextReviewPlans(); // invoke the func
     });
 
     // ## End Section Three
@@ -278,7 +291,7 @@ jQuery(document).ready(function ($) {
 
     // ## Start Section Five
 
-    function userMagerComments(ObjectRefIDHere) {
+    function userMagerComments() {
         alert("We are in the userMagerComments function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
@@ -286,6 +299,8 @@ jQuery(document).ready(function ($) {
         try {
             var list = web.get_lists().getByTitle("Comments");
             var itemInfoObj = new SP.ListItemCreationInformation();
+
+            var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
 
             var appraise = $('#appraise').val();
             var supervisor = $('#super').val();
@@ -296,7 +311,7 @@ jQuery(document).ready(function ($) {
 
             var newAddedItem = list.addItem(itemInfoObj);
 
-            newAddedItem.set_item("Title", ObjectRefIDHere);
+            newAddedItem.set_item("Title", realRef);
             newAddedItem.set_item("SupercisorComments", supervisor);
             newAddedItem.set_item("AppraiseeComments", appraise);
             newAddedItem.set_item("Appraisee", $('#appraiseeLoginName').val());
@@ -321,7 +336,8 @@ jQuery(document).ready(function ($) {
     $('#saveSectionFive').click(function (event) {
         event.preventDefault();
         //alert($('#superLoginName').val() + " " + $('#appraiseeLoginName').val());
-        userMagerComments(ObjectRefIDHere); // invoke the func
+        userMagerComments(); // invoke the 
+        appraiseeView();
     });
 
     // ## End Section Five
@@ -331,8 +347,66 @@ jQuery(document).ready(function ($) {
 
     // ## Start Submiting to AppraiseeTaskList
 
+    function pushtotasklist(appraiseename) {
+        alert("We are in the pushtotasklist function");
+            var currentCrx = SP.ClientContext.get_current();
+            var web = currentCrx.get_web();
 
+            try {
+                var list = web.get_lists().getByTitle("AppraiseeTaskList");
+                var itemInfoObj = new SP.ListItemCreationInformation();
+                var newAddedItem = list.addItem(itemInfoObj);
+
+                var realTaskName = "TASK_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
+                var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
+
+                newAddedItem.set_item("Title", realTaskName);
+                newAddedItem.set_item("Appraisee_x0020__x0020_Name", appraiseename);
+                newAddedItem.set_item("Appraisee_x0020_Username", realRef);
+
+                newAddedItem.update();
+                currentCrx.executeQueryAsync(toTaskListSuccess, toTaskListFail);
+            } catch (Ex) {
+                alert("pushtotasklist() threw an error: " + Ex.message);
+            }
+        } //pushtotasklist()
+
+    function toTaskListSuccess() {
+            console.warn('Appraisee TaskList Effected');
+        }
+
+    function toTaskListFail(sender, args) {
+            alert('Request Failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+        }
+   
 
     // ## End Submiting to AppraiseeTaskList
 
+
+
+    var appraiseeView = function () {
+        //alert("wE are inside appraiseeView"+urlid);
+        var curCtx = SP.ClientContext.get_current();
+        var web = curCtx.get_web();
+        var lst = web.get_lists().getByTitle("AppraiseeTaskList");
+
+
+        var myQuery = new SP.CamlQuery();
+        myQuery.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Appraisee_x0020_Username' /><Value Type='Text'>REF_ARspadminARspfarm</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>");
+        var itemCollection = lst.getItems(myQuery);
+        var items = curCtx.loadQuery(itemCollection);
+
+        curCtx.executeQueryAsync(itemsreturned, itemsnotreturned);
+
+        function itemsreturned() {
+            //alert(items.length);
+            if (items.length > 0) {
+                alert("You can't have more than one tasks");
+            } else {
+                pushtotasklist($('#appraiseeLoginName').val());
+            }
+        }
+
+        function itemsnotreturned(sender, args) { console.log("Error on appraiseeView() " + args.get_message()); }
+    };
 });

@@ -34,6 +34,11 @@ namespace Pages.Features.Feature1
                 empTaskListCT.EditFormUrl = "_layouts/15/Pages/EmpView.aspx";
                 empTaskListCT.DisplayFormUrl = "_layouts/15/Pages/EmpView.aspx";
                 empTaskListCT.Update(true);
+
+                SPContentType appraise = web.ContentTypes["AppraiseeTaskList"];
+                appraise.EditFormUrl = "_layouts/15/Pages/Appraisee.aspx";
+                appraise.DisplayFormUrl = "_layouts/15/Pages/Appraisee.aspx";
+                appraise.Update(true);
             }            
         }
 
