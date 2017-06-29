@@ -5,10 +5,10 @@
 <%@ Register Tagprefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
 <%@ Import Namespace="Microsoft.SharePoint" %>
 <%@ Assembly Name="Microsoft.Web.CommandUI, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Appraisee.aspx.cs" Inherits="Pages.Layouts.Pages.Appraisee" DynamicMasterPageFile="~masterurl/default.master" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="supervisorApprView.aspx.cs" Inherits="Pages.Layouts.Pages.supervisorApprView" DynamicMasterPageFile="~masterurl/default.master" %>
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
-    <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+     <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/mystyels.css" rel="stylesheet" />
 
     <script src="../Bootstrap/js/log.js"></script>
@@ -21,11 +21,12 @@
 
     <script src="../Bootstrap/js/bootstrap.min.js"></script>
     <script src="../Bootstrap/js/moment.min.js"></script>
-    <script src="../Bootstrap/js/appraisee.js"></script>
+    <!--script src="../Bootstrap/js/appraisee.js"></!--script-->
+    <script src="../Bootstrap/js/supervisorasppraisal.js"></script>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
-    <section class="row-offcanvas row-offcanvas-right">
+      <section class="row-offcanvas row-offcanvas-right">
          <section class="container-fluid">
              <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
@@ -204,9 +205,10 @@
                                                 <th>Av. Score</th>
                                             </tr>
                                         </thead>
-                                                                              <tr>
+                                                                                   <tr>
                                         <td class="matter">Organisation Focus</td>
                                         <td class="col-md-3">
+                                             <input class="form-control hidden" id="getPerformanceID" type="text" readonly />
                                             <strong>Creativity</strong>
                                             <ul>
                                                 <li>This is about how we set vision and direction in the organization. It is our thinking skills including strategic vision and direction setting, championing innovation, problem solving and decision-making and our ability to learn from our experiences.</li>
@@ -214,13 +216,13 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8" id="activityExample" class="form-control"></textarea>
+                                            <textarea rows="8" id="activityExample" class="form-control" readonly></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="activityAppraisee" type="text" />
+                                            <input class="form-control" id="activityAppraisee" type="text" readonly />
                                         </td>
                                          <td>
-                                            <input class="form-control" id="activitySupervisor" type="text" readonly/>
+                                            <input class="form-control" id="activitySupervisor" type="text" />
                                         </td>
                                          <td>
                                             <input class="form-control" id="activityAverage" type="text" readonly/>
@@ -236,13 +238,13 @@
                                             </ul>
                                         </td>
                                         <td>
-                                            <textarea rows="8" id="drivingExample" class="form-control"></textarea>
+                                            <textarea rows="8" id="drivingExample" class="form-control" readonly></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="drivingAppraisee" type="text" />
+                                            <input class="form-control" id="drivingAppraisee" type="text" readonly />
                                         </td>
                                          <td>
-                                            <input class="form-control" id="drivingSupervisor" type="text" readonly/>
+                                            <input class="form-control" id="drivingSupervisor" type="text" />
                                         </td>
                                          <td>
                                             <input class="form-control" id="drivingAverage" type="text" readonly/>
@@ -260,13 +262,13 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8" id="managementExample" class="form-control"></textarea>
+                                            <textarea rows="8" id="managementExample" class="form-control" readonly></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="managementAppraisee" type="text" />
+                                            <input class="form-control" id="managementAppraisee" type="text" readonly />
                                         </td>
                                          <td>
-                                            <input class="form-control" id="managementSupervisor" type="text" readonly/>
+                                            <input class="form-control" id="managementSupervisor" type="text" />
                                         </td>
                                          <td>
                                             <input class="form-control" id="managementAverage" type="text" readonly/>
@@ -283,13 +285,13 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8" id="bounderiesExample" class="form-control"></textarea>
+                                            <textarea rows="8" id="bounderiesExample" class="form-control" readonly></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="boundariesAppraisee" type="text" />
+                                            <input class="form-control" id="boundariesAppraisee" type="text" readonly />
                                         </td>
                                          <td>
-                                            <input class="form-control" id="bounderiesSupervisor" type="text" readonly/>
+                                            <input class="form-control" id="bounderiesSupervisor" type="text" />
                                         </td>
                                          <td>
                                             <input class="form-control" id="boudariesAverage" type="text" readonly/>
@@ -307,39 +309,20 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8" id="inspiringExample" class="form-control"></textarea>
+                                            <textarea rows="8" id="inspiringExample" class="form-control" readonly></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="inspirirngappraisee" type="text" />
+                                            <input class="form-control" id="inspirirngappraisee" type="text" readonly />
                                         </td>
                                          <td>
-                                            <input class="form-control" id="inspiringSupervisor" type="text" readonly/>
+                                            <input class="form-control" id="inspiringSupervisor" type="text" />
                                         </td>
                                          <td>
                                             <input class="form-control" id="inspiringEvarage" type="text" readonly/>
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="matter"></td>
-                                        <td class="text-center">
-                                            <strong>Overall Average Score</strong>
-                                            <p>&nbsp;</p>
-                                        </td>
-
-                                        <td>
-                                            
-                                        </td>
-                                        <td>
-                                            
-                                        </td>
-                                         <td>
-                                            
-                                        </td>
-                                         <td>
-                                            
-                                        </td>
-                                    </tr>
+                                           
                                     </table>
                                 
                                     <table class="table table-bordered">
@@ -365,8 +348,8 @@
                                         <button role="button" class="btn btn-success pull-right">
                                             Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                             
-                                        <!--button role="button" class="btn btn-success">
-                                            Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</!--button-->
+                                        <button role="button" id="saveperformanceReview" class="btn btn-success">
+                                            Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
                                     </div><!-- tuesday SECTION TWO ENDS HERE-->
                             
                                     <div class="tab-pane" id="wednesday">
@@ -479,9 +462,8 @@
 </asp:Content>
 
 <asp:Content ID="PageTitle" ContentPlaceHolderID="PlaceHolderPageTitle" runat="server">
-Appraisee  View
+    Supervisor View
 </asp:Content>
 
 <asp:Content ID="PageTitleInTitleArea" ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server" >
-
 </asp:Content>

@@ -39,6 +39,11 @@ namespace Pages.Features.Feature1
                 appraise.EditFormUrl = "_layouts/15/Pages/Appraisee.aspx";
                 appraise.DisplayFormUrl = "_layouts/15/Pages/Appraisee.aspx";
                 appraise.Update(true);
+
+               SPContentType Supervisor = web.ContentTypes["supervisorAppraisal"];
+               Supervisor.EditFormUrl = "_layouts/15/Pages/supervisorApprView.aspx";
+               Supervisor.DisplayFormUrl = "_layouts/15/Pages/supervisorApprView.aspx";
+               Supervisor.Update(true);
             }            
         }
 

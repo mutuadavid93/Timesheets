@@ -204,142 +204,142 @@
                                                 <th>Av. Score</th>
                                             </tr>
                                         </thead>
-                                            <tr>
-                                                <td class="matter">Organisation Focus</td>
-                                                <td class="col-md-3">
-                                                    <strong>Creativity</strong>
-                                                    <ul>
-                                                        <li>This is about how we set vision and direction in the organization. It is our thinking skills including strategic vision and direction setting, championing innovation, problem solving and decision-making and our ability to learn from our experiences.</li>
-                                                    </ul>
-                                                </td>
+                                                                              <tr>
+                                        <td class="matter">Organisation Focus</td>
+                                        <td class="col-md-3">
+                                            <strong>Creativity</strong>
+                                            <ul>
+                                                <li>This is about how we set vision and direction in the organization. It is our thinking skills including strategic vision and direction setting, championing innovation, problem solving and decision-making and our ability to learn from our experiences.</li>
+                                            </ul>
+                                        </td>
 
-                                                <td>
-                                                    <textarea rows="8"  class="form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                            </tr>
+                                        <td>
+                                            <textarea rows="8" id="activityExample" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="activityAppraisee" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="activitySupervisor" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="activityAverage" type="text" readonly/>
+                                        </td>
+                                    </tr>
 
-                                            <tr>
-                                                <td class="matter">Execution</td>
-                                                <td>
-                                                    <strong>Driving results</strong>
-                                                    <ul>
-                                                        <li>These two separate competencies measure our ability to get things done and to deliver. Driving results requires us to plan and organise, have drive and enthusiasm, communicate effectively and be results oriented.</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <textarea rows="8" class="form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                            </tr>
+                                    <tr>
+                                        <td class="matter">Execution</td>
+                                        <td>
+                                            <strong>Driving results</strong>
+                                            <ul>
+                                                <li>These two separate competencies measure our ability to get things done and to deliver. Driving results requires us to plan and organise, have drive and enthusiasm, communicate effectively and be results oriented.</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <textarea rows="8" id="drivingExample" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="drivingAppraisee" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="drivingSupervisor" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="drivingAverage" type="text" readonly/>
+                                        </td>
+                                    </tr>
 
-                                            <tr>
-                                                <td class="matter" style="border-bottom: 0px;"></td>
-                                                <td>
-                                                    <strong>Leading and Management</strong>
-                                                    <ul>
-                                                        <li>In order to get things done we need to lead and manage staff including ourselves. This is demonstrated through leading / managing and team leading. Ensuring we manage performance. Managing projects, programmes and money. 
-                                                            In addition we must develop self and others and be able to deliver and cope with change.</li>
-                                                    </ul>
-                                                </td>
+                                    <tr>
+                                        <td class="matter" style="border-bottom: 0px;"></td>
+                                        <td>
+                                            <strong>Leading and Management</strong>
+                                            <ul>
+                                                <li>In order to get things done we need to lead and manage staff including ourselves. This is demonstrated through leading / managing and team leading. Ensuring we manage performance. Managing projects, programmes and money. 
+                                                    In addition we must develop self and others and be able to deliver and cope with change.</li>
+                                            </ul>
+                                        </td>
 
-                                                <td>
-                                                    <textarea rows="8"  class="form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                            </tr>
+                                        <td>
+                                            <textarea rows="8" id="managementExample" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="managementAppraisee" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="managementSupervisor" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="managementAverage" type="text" readonly/>
+                                        </td>
+                                    </tr>
 
-                                            <tr>
-                                                <td class="matter">Taking People With You</td>
-                                                <td>
-                                                    <strong>Collaborating Across Boundaries</strong>
-                                                    <ul>
-                                                        <li>This is about how we work with people both inside and outside IPPF. This includes respect for others, networking, global awareness, team working and consensus building through the organization.</li>
-                                                    </ul>
-                                                </td>
+                                    <tr>
+                                        <td class="matter">Taking People With You</td>
+                                        <td>
+                                            <strong>Collaborating Across Boundaries</strong>
+                                            <ul>
+                                                <li>This is about how we work with people both inside and outside IPPF. This includes respect for others, networking, global awareness, team working and consensus building through the organization.</li>
+                                            </ul>
+                                        </td>
 
-                                                <td>
-                                                    <textarea rows="8"  class="form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                            </tr>
+                                        <td>
+                                            <textarea rows="8" id="bounderiesExample" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="boundariesAppraisee" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="bounderiesSupervisor" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="boudariesAverage" type="text" readonly/>
+                                        </td>
+                                    </tr>
 
-                                            <tr>
-                                                <td class="matter"></td>
-                                                <td>
-                                                    <strong>Inspiring Others</strong>
-                                                    <ul>
-                                                        <li>This is about how we appeal to people’s emotions and are passionate about the work we do. It includes our passion and commitment, how we utilise volunteer contributions, our political acumen, 
-                                                            the way in which we build support and fundraising.</li>
-                                                    </ul>
-                                                </td>
+                                    <tr>
+                                        <td class="matter"></td>
+                                        <td>
+                                            <strong>Inspiring Others</strong>
+                                            <ul>
+                                                <li>This is about how we appeal to people’s emotions and are passionate about the work we do. It includes our passion and commitment, how we utilise volunteer contributions, our political acumen, 
+                                                    the way in which we build support and fundraising.</li>
+                                            </ul>
+                                        </td>
 
-                                                <td>
-                                                    <textarea rows="8" class="form-control"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                                 <td>
-                                                    <input class="form-control" type="text" />
-                                                </td>
-                                            </tr>
+                                        <td>
+                                            <textarea rows="8" id="inspiringExample" class="form-control"></textarea>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="inspirirngappraisee" type="text" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="inspiringSupervisor" type="text" readonly/>
+                                        </td>
+                                         <td>
+                                            <input class="form-control" id="inspiringEvarage" type="text" readonly/>
+                                        </td>
+                                    </tr>
 
-                                            <tr>
-                                                <td class="matter"></td>
-                                                <td class="text-center">
-                                                    <strong>Overall Average Score</strong>
-                                                    <p>&nbsp;</p>
-                                                </td>
+                                    <tr>
+                                        <td class="matter"></td>
+                                        <td class="text-center">
+                                            <strong>Overall Average Score</strong>
+                                            <p>&nbsp;</p>
+                                        </td>
 
-                                                <td>
+                                        <td>
                                             
-                                                </td>
-                                                <td>
+                                        </td>
+                                        <td>
                                             
-                                                </td>
-                                                 <td>
+                                        </td>
+                                         <td>
                                             
-                                                </td>
-                                                 <td>
+                                        </td>
+                                         <td>
                                             
-                                                </td>
-                                            </tr>
+                                        </td>
+                                    </tr>
                                     </table>
                                 
                                     <table class="table table-bordered">
@@ -365,8 +365,8 @@
                                         <button role="button" class="btn btn-success pull-right">
                                             Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                             
-                                        <button role="button" class="btn btn-success">
-                                            Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
+                                        <!--button role="button" class="btn btn-success">
+                                            Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</!--button-->
                                     </div><!-- tuesday SECTION TWO ENDS HERE-->
                             
                                     <div class="tab-pane" id="wednesday">
@@ -386,191 +386,85 @@
                                                 <td>Support Needed</td>
                                             </tr>
 
-                                            <tbody>
-                                                <tr id="section3_row_1">
-                                                    <td>
-                                                        <input class="objectives form-control" type="text" />
-                                                    </td>
-                                                    <td>
-                                                        <input class="weighting form-control" type="text" />
-                                                    </td>
-                                                    <td>
-                                                        <input class="measures form-control" type="text" />
-                                                    </td>
-                                                    <td>
-                                                        <input class="timeline form-control" type="text" />
-                                                    </td>
-                                                    <td>
-                                                        <input class="supportneeded form-control" type="text" />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="5">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <button role="button" id="sect3_AddRow" class="btn btn-info">
-                                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                                    &nbsp; Add row
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-sm-6"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
+                                          
+                                       <tbody class="section_one" id="section3_3">
+                                            <%--
+                                                display items of next plans
+                                            --%>
+                                        </tbody>
+                                            
                                         </table> 
-                                
-                                
-                                        <button role="button" class="btn btn-success pull-right">
-                                            Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
-                            
-                                        <button role="button" class="btn btn-success">
-                                                Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
                             
                                     </div><!-- wednesday  SECTION 3 ENDS HERE-->
                             
                                     <div class="tab-pane" id="thursady">
                                     <h5>SECTION 4: LEARNING AND DEVELOPMENT NEEDS</h5>
-                                        <p>What learning and development, support, coaching, etc, will help you to achieve your objectives, whether they are objectives or competencies?  In particular, how can your Supervisor help?  Be as specific as you can.</p>
-                                        <p>Keep in mind the range of learning opportunities available:</p>
-
-                                        <br />
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p>Coaching</p>
-                                                <p>Conferences</p>
-                                                <p>Courses - internal/external</p>
-                                                <p>Knowledge Bank</p>
-                                                <p>Mentoring</p>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <p>On the job learning</p>
-                                                <p>Other NGOs/organisations</p>
-                                                <p>Projects</p>
-                                                <p>Professional Groups</p>
-                                                <p>Secondment</p>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <p>Self-managed learning </p>
-                                                <p>Seminars/Workshops</p>
-                                                <p>Shadowing in/out Unit</p>
-                                                <p>Study Support</p>
-                                                <p>Surgeries/Action Learning Sets</p>
-                                            </div>
-
-                                            <div class="col-sm-3"></div>
-                                        </div> 
-                                
+                                       
                                     <table class="table table-bordered" id="section4_Tbl">
                                         <thead>
                                             <th>Learning requirement</th>
-                                            <th>Linked to objective or competency? <br />
-                                                <em>(Please specify which, e.g. objective (3) or Driving Results)</em>
+                                            <th>Linked to objective or competency <br /></th>
+                                            <th>Priority
+                                               
                                             </th>
-                                            <th>Priority <br />
-                                                <em>(Please specify - required for role; maintenance; stretch; career development)</em>
-                                            </th>
-                                            <th>Specific opportunity sourced? <br />
-                                                <em>If you know of a specific opportunity eg a particular course that would meet this learning need please specify here</em>
-                                            </th>
+                                            <th>Specific opportunity sourced? 
+                                           </th>
                                         </thead>
 
-                                        <tbody>
-                                            <tr id="section4_row_1">
-                                                <td>
-                                                    <input type="text" class="rqrement form-control" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="competency form-control" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="priority form-control" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="opportunity form-control" />
-                                                </td>
-                                            </tr>
+                                            
+                                       <tbody class="section_one" id="section4_row_1">
+                                              <%--
+                                                display items of next plans
+                                              --%>
                                         </tbody>
-                                
-                                        <tfoot>
-                                                <tr>
-                                                    <td colspan="4">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <button role="button" id="sect4_AddRow" class="btn btn-info">
-                                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                                    &nbsp; Add row
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-sm-6"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
+
+                                       
                                     </table>  
                               
-                                        <button role="button" class="btn btn-success pull-right">
-                                            Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
-                            
-                                        <button role="button" class="btn btn-success">
-                                                Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
+                                 
                                     </div><!-- thursday SECTION 4 ENDS HERE -->
                             
                                     <div class="tab-pane" id="friday">
                                 
                                         <h5 class="matter">SECTION 5: GENERAL OVERVIEW AND COMMENTS</h5>
                     
-                                        <p>Please note down any specific issues or areas of concern. For example, your current level of satisfaction with role, what your Supervisor can do to support you effectively over the next year, effectiveness of communication across your team/Division/CO/RO etc.</p>
-                                
-                                        <label for="appraise">Overall Comments: Appraisee</label>
-                                        <textarea class="form-control" id="appraise" rows="5"></textarea>
-                                        <br />
-
-                                        <label for="super">Overall Comments: Supervisor:</label>
-                                        <textarea class="form-control" id="super" rows="5"></textarea>
-
-                                        <br />
-                                        <p>
-                                            Please finalise the Performance Assessment after the Performance and Development Review meeting has taken place. Please add your name below to agree that this is an accurate and agreed record of performance to date and plans for the future.
-                                        </p>
-                                
                                         <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="appraisee">Name of Appraisee:</label>
+                                            <div class="col-sm-6">
+                                            <span for="appraisee">Name of Appraisee:</span>
                                             <input type="text" class="form-control" id="appraisee" />
                                         </div>
-                                        <div class="col-sm-3">
-                                            <label for="appraiseDates">Date:</label>
+                                        <div class="col-sm-6">
+                                            <span for="appraiseDates">Date:</span>
                                             <input type="text" class="form-control performDate" id="appraiseDates" />
                                         </div>
-
-
-                                        <div class="col-sm-3">
-                                            <label for="superName">Name of Supervisor:</label>
+                                        </div>
+                                        <span for="appraise">Overall Comments: Appraisee</span>
+                                        <textarea class="form-control" id="appraise" rows="5"></textarea>
+                                        <br />
+    
+                                        <div class="row"> 
+                                        <div class="col-sm-4">
+                                            <span for="superName">Name of Supervisor:</span>
                                             <input type="text" class="form-control" id="superName" />
                                         </div>
-                                        <div class="col-sm-3">
-                                            <label for="superDates">Date:</label>
+                                        <div class="col-sm-4">
+                                            <span for="superDates">Date:</span>
                                             <input type="text" class="form-control performDate" id="superDates" />
                                         </div>
+                                              <div class="col-md-4">
+                                 <span for="reviewdate">Proposed Date of Review:</span>
+                                 <input type="text" class="form-control  reviewdate " id="reviewdate" />
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3"></div>
+                                          </div>
+                                        <span for="super">Overall Comments: Supervisor:</span>
+                                        <textarea class="form-control" id="super" rows="5"></textarea>
+                                        
+                                       
+                                 
+                                <div class="col-md-7"></div>
                                         <br />
-                                    </div>
-                                
-                                        <button role="button" class="btn btn-success pull-right">
-                                            Submit &nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
-                            
-                                        <button role="button" class="btn btn-success">
-                                                Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
-                                    </div><!-- friday SECTION 5 ENDS HERE -->
+                                     
+                                      </div><!-- friday SECTION 5 ENDS HERE -->
                             
                                 </section><!-- tabbable tabs -->
 

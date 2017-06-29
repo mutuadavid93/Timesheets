@@ -96,6 +96,20 @@
     <Compile Include="Layouts\Pages\Performance.aspx.designer.cs">
       <DependentUpon>Performance.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Layouts\Pages\supervisorApprView.aspx.cs">
+      <DependentUpon>supervisorApprView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\supervisorApprView.aspx.designer.cs">
+      <DependentUpon>supervisorApprView.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\Pages\supervisorView.aspx.cs">
+      <DependentUpon>supervisorView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\Pages\supervisorView.aspx.designer.cs">
+      <DependentUpon>supervisorView.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Layouts\Pages\Timesheet.aspx.cs">
       <DependentUpon>Timesheet.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -147,6 +161,8 @@
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <Content Include="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <Content Include="Layouts\Bootstrap\js\supervisorasppraisal.js" />
+    <Content Include="Layouts\Bootstrap\js\supervisor.js" />
     <Content Include="Layouts\Bootstrap\js\appraisee.js" />
     <Content Include="Layouts\Bootstrap\js\log.js" />
     <Content Include="Layouts\Bootstrap\js\masterscript.js" />
@@ -163,11 +179,14 @@
     <Content Include="Layouts\Bootstrap\js\script.js" />
     <Content Include="Layouts\Bootstrap\js\timepush.js" />
     <Content Include="Layouts\Bootstrap\js\timeshit.js" />
+    <Content Include="Layouts\Bootstrap\js\trpform.js" />
     <Content Include="Layouts\Pages\Appoverpage.aspx" />
     <Content Include="Layouts\Pages\Appraisee.aspx" />
     <Content Include="Layouts\Pages\EmpView.aspx" />
     <Content Include="Layouts\Pages\Grid.aspx" />
     <Content Include="Layouts\Pages\Performance.aspx" />
+    <Content Include="Layouts\Pages\supervisorApprView.aspx" />
+    <Content Include="Layouts\Pages\supervisorView.aspx" />
     <Content Include="Layouts\Pages\Timesheet.aspx" />
     <Content Include="Scripts\empViewScript.js" />
     <Content Include="Scripts\_references.js" />

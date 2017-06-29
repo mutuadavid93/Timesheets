@@ -37,7 +37,6 @@ jQuery(document).ready(function ($) {
                 retrieveNextReviewPlans(taskREF_ID);
                 retrieveLearnDev(taskREF_ID);
                 retrieveComments(taskREF_ID);
-                retrievePerforamaceReview(taskREF_ID);
             }
         }
 
@@ -256,12 +255,6 @@ jQuery(document).ready(function ($) {
                 var Appraisee = getItem.get_item("Appraisee").get_lookupValue();
                 var Supervisor = getItem.get_item("Supervisor").get_lookupValue();
                 var reviewdate = getItem.get_item("DateOfReview");
-
-                var AppraiseeSignature = getItem.get_item("AppraiseeSignature");
-                var appraiseeSignatureDate = getItem.get_item("appraiseeSignatureDate");
-                var immediateSupervisorSignature = getItem.get_item("immediateSupervisorSignature");
-                var supervisorsignaturedate = getItem.get_item("supervisorsignaturedate");
-
                 //format the Date
                 var appDate = (AppraiseeDate.getDate() + '/' + (AppraiseeDate.getMonth() + 1) + '/' + AppraiseeDate.getFullYear());
                 var superDate = (SupervisorDate.getDate() + '/' + (SupervisorDate.getMonth() + 1) + '/' + SupervisorDate.getFullYear());
@@ -274,11 +267,6 @@ jQuery(document).ready(function ($) {
                 $('#appraisee').val(Appraisee);
                 $('#superName').val(Supervisor);
                 $('#reviewdate').val(proposeddate);
-
-                $('#userAppraisee').val(AppraiseeSignature);
-                $('#appraiseDate').val(appraiseeSignatureDate);
-                $('#immediateManager').val(immediateSupervisorSignature);
-                $('#superDate').val(supervisorsignaturedate);
                 
             } // End While Loop
 
@@ -296,71 +284,5 @@ jQuery(document).ready(function ($) {
         console.error("Error: " + args.get_message());
     }
     //#End Retrieve Plans for Next Review;
-
-    //retrieve the items from the perfomance review to the appraisee
-
-    function retrievePerforamaceReview(taskREF_ID) {
-        var currentContext = SP.ClientContext.get_current();
-        var web = currentContext.get_web();
-
-        var itemCol = "";
-        var listItem = "";
-        try {
-            var getList = web.get_lists().getByTitle("PerforamaceReview");
-            var query = new SP.CamlQuery();
-            query.set_viewXml("<View><Query><Where><Eq><FieldRef Name='Title' /><Value Type='Computed'>" + taskREF_ID + "</Value></Eq></Where></Query></View>");
-            var itemCol = getList.getItems(query);
-            currentContext.load(itemCol);
-            currentContext.executeQueryAsync(onSuccessful, onFailing);
-
-        } catch (ex) {
-            alert("Retrieve Error: " + ex.message);
-        }
-
-        function onSuccessful(sender, args) {
-            listItem = itemCol.getEnumerator();
-            while (listItem.moveNext()) {
-                var getItem = listItem.get_current();
-
-                var ActivityEx = getItem.get_item("ActivityEx");
-                var ActvityApp = getItem.get_item("ActvityApp");
-                var DrivingEx = getItem.get_item("DrivingEx");
-                var DrivingApp = getItem.get_item("DrivingApp");
-                var ManagementExa = getItem.get_item("ManagementExa");
-                var ManagementApp = getItem.get_item("ManagementApp");
-                var BoundaryExa = getItem.get_item("BoundaryExa");
-                var BoundaryApp = getItem.get_item("BoundaryApp");
-                var InspiringExa = getItem.get_item("InspiringExa");
-                var InspiringApp = getItem.get_item("InspiringApp");
-
-               
-               
-
-                $('#activityExample').val(ActivityEx);
-                $('#activityAppraisee').val(ActvityApp);
-                $('#drivingExample').val(DrivingEx);
-                $('#drivingAppraisee').val(DrivingApp);
-                $('#managementExample').val(ManagementExa);
-                $('#managementAppraisee').val(ManagementApp);
-                $('#bounderiesExample').val(BoundaryExa);
-                $('#boundariesAppraisee').val(BoundaryApp);
-                $('#inspiringExample').val(InspiringExa);
-                $('#inspirirngappraisee').val(InspiringApp);
-
-            } // End While Loop
-
-            currentContext.executeQueryAsync(succesdisplayperformance, faileddisplayperformance);
-
-        } // goThrough()
-        function onFailing(sender, args) {
-            console.warn("Error: " + args.get_message());
-        }
-    }
-    function succesdisplayperformance() {
-        console.log("Perfomance Reviewed fecthed successfully");
-    }
-    function faileddisplayperformance(sender, args) {
-        console.error("Error: " + args.get_message());
-    }
 
 });

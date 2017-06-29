@@ -311,16 +311,16 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8"  class="form-control"></textarea>
+                                            <textarea rows="8" id="activityExample" class="form-control"></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="activityAppraisee" type="text" />
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="activitySupervisor" type="text" readonly/>
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="activityAverage" type="text" readonly/>
                                         </td>
                                     </tr>
 
@@ -333,16 +333,16 @@
                                             </ul>
                                         </td>
                                         <td>
-                                            <textarea rows="8" class="form-control"></textarea>
+                                            <textarea rows="8" id="drivingExample" class="form-control"></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="drivingAppraisee" type="text" />
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="drivingSupervisor" type="text" readonly/>
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="drivingAverage" type="text" readonly/>
                                         </td>
                                     </tr>
 
@@ -357,16 +357,16 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8"  class="form-control"></textarea>
+                                            <textarea rows="8" id="managementExample" class="form-control"></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="managementAppraisee" type="text" />
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="managementSupervisor" type="text" readonly/>
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="managementAverage" type="text" readonly/>
                                         </td>
                                     </tr>
 
@@ -380,16 +380,16 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8"  class="form-control"></textarea>
+                                            <textarea rows="8" id="bounderiesExample" class="form-control"></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="boundariesAppraisee" type="text" />
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="bounderiesSupervisor" type="text" readonly/>
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="boudariesAverage" type="text" readonly/>
                                         </td>
                                     </tr>
 
@@ -404,16 +404,16 @@
                                         </td>
 
                                         <td>
-                                            <textarea rows="8" class="form-control"></textarea>
+                                            <textarea rows="8" id="inspiringExample" class="form-control"></textarea>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" />
+                                            <input class="form-control" id="inspirirngappraisee" type="text" />
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="inspiringSupervisor" type="text" readonly/>
                                         </td>
                                          <td>
-                                            <input class="form-control" type="text" readonly/>
+                                            <input class="form-control" id="inspiringEvarage" type="text" readonly/>
                                         </td>
                                     </tr>
 
@@ -462,7 +462,7 @@
                                 <button role="button" class="btn btn-success pull-right">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                             
-                                <button role="button" class="btn btn-success">
+                                <button role="button" id="saveperformanceReview" class="btn btn-success">
                                     Save &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
                             </div><!-- tuesday SECTION TWO ENDS HERE-->
                             
@@ -627,10 +627,18 @@
                                 <label for="appraise">Overall Comments: Appraisee</label>
                                 <textarea class="form-control" id="appraise" rows="5"></textarea>
                                 <br />
-
+                                   <!--
+                                //hide the supervisor comments 
+                                   -->
                                 <label for="super">Overall Comments: Supervisor:</label>
                                 <textarea class="form-control" id="super" rows="5"></textarea>
-
+                                
+                                <div class="col-md-5">
+                                 <label for="reviewdate">Proposed Date of Review:</label>
+                                 <input type="date" class="form-control  reviewdate " id="reviewdate" />
+                                    </div>
+                                 
+                                <div class="col-md-7"></div>
                                 <br />
                                 <p>
                                     Please finalise the Performance Assessment after the Performance and Development Review meeting has taken place. Please add your name below to agree that this is an accurate and agreed record of performance to date and plans for the future.
@@ -666,7 +674,7 @@
                                 
                                 <button role="button" class="btn btn-success pull-right" id="saveSectionFive">
                                     Submit &nbsp;<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;</button>
-                            
+   
                             </div><!-- friday SECTION 5 ENDS HERE -->
                             
                         </section><!-- tabbable tabs -->

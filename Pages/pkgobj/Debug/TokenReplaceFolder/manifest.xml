@@ -24,6 +24,8 @@
     <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.css" />
     <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.min.js" />
     <TemplateFile Location="Layouts\Bootstrap\jquery-ui-ippf\jquery-ui.theme.min.css" />
+    <TemplateFile Location="Layouts\Bootstrap\js\supervisorasppraisal.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\supervisor.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\appraisee.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\log.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\masterscript.js" />
@@ -40,11 +42,14 @@
     <TemplateFile Location="Layouts\Bootstrap\js\script.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\timepush.js" />
     <TemplateFile Location="Layouts\Bootstrap\js\timeshit.js" />
+    <TemplateFile Location="Layouts\Bootstrap\js\trpform.js" />
     <TemplateFile Location="Layouts\Pages\Appoverpage.aspx" />
     <TemplateFile Location="Layouts\Pages\Appraisee.aspx" />
     <TemplateFile Location="Layouts\Pages\EmpView.aspx" />
     <TemplateFile Location="Layouts\Pages\Grid.aspx" />
     <TemplateFile Location="Layouts\Pages\Performance.aspx" />
+    <TemplateFile Location="Layouts\Pages\supervisorApprView.aspx" />
+    <TemplateFile Location="Layouts\Pages\supervisorView.aspx" />
     <TemplateFile Location="Layouts\Pages\Timesheet.aspx" />
   </TemplateFiles>
   <FeatureManifests>
