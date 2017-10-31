@@ -1,6 +1,14 @@
 jQuery(document).ready(function ($) {
-    //some code
-  
+ 
+    //function to remove or add a class on loading
+    function controlClass() {
+        $("#sect1_nextsection").addClass("hidden");
+        $("#sect2_nextsection").addClass("hidden");
+        $("#sect3_nextsection").addClass("hidden");
+        $("#sect4_nextsection").addClass("hidden");
+    }
+    controlClass();
+
     var startYr = moment().startOf('year').format('LL');
     var endYr = moment().endOf('year').format('LL');
     $('.startYear').val(startYr + " - " + endYr);
@@ -21,7 +29,7 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         rap++;
 
-        $('#section3_row_1').clone().appendTo('#section3_Tbl')
+        $('#section3_row_1').clone().appendTo('#section_three')
                 .attr("id", "section3_row_" + rap.toString()).find("input:text").each(function () {
                     $(this).val("");
                 });
@@ -123,7 +131,7 @@ jQuery(document).ready(function ($) {
     var ObjectRefIDHere = $('.ObjectRefIDHere').text();
 
     function apbObjectivesSection() {
-        alert("We are in the first function");
+     //   alert("We are in the first function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
 
@@ -150,7 +158,7 @@ jQuery(document).ready(function ($) {
 
                 var newAddedItem = list.addItem(itemInfoObj);
 
-                console.warn("Tr number: " + index + " " + apbObj + " " + weight + " " + agreedRate);
+                //console.warn("Tr number: " + index + " " + apbObj + " " + weight + " " + agreedRate);
 
                 newAddedItem.set_item("Title", realRef);
                 newAddedItem.set_item("Weighting", weight);
@@ -177,15 +185,52 @@ jQuery(document).ready(function ($) {
     }
 
     $('#saveSectOne').click(function (event) {
+        if ($('.performObj').val() == "") {
+
+            alert("Performance Objective cannot be blank");
+            event.preventDefault();
+        } else if ($('.weighting').val() == "") {
+            alert("weighting cannot be blank");
+            event.preventDefault();
+        } else if ($('.Evidence').val() == "") {
+            alert("Evidence of Achievent cannot be blank");
+            event.preventDefault();
+        } else if ($('.hinders').val() == "") {
+            alert("Factors Hindering Achievement  cannot be blank");
+            event.preventDefault();
+        } else if ($('.selRating').val() == "") {
+            alert("Self Rating cannot be blank");
+            event.preventDefault();
+        } else if ($('#sect1_Tbl tbody>tr:last .performObj').val() == "") {
+            alert("Performance Objective  cannot be blank");
+            event.preventDefault();
+        } else if ($('#sect1_Tbl tbody>tr:last .weighting').val() == "") {
+            alert("weighting cannot be blank");
+            event.preventDefault();
+        } else if ($('#sect1_Tbl tbody>tr:last .Evidence').val() == "") {
+            alert("Evidence of Achievent cannot be blank");
+            event.preventDefault();
+        } else if ($('#sect1_Tbl tbody>tr:last .hinders').val() == "") {
+            alert("Factors Hindering Achievement cannot be blank");
+            event.preventDefault();
+        } else if ($('#sect1_Tbl tbody>tr:last .selRating').val() == "") {
+            alert("self Rating cannot be blank");
+            event.preventDefault();
+        } else {
+           
         event.preventDefault();
         apbObjectivesSection(); // invoke the func
+        $("#saveSectOne").addClass("hidden");
+        $("#sect1_nextsection").removeClass("hidden");
+
+        }
     });
     // ## End APB Section 1
 
     // ## Start Section Four
 
     function learnDevelopement() {
-        alert("We are in the learnDevelopement function");
+       // alert("We are in the learnDevelopement function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
 
@@ -228,6 +273,9 @@ jQuery(document).ready(function ($) {
     $('#saveSectionFour').click(function (event) {
         event.preventDefault();
         learnDevelopement(); // invoke the func
+        $("#saveSectionFour").addClass("hidden");
+        $("#sect4_nextsection").removeClass("hidden");
+
     });
 
     // ## End Section Four
@@ -236,7 +284,7 @@ jQuery(document).ready(function ($) {
     // ## Start Section Three
 
     function nextReviewPlans() {
-        alert("We are in the nextReviewPlans function");
+       // alert("We are in the nextReviewPlans function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
 
@@ -281,6 +329,8 @@ jQuery(document).ready(function ($) {
     $('#saveSectionThree').click(function (event) {
         event.preventDefault();
         nextReviewPlans(); // invoke the func
+        $("#saveSectionThree").addClass("hidden");
+        $("#sect3_nextsection").removeClass("hidden");
     });
 
     // ## End Section Three
@@ -289,7 +339,7 @@ jQuery(document).ready(function ($) {
     var returnedItems = null;
     var getItemID
     function userMagerComments() {
-        alert("We are in the userMagerComments function");
+       // alert("We are in the userMagerComments function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
 
@@ -329,7 +379,8 @@ jQuery(document).ready(function ($) {
                             //update//get ID and Update
                             console.log('Item exixt');
                             update();
-                            updateComments();
+                            console.log("Hello pass the ID: " + getItemID + " The Function updateComments() ")
+                            updateComments(getItemID);
 
                         }
                         if (checkcollListItem.get_count() < 1) {
@@ -364,7 +415,7 @@ jQuery(document).ready(function ($) {
 
     ///functions to Insert comments and update comments
     function insertComments() {
-       
+
         var clientContext = SP.ClientContext.get_current();
         var web = clientContext.get_web();
         try {
@@ -374,12 +425,12 @@ jQuery(document).ready(function ($) {
 
             var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
             var appraise = $('#appraise').val();
-            var supervisor = $('#super').val();
+            //var supervisor = $('#super').val();
             //var appraisee = $('#appraisee').val();
             var appraiseDates = $('#appraiseDates').val();
             var superName = $('#superLoginName').val();
             var superDates = $('#superDates').val();
-            var dateofReview = $('#reviewdate').val();
+           // var dateofReview = $('#reviewdate').val();
 
             var userAppraisee = $('#userAppraisee').val();
             var appraiseDate = $('#appraiseDate').val();
@@ -391,14 +442,14 @@ jQuery(document).ready(function ($) {
             this.newAddedItem = list.addItem(itemCreateInfo);
             //Adding list items
             newAddedItem.set_item("Title", realRef);
-            newAddedItem.set_item("SupercisorComments", supervisor);
+            //newAddedItem.set_item("SupercisorComments", supervisor);
             newAddedItem.set_item("AppraiseeComments", appraise);
             newAddedItem.set_item("Appraisee", $('#appraiseeLoginName').val());
             newAddedItem.set_item("Supervisor", $('#superLoginName').val());
             newAddedItem.set_item("SupervisorDate", superDates);
             newAddedItem.set_item("AppraiseeDate", appraiseDates);
 
-            newAddedItem.set_item('DateOfReview', dateofReview);
+          //  newAddedItem.set_item('DateOfReview', dateofReview);
             newAddedItem.set_item("AppraiseeSignature", userAppraisee);
             newAddedItem.set_item("appraiseeSignatureDate", appraiseDate);
             newAddedItem.set_item("immediateSupervisorSignature", immediateManager);
@@ -420,8 +471,8 @@ jQuery(document).ready(function ($) {
                     '\n' + args.get_stackTrace());
         }
     }
-    function updateComments() {
-        console.log('Start Updatating The Comments List with ID :' + getItemID);
+    function updateComments(updateID) {
+        console.log('Start Updatating The Comments List with ID :' + updateID);
         var clientContext = SP.ClientContext.get_current();// Get SPSITEURL
         var web = clientContext.get_web();
         try {
@@ -431,9 +482,9 @@ jQuery(document).ready(function ($) {
             var supervisor = $('#super').val();
             var appraiseDates = $('#appraiseDates').val();
             var superDates = $('#superDates').val();
-            var dateofReview = $('#reviewdate').val();
+          //  var dateofReview = $('#reviewdate').val();
 
-            this.oListItem = list.getItemById(getItemID);
+            this.oListItem = list.getItemById(updateID);
 
 
 
@@ -441,9 +492,9 @@ jQuery(document).ready(function ($) {
             oListItem.set_item('AppraiseeComments', appraise);
             oListItem.set_item('SupervisorDate', superDates);
             oListItem.set_item('AppraiseeDate', appraiseDates);
-            oListItem.set_item('DateOfReview', dateofReview);
+           // oListItem.set_item('DateOfReview', '12/12/2018');
 
-            reviewdate
+          //  reviewdate
             oListItem.update();
             clientContext.executeQueryAsync(success, failure);
         } catch (Ex) {
@@ -452,17 +503,27 @@ jQuery(document).ready(function ($) {
         function success() {
             console.log("Items Updated successfully!! Comments");
         }
-        function failure() {
-            console.warn("Failed");
+        function failure(sender, args) {
+            console.warn("Failed" + args.get_message() +
+                    '\n' + args.get_stackTrace());
         }
 
     }
 
     $('#saveSectionFive').click(function (event) {
+        var val1 = (isNaN(parseInt($('#inspirirngappraisee').val()))) ? 0 : parseInt($('#inspiringSupervisor').val());
+        if (val1 > 5) {
+
+            alert('Please select value less than 5')
+        } else { 
         event.preventDefault();
         var TaskrEfIDENtity = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
         userMagerComments(); // invoke the
         appraiseeView(TaskrEfIDENtity);
+
+        supervisorView(TaskrEfIDENtity);
+        }
+        // SupervisorTaskList(TaskrEfIDENtity);
     });
 
 
@@ -470,7 +531,7 @@ jQuery(document).ready(function ($) {
     // ## Start Submiting to AppraiseeTaskList
 
     function pushtotasklist(appraiseename) {
-        alert("We are in the pushtotasklist function");
+      //  alert("We are in the pushtotasklist function");
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
 
@@ -503,7 +564,7 @@ jQuery(document).ready(function ($) {
 
     // ## End Submiting to AppraiseeTaskList
     var appraiseeView = function (TaskrEfIDENtity) {
-        alert("wE are inside appraiseeView"+TaskrEfIDENtity);
+       console.log("wE are inside appraiseeView" + TaskrEfIDENtity);
         var curCtx = SP.ClientContext.get_current();
         var web = curCtx.get_web();
         var lst = web.get_lists().getByTitle("AppraiseeTaskList");
@@ -519,10 +580,11 @@ jQuery(document).ready(function ($) {
         function itemsreturned() {
             //alert(items.length);
             if (items.length > 0) {
-                alert("You can't have more than one tasks");
+                console.log("You can't have more than one tasks");
+                //update the comments
             } else {
                 pushtotasklist($('#appraiseeLoginName').val());
-               
+
             }
         }
 
@@ -532,11 +594,69 @@ jQuery(document).ready(function ($) {
     };
 
     //section 2 Insert
-    $('#saveperformanceReview').click(function(event) {
+    $('#saveperformanceReview').click(function (event) {
         event.preventDefault();
+        //provide validation
+       
         //sava data to the perfomance review list
         insertSection2();
+      
+        $("#saveperformanceRevie").addClass("hidden");
+        $("#sect2_nextsection").removeClass("hidden");
+        
     });
+    //function validate the section 2
+    function myValidation() {
+
+
+        $('#activityAppraisee').change(function () {
+
+           var val1 = (isNaN(parseInt($('#activityAppraisee').val()))) ? 0 : parseInt($('#activityAppraisee').val());
+            if (val1 > 5) {
+                alert('Please enter a value less than 5')
+                $('#activityAppraisee').val("")
+            }
+        });
+
+        $("#drivingAppraisee").on("change", function () {
+            var val1 = (isNaN(parseInt($('#drivingAppraisee').val()))) ? 0 : parseInt($('#drivingAppraisee').val());
+            if (val1 > 5) {
+                alert('Please enter a value less than 5')
+                $('#drivingAppraisee').val("")
+            }
+        });
+
+
+        $('#managementAppraisee').change(function () {
+            var val1 = (isNaN(parseInt($('#managementAppraisee').val()))) ? 0 : parseInt($('#managementAppraisee').val());
+            if (val1 > 5) {
+                alert('Please enter a value less than 5')
+                $('#managementAppraisee').val("")
+            }
+
+        });
+
+
+        $('#boundariesAppraisee').change(function () {
+            var val1 = (isNaN(parseInt($('#boundariesAppraisee').val()))) ? 0 : parseInt($('#boundariesAppraisee').val());
+            if (val1 > 5) {
+                alert('Please enter a value less than 5')
+                $('#boundariesAppraisee').val("")
+            }
+
+        });
+
+        $('#inspirirngappraisee').change(function () {
+            var val1 = (isNaN(parseInt($('#inspirirngappraisee').val()))) ? 0 : parseInt($('#inspiringSupervisor').val());
+            if (val1 > 5) {
+
+                alert('Please enter a value less than 5')
+                $('#inspirirngappraisee').val("")
+            }
+
+        });
+    }
+    myValidation();
     function insertSection2() {
         var myUrl = SP.ClientContext.get_current();// Get SPSITEURL
         var webb = myUrl.get_web();
@@ -544,9 +664,9 @@ jQuery(document).ready(function ($) {
 
             var Itemlist = myUrl.get_web().get_lists().getByTitle("PerforamaceReview");
             var itemCreateInfomation = new SP.ListItemCreationInformation();
-          
+
             var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
-           
+
             var activiExample = $('#activityExample').val();
             var activiAppraisee = $('#activityAppraisee').val();
             var DrivingExample = $('#drivingExample').val();
@@ -558,35 +678,35 @@ jQuery(document).ready(function ($) {
             var InspiringExample = $('#inspiringExample').val();
             var InspiringAppraisee = $('#inspirirngappraisee').val();
 
-        
+
             this.ListItem = Itemlist.addItem(itemCreateInfomation);
             //Adding list items
             ListItem.set_item('Title', realRef);
             ListItem.set_item('ActivityEx', activiExample);
             ListItem.set_item('ActvityApp', activiAppraisee);
-           //  ListItem.set_item('ActvityS', );
-           //  ListItem.set_item('ActivityAv', 0);
+            //  ListItem.set_item('ActvityS', );
+            //  ListItem.set_item('ActivityAv', 0);
 
             ListItem.set_item('DrivingEx', DrivingExample);
             ListItem.set_item('DrivingApp', DrivingAppraisee);
-           // ListItem.set_item('DrivingS', );
-           //  ListItem.set_item('DrivingAv', 0);
+            // ListItem.set_item('DrivingS', );
+            //  ListItem.set_item('DrivingAv', 0);
 
             ListItem.set_item('ManagementExa', ManagementExample);
             ListItem.set_item('ManagementApp', ManagementAppraisee);
-           // ListItem.set_item('ManagementS', ManagementS);
-           // ListItem.set_item('ManagementAv', 0);
+            // ListItem.set_item('ManagementS', ManagementS);
+            // ListItem.set_item('ManagementAv', 0);
 
             ListItem.set_item('BoundaryExa', BoundaryExample);
             ListItem.set_item('BoundaryApp', BoundaryAppraisee);
-          //  ListItem.set_item('BoundaryS',0);
-          //  ListItem.set_item('BoundaryAv', 0);
+            //  ListItem.set_item('BoundaryS',0);
+            //  ListItem.set_item('BoundaryAv', 0);
 
             ListItem.set_item('InspiringExa', InspiringExample);
             ListItem.set_item('InspiringApp', InspiringAppraisee);
-           // ListItem.set_item('ManagementS', ManagementS);
-           //  ListItem.set_item('InspiringAv', 0);
-                        
+            // ListItem.set_item('ManagementS', ManagementS);
+            //  ListItem.set_item('InspiringAv', 0);
+
             ListItem.update();
             myUrl.load(ListItem);
             myUrl.executeQueryAsync(successful, failed);
@@ -600,19 +720,19 @@ jQuery(document).ready(function ($) {
             console.warn("Failed to save to PerforamaceReview");
         }
     }
-   
+
     //end saving to Perfomance Review
 
     //## start submiting to the Supervisor Task List
 
 
     function SupervisorTaskList(appraiseename) {
-        alert("We are in the pushtotasklist function");
+
         var currentCrx = SP.ClientContext.get_current();
         var web = currentCrx.get_web();
 
         try {
-            var list = web.get_lists().getByTitle("AppraiseeTaskList");
+            var list = web.get_lists().getByTitle("SupervisorAppraisalTaskList");
             var itemInfoObj = new SP.ListItemCreationInformation();
             var newAddedItem = list.addItem(itemInfoObj);
 
@@ -620,21 +740,77 @@ jQuery(document).ready(function ($) {
             var realRef = "REF_" + $('#appraiseeUserName').val().replace(/\\/g, '') + $('#immediateManager').val().replace(/\\/g, '');
 
             newAddedItem.set_item("Title", realTaskName);
-            newAddedItem.set_item("Appraisee_x0020__x0020_Name", appraiseename);
-            newAddedItem.set_item("Appraisee_x0020_Username", realRef);
+            newAddedItem.set_item("Appraisee_x0020_Name", appraiseename);
+            newAddedItem.set_item("REF_ID", realRef);
 
             newAddedItem.update();
-            currentCrx.executeQueryAsync(toTaskListSuccess, toTaskListFail);
+            currentCrx.executeQueryAsync(successSupervisorTaskList, failedsupervisorTaskList);
         } catch (Ex) {
-            alert("pushtotasklist() threw an error: " + Ex.message);
+            console.log("pushtotasklist TO SUPERTASKLIST() threw an error: " + Ex.message);
         }
     } //pushtotasklist()
 
-    function toTaskListSuccess() {
+    function successSupervisorTaskList() {
         console.warn('Appraisee TaskList Effected');
     }
 
-    function toTaskListFail(sender, args) {
+    function failedsupervisorTaskList(sender, args) {
         alert('Request Failed. ' + args.get_message() + '\n' + args.get_stackTrace());
     }
-});
+
+    // ## End Submiting to AppraiseeTaskList
+    var supervisorView = function (TaskrEfIDENtity) {
+      
+        var curCtx = SP.ClientContext.get_current();
+        var web = curCtx.get_web();
+        var lst = web.get_lists().getByTitle("SupervisorAppraisalTaskList");
+
+
+        var myQuery = new SP.CamlQuery();
+        myQuery.set_viewXml("<View><Query><Where><Eq><FieldRef Name='REF_ID' /><Value Type='Text'>" + TaskrEfIDENtity + "</Value></Eq></Where></Query><RowLimit>1</RowLimit></View>");
+        var itemCollection = lst.getItems(myQuery);
+        var items = curCtx.loadQuery(itemCollection);
+
+        curCtx.executeQueryAsync(itemsreturnedFORSUP, itemsnotreturnedforsup);
+
+        function itemsreturnedFORSUP() {
+            //alert(items.length);
+            if (items.length > 0) {
+             //   alert("You can't have more than one tasks IN THE SUPERVISOR");
+            } else {
+                SupervisorTaskList($('#appraiseeLoginName').val());
+                console.log('you have successfully submited to SUpervisor TAskList');
+            }
+        }
+
+        function itemsnotreturnedforsup(sender, args) {
+            console.log("Error on supervisorView() " + args.get_message());
+        }
+    };
+
+
+    // ## START NEXT SECTION Functionality
+
+    
+    $('#sect1_nextsection').click(function (e) {
+        e.preventDefault();
+        $('#mytabs a[href="#tuesday"]').tab('show');
+    });
+
+    $('#sect2_nextsection').click(function (e) {
+        e.preventDefault();
+        $('#mytabs a[href="#wednesday"]').tab('show');
+    });
+
+    $('#sect3_nextsection').click(function (e) {
+        e.preventDefault();
+        $('#mytabs a[href="#thursady"]').tab('show');
+    });
+
+    $('#sect4_nextsection').click(function (e) {
+        e.preventDefault();
+        $('#mytabs a[href="#friday"]').tab('show');
+    });
+    // ## END NEXT SECTION Functionality
+
+}); // Document Ready

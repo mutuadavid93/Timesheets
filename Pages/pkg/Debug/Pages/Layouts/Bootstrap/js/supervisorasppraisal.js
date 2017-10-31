@@ -8,6 +8,9 @@ jQuery(document).ready(function ($) {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
+
+
+
     var realID = getParameterByName("ID", window.location.href);
     console.log("View ID is for supervisor : " + realID);
 
@@ -242,7 +245,7 @@ jQuery(document).ready(function ($) {
         } catch (ex) {
             alert("Retrieve Error: " + ex.message);
         }
-
+      
         function onSuccess() {
             listItem = itemCol.getEnumerator();
             while (listItem.moveNext()) {
@@ -251,7 +254,8 @@ jQuery(document).ready(function ($) {
                 var SupercisorComments = getItem.get_item("SupercisorComments");
                 var AppraiseeComments = getItem.get_item("AppraiseeComments");
                 var AppraiseeDate = getItem.get_item("AppraiseeDate");
-                var SupervisorDate = getItem.get_item("SupervisorDate");
+               
+                var SupervisorDate = new Date(); //getItem.get_item("SupervisorDate");
                 var Appraisee = getItem.get_item("Appraisee").get_lookupValue();
                 var Supervisor = getItem.get_item("Supervisor").get_lookupValue();
                 var reviewdate = getItem.get_item("DateOfReview");
@@ -260,21 +264,33 @@ jQuery(document).ready(function ($) {
                 var appraiseeSignatureDate = getItem.get_item("appraiseeSignatureDate");
                 var immediateSupervisorSignature = getItem.get_item("immediateSupervisorSignature");
                 var supervisorsignaturedate = getItem.get_item("supervisorsignaturedate");
-
+               
+                    var g= getItem.get_id();
+                    $("#getID").val(g);
                 //get signatures
 
                 //format the Date
                 var appDate = (AppraiseeDate.getDate() + '/' + (AppraiseeDate.getMonth() + 1) + '/' + AppraiseeDate.getFullYear());
-                var superDate = (SupervisorDate.getDate() + '/' + (SupervisorDate.getMonth() + 1) + '/' + SupervisorDate.getFullYear());
-                var proposeddate = (reviewdate.getDate() + '/' + (reviewdate.getMonth() + 1) + '/' + reviewdate.getFullYear());
-                //append data to the respective fields
+               var superDate = (SupervisorDate.getDate() + '/' + (SupervisorDate.getMonth() + 1) + '/' + SupervisorDate.getFullYear());
+                if (reviewdate != "") {
+                    var proposeddate = (reviewdate.getDate() + '/' + (reviewdate.getMonth() + 1) + '/' + reviewdate.getFullYear());
+
+                }
+              //append data to the respective fields
                 $('#super').val(SupercisorComments);
                 $('#appraise').val(AppraiseeComments);
                 $('#appraiseDates').val(appDate);
                 $('#superDates').val(superDate);
+
+             
+
                 $('#appraisee').val(Appraisee);
                 $('#superName').val(Supervisor);
-                $('#reviewdate').val(proposeddate);
+                if (proposeddate !="")
+                {
+                      $('#reviewdate').val(proposeddate);
+                }
+              
 
                 $('#userAppraisee').val(AppraiseeSignature);
                 $('#appraiseDate').val(appraiseeSignatureDate);
@@ -513,6 +529,67 @@ jQuery(document).ready(function ($) {
             console.warn("Failed to Update PerforamaceReview Request Failed. ' + args.get_message() + '\n" + args.get_stackTrace());
         }
     }
+    //submiting supervisor details
+
+    //section 2 update supervisor section;
+  
+    $('#SuperviorComments').on("click", function (event) {
+        event.preventDefault();
+       var getID= $("#getID").val();
+       updateSupervisorDetails(getID)
+        alert('You have successfull submited');
+    });
+
+
+  
     
+
+    function updateSupervisorDetails(getID) {
+        //need to get id
+       
+    //reset the supervisor and update it to today's Date
+
+        var updateComments = getID;
+        //   console.log('this is the id to update : ' + updateLeaveInfo_ID);
+
+        var clientContext = SP.ClientContext.get_current();// Get SPSITEURL
+        var web = clientContext.get_web();
+        try {
+            var list = clientContext.get_web().get_lists().getByTitle("Comments");
+            //Declare the variable to Get value from input element
+            var sComments = $("#super").val();
+            var dateofreview = $("#reviewdate").val();
+           
+            var today = new Date();
+            var mydayofreview = new Date(dateofreview);
+           // var rev = new Date(dateofreview);
+            console.log(sComments, ' Date of review :' + mydayofreview, today);
+           
+            this.oListItem = list.getItemById(updateComments);
+            //updating the list By ID
+          //  oListItem.set_item('SupervisorDate', today);
+            oListItem.set_item('DateOfReview', mydayofreview);
+            oListItem.set_item('SupercisorComments', sComments);
+            oListItem.set_item('SupervisorDate', today);
+            
+
+
+            oListItem.update();
+            // clientContext.load(oListItem);//not necessary
+            clientContext.executeQueryAsync(successupdates, failedupdates);
+            // clientContext.executeQueryAsync(Function.createDelegate(this, this.success), Function.createDelegate(this, this.failure));
+        } catch (Ex) {
+            alert(Ex.message);
+        }
+        function successupdates() {
+            console.log("Items Updated successfully!! to Hod Leave Info");
+        }
+        function failedupdates(sender, args) {
+           console.log('Request to approvers  failed. LINE ' + args.get_message() +
+                    '\n' + args.get_stackTrace());
+
+        }
+
+    }
     
 });

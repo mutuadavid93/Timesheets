@@ -46,10 +46,10 @@
                         <table class="table borderless">
                             <tr>
                                 <td>Name:</td>
-                                <td><input id="fullname" class="form-control fullname" runat="server" type="text" /></td>
+                                <td><input id="fullname" class="form-control fullname" runat="server" type="text" readonly /></td>
 
                                 <td>Date:</td>
-                                <td><input runat="server" class="form-control performDate" id="performDate" type="text" /></td>
+                                <td><input runat="server" class="form-control performDate" id="performDate" type="text" readonly /></td>
                             </tr>
 
                             <tr>
@@ -57,12 +57,12 @@
                                 <td><input class="form-control" runat="server" id="jobTitle" type="text" /></td>
 
                                 <td>Supervisor:</td>
-                                <td><input class="form-control" id="supervisorMgr" runat="server" type="text" /></td>
+                                <td><input class="form-control" id="supervisorMgr" runat="server" type="text" readonly /></td>
                             </tr>
 
                             <tr>
                                 <td>Period of review:</td>
-                                <td><input class="form-control startYear" placeholder="1 January 20XX – 31 December 20XX" type="text" /></td>
+                                <td><input class="form-control startYear" placeholder="1 January 20XX – 31 December 20XX" type="text" readonly /></td>
                             </tr>
                         </table>
                 </div>
@@ -148,7 +148,7 @@
                 <div class="col-sm-10 col-sm-offset-1">
                     <article class="schedule">
                         <div class="tabbable tabs">
-                            <ul class="nav nav-tabs">
+                            <ul class="nav nav-tabs" id="mytabs">
                                 <li class="active"><a href="#monday" data-toggle="tab">SECTION 1</a></li>
                                 <li><a href="#tuesday" data-toggle="tab">SECTION 2</a></li>
                                 <li><a href="#wednesday" data-toggle="tab">SECTION 3</a></li>
@@ -192,10 +192,10 @@
                                             <input type="text" class="form-control selRating" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control mgersRate" runat="server" />
+                                            <input type="text" class="form-control mgersRate" readonly="readonly" runat="server" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control agreedRate" runat="server" />
+                                            <input type="text" class="form-control agreedRate" readonly="readonly" runat="server" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -275,7 +275,7 @@
                                 </div>
 
                                 
-                                <button role="button" class="btn btn-success pull-right">
+                                <button role="button" class="btn btn-success pull-right" id="sect1_nextsection">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                                     
                                 <button role="button" class="btn btn-success" id="saveSectOne">
@@ -296,8 +296,8 @@
                                         <th>Competency</th>
                                         <th>Specific Example</th>
 
-                                        <th>1</th>
-                                        <th>2</th>
+                                        <th>Self Rating</th>
+                                        <th>Manager's Rating</th>
                                         <th>Av. Score</th>
                                     </tr>
                                 </thead>
@@ -459,7 +459,7 @@
                                 </tr>
                             </table>
                                 
-                                <button role="button" class="btn btn-success pull-right">
+                                <button role="button" class="btn btn-success pull-right" id="sect2_nextsection">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                             
                                 <button role="button" id="saveperformanceReview" class="btn btn-success">
@@ -520,7 +520,7 @@
                                 </table> 
                                 
                                 
-                                <button role="button" class="btn btn-success pull-right">
+                                <button role="button" class="btn btn-success pull-right" id="sect3_nextsection">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                             
                                 <button role="button" class="btn btn-success" id="saveSectionThree">
@@ -611,7 +611,7 @@
                                     </tfoot>
                             </table>  
                               
-                                <button role="button" class="btn btn-success pull-right">
+                                <button role="button" class="btn btn-success pull-right" id="sect4_nextsection">
                                     Next Section &nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;</button>
                             
                                 <button role="button" class="btn btn-success" id="saveSectionFour">
@@ -629,14 +629,16 @@
                                 <br />
                                    <!--
                                 //hide the supervisor comments 
-                                   -->
-                                <label for="super">Overall Comments: Supervisor:</label>
-                                <textarea class="form-control" id="super" rows="5"></textarea>
+                                  
+                                <%--<label for="super">Overall Comments: Supervisor:</label>
+                                <textarea class="form-control" id="super" rows="5"></textarea>--%>
                                 
                                 <div class="col-md-5">
                                  <label for="reviewdate">Proposed Date of Review:</label>
                                  <input type="date" class="form-control  reviewdate " id="reviewdate" />
                                     </div>
+
+                                   -->
                                  
                                 <div class="col-md-7"></div>
                                 <br />
@@ -647,23 +649,23 @@
                                 <div class="row">
                                 <div class="col-sm-3">
                                     <label for="appraisee">Name of Appraisee:</label>
-                                    <input type="text" class="form-control" id="appraisee" />
+                                    <input type="text" class="form-control" id="appraisee" readonly />
                                     <input type="text" class="form-control hidden" id="appraiseeLoginName" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="appraiseDates">Date:</label>
-                                    <input type="text" class="form-control performDate" id="appraiseDates" />
+                                    <input type="text" class="form-control performDate" id="appraiseDates" readonly />
                                 </div>
 
 
                                 <div class="col-sm-3">
                                     <label for="superName">Name of Supervisor:</label>
-                                    <input type="text" class="form-control" id="superName" />
-                                    <input type="text" class="form-control hidden" id="superLoginName" />
+                                    <input type="text" class="form-control" id="superName"  readonly />
+                                    <input type="text" class="form-control hidden" id="superLoginName" readonly />
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="superDates">Date:</label>
-                                    <input type="text" class="form-control performDate" id="superDates" />
+                                    <input type="text" class="form-control performDate hidden" id="superDates" />
                                 </div>
                             </div>
 

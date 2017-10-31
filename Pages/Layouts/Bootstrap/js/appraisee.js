@@ -80,6 +80,7 @@ jQuery(document).ready(function ($) {
             while (lstItem.moveNext()) {
                 var listItem = lstItem.get_current();
 
+                var myid = listItem.get_id();
                 var weigh = listItem.get_item("Weighting");
                 var evidence = listItem.get_item("AchievementEvidence");
                 var factors = listItem.get_item("HinderingFactors");
@@ -87,16 +88,23 @@ jQuery(document).ready(function ($) {
                 var myRate = listItem.get_item("SelfRating");
                 var mgrRate = listItem.get_item("ManagerRating");
                 var agreedRate = listItem.get_item("AgreedRating");
-
+              
                 var $trtd = "<tr>"+
-                               "<td><input type='text' class='form-control performObj' value='" + objective + "' runat='server' /></td>" +
-                               "<td><input type='text' class='form-control performObj' value='" + weigh + "' runat='server' /></td>" +
-                               "<td><input type='text' class='form-control performObj' value='" + evidence + "' runat='server' /></td>" +
-                                "<td><input type='text' class='form-control performObj' value='" + factors + "' runat='server' /></td>" +
-                                "<td><input type='text' class='form-control performObj' value='" + myRate + "' runat='server' /></td>" +
-                                "<td><input type='text' class='form-control performObj' value='" + mgrRate + "' runat='server' /></td>" +
-                                "<td><input type='text' class='form-control performObj' value='" + agreedRate + "' runat='server' /></td>" +
-                           "</tr>";
+                               "<td  class='myobjective' >" + objective + "</td>" +
+                                "<td class='myweigh' >" + weigh + "</td>" +
+                                   "<td class='myevidence' >" + evidence + "</td>" +
+                                      "<td class='myfactors' >" + factors + "</td>" +
+                                         "<td class='myrate' >" + myRate + "</td>" +
+                                            "<td class='myrange' >" + mgrRate + "</td>" +
+                                               "<td class='agreedrate' >" + agreedRate + "</td>" +
+                                                  "<td  class='myid'>" + myid + "</td>" +
+                                //update & delete function
+                                   "<td>  <button id='updatePerfomanceObje' type='button' runat='server' class='btn btn-xs btn-info updatePerfomanceObje' style='min-width: 2em;'  data-toggle='modal' data-target='#mymodal'><span class='glyphicon glyphicon-pencil'></span></button></td>" +
+                                   "<td> <button role='button' class='btn btn-xs btn-danger pull-right' style='min-width: 2em;' id='deletePerfomanceObj' onclick='return false'> &nbsp;<span class='glyphicon glyphicon-trash'></span>&nbsp;</button></td>" +
+
+                               
+
+                          "</tr>";
 
                 var tbody = $('tbody#this_section').append($trtd);
             } // while Loop
@@ -105,6 +113,8 @@ jQuery(document).ready(function ($) {
         }
 
     }//retrieveObjectives()
+
+   
 
     function gogo() {
         console.log("Timesheet fecthed successfully");
@@ -333,8 +343,6 @@ jQuery(document).ready(function ($) {
                 var InspiringExa = getItem.get_item("InspiringExa");
                 var InspiringApp = getItem.get_item("InspiringApp");
 
-               
-               
 
                 $('#activityExample').val(ActivityEx);
                 $('#activityAppraisee').val(ActvityApp);
@@ -363,4 +371,5 @@ jQuery(document).ready(function ($) {
         console.error("Error: " + args.get_message());
     }
 
+   
 });

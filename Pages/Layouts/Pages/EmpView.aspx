@@ -223,7 +223,7 @@
                     <div class="form-group">
                     <input type="text" class="form-control taskStartDate hidden" />
                 </div>
-                   <label class="emptaskstatus_real"></label>
+                   <label class="emptaskstatus_real hidden"></label>
                  <%--END DEAD HIDDEN HOLDERS--%>
 
          <div id="printarea">

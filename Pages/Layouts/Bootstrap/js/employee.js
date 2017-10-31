@@ -1,4 +1,7 @@
 jQuery(document).ready(function ($) {
+
+    
+
     
     // ### START retrieveItem() REGION
     var startWk = moment().startOf("isoweek").toDate();
@@ -585,7 +588,7 @@ jQuery(document).ready(function ($) {
     // Redirect to Home Page on Close
     $('#closeSubmit').on('click', function (event) {
         event.preventDefault();
-        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+        window.location.href = '/sites/apps/SitePages/Home.aspx';
     });
 
     // ### END UPDATING THE TIMESHEET FROM POPUP WINDOW
@@ -782,7 +785,7 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
-        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+        window.location.href = '/sites/apps/SitePages/Home.aspx';
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 
@@ -860,5 +863,6 @@ jQuery(document).ready(function ($) {
     function timesheetlistfail(sender, args) { console.log("Error on Updating IPPFTimesheet: " + args.get_message()) }
     
     // ### END UPDATE IPPTimesheet:
+    
 
 });

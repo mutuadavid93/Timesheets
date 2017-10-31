@@ -10,6 +10,7 @@
 <asp:Content ID="PageHead" ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
      <link href="../Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../Bootstrap/css/mystyels.css" rel="stylesheet" />
+    <link href="../Bootstrap/css/dateui.css" rel="stylesheet" />
 
     <script src="../Bootstrap/js/log.js"></script>
     <!-- JS for CSOM to work -->    
@@ -21,8 +22,11 @@
 
     <script src="../Bootstrap/js/bootstrap.min.js"></script>
     <script src="../Bootstrap/js/moment.min.js"></script>
+    <script src="../Bootstrap/js/dateui.js"></script>
+    <script src="../Bootstrap/js/datepicker.js" type="text/javascript"></script>
     <!--script src="../Bootstrap/js/appraisee.js"></!--script-->
     <script src="../Bootstrap/js/supervisorasppraisal.js"></script>
+
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
@@ -400,53 +404,59 @@
                                                 display items of next plans
                                               --%>
                                         </tbody>
-
-                                       
-                                    </table>  
-                              
-                                 
+    
+                                    </table>             
                                     </div><!-- thursday SECTION 4 ENDS HERE -->
                             
                                     <div class="tab-pane" id="friday">
-                                
                                         <h5 class="matter">SECTION 5: GENERAL OVERVIEW AND COMMENTS</h5>
                     
                                         <div class="row">
                                             <div class="col-sm-6">
                                             <span for="appraisee">Name of Appraisee:</span>
-                                            <input type="text" class="form-control" id="appraisee" />
+                                            <input type="text" class="form-control" id="appraisee" readonly />
                                         </div>
                                         <div class="col-sm-6">
                                             <span for="appraiseDates">Date:</span>
-                                            <input type="text" class="form-control performDate" id="appraiseDates" />
+                                            <input type="text" class="form-control performDate" id="appraiseDates" readonly />
                                         </div>
                                         </div>
                                         <span for="appraise">Overall Comments: Appraisee</span>
-                                        <textarea class="form-control" id="appraise" rows="5"></textarea>
+                                        <textarea class="form-control" id="appraise" rows="5" readonly></textarea>
                                         <br />
     
                                         <div class="row"> 
                                         <div class="col-sm-4">
                                             <span for="superName">Name of Supervisor:</span>
-                                            <input type="text" class="form-control" id="superName" />
+                                            <input type="text" class="form-control" id="superName"  readonly />
                                         </div>
                                         <div class="col-sm-4">
                                             <span for="superDates">Date:</span>
-                                            <input type="text" class="form-control performDate" id="superDates" />
+                                            <input type="text" class="form-control performDate" id="superDates" readonly/>
                                         </div>
-                                              <div class="col-md-4">
+                                        <div class="col-md-4">
                                  <span for="reviewdate">Proposed Date of Review:</span>
-                                 <input type="text" class="form-control  reviewdate " id="reviewdate" />
+                                 <input type="text" class="form-control  reviewdate performDate " id="reviewdate" />
+                                     
                                     </div>
-                                          </div>
+                                            
+                                      </div>
+                                        </br>
+                                      <div class="row"> 
+                                          <div class="col-md-12">
                                         <span for="super">Overall Comments: Supervisor:</span>
                                         <textarea class="form-control" id="super" rows="5"></textarea>
-                                        
-                                       
-                                 
-                                <div class="col-md-7"></div>
+                                        </div>
+                                       </div><br />
+                                  <div class="row"> 
+                                       <input type="text" class="form-control hidden  " id="getID" /><br />
+                                       <div class="col-md-5">
+                                                  <button role="button" class="btn btn-success" id="SuperviorComments">
+                                            Submit &nbsp;<span class="glyphicon glyphicon-"></span>&nbsp;</button>
+                                       </div>
+                                 </div>
+                             
                                         <br />
-                                     
                                       </div><!-- friday SECTION 5 ENDS HERE -->
                             
                                 </section><!-- tabbable tabs -->

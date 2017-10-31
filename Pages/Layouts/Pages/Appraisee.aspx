@@ -22,6 +22,7 @@
     <script src="../Bootstrap/js/bootstrap.min.js"></script>
     <script src="../Bootstrap/js/moment.min.js"></script>
     <script src="../Bootstrap/js/appraisee.js"></script>
+    <script type="text/javascript" src="../Bootstrap/js/appraiseeModal.js"></script>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="PlaceHolderMain" runat="server">
@@ -199,8 +200,8 @@
                                                 <th>Competency</th>
                                                 <th>Specific Example</th>
 
-                                                <th>1</th>
-                                                <th>2</th>
+                                                <th>Appraissee Rating</th>
+                                                <th>Manager’s Rating</th>
                                                 <th>Av. Score</th>
                                             </tr>
                                         </thead>
@@ -475,6 +476,64 @@
                  </div><%--col-xs-12 col-sm-12--%>
              </div>
           </section><%--container-fluid--%>
+
+        <!--Begin Modal display --->
+           <!--Perfomance Objective Modal --->
+         <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Modal Header</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row col-md 10">
+                            <div class="col-md ">
+                                <div class="col-sm-8">
+                                    <span for="myperfObjective">Performance Objectives (as outlined in the APB):</span>
+                                    <input type="text" class="form-control" id="myperfObjective" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="myweighting">Weighting (H, M, L):</span>
+                                    <input type="text" class="form-control" id="myweighting" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="myachievement">Evidence of Achievement:</span>
+                                    <input type="text" class="form-control" id="myachievement" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="myachinders">Factors hindering achievements of the objectives:</span>
+                                    <input type="text" class="form-control" id="myachinders" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="myrating">Self Rating:</span>
+                                    <input type="text" class="form-control" id="myrating" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="mrating">Manager’s Rating:</span>
+                                    <input type="text" class="form-control" id="mrating" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="ouragreed">Agreed Rate:</span>
+                                    <input type="text" class="form-control" id="ouragreed" />
+                                </div>
+                                <div class="col-sm-8">
+                                    <span for="getidentity"> My ID</span>
+                                    <input type="text" class="form-control" id="getidentity" />
+                                </div>
+                            </div>
+                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+           <!--End --->
     </div><%--row-offcanvas row-offcanvas-right--%>
 </asp:Content>
 
