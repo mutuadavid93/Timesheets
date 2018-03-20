@@ -10,6 +10,15 @@ jQuery(document).ready(function ($) {
     var SheetRef_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
     //alert(SheetRef_id);
 
+    // Dynamic Location
+    var domain_url = window.location.protocol + '//' + window.location.host;
+    var pathname = window.location.pathname;
+
+    var pathArray = window.location.pathname.split('/');
+    var pebble = "/"+pathArray[1] + '/' + pathArray[2];
+
+    var dynamicURL = domain_url.concat(pebble);
+
     $('.employeeLoginNames').attr('readonly', 'readonly');
 
     var tap = 1;
@@ -48,9 +57,10 @@ jQuery(document).ready(function ($) {
             //alert(items.length);
             if (items.length > 0) {
                 //$('#stampRow, #saveRowData').addClass('hidden');
+                var domain_url = window.location.protocol + '//' + window.location.host;
                 $("#myTable").html(
                     "<div style='margin-top:50px;' class='col-sm-6 col-sm-offset-3'> <p class='lead'>You have Pending Tasks in your Timesheet<br />"+
-                    "<a href='http://svrarspdev01/sites/apps/SitePages/MyTimesheet.aspx' class='btn btn-info'>Continue</a></p></div>"
+                    "<a href='" + dynamicURL + "/SitePages/MyTimesheet.aspx' class='btn btn-info'>Continue</a></p></div>"
                     );
             }
         }
@@ -208,7 +218,7 @@ jQuery(document).ready(function ($) {
 
     function onQuerySuccess() {
         console.log('Setting changed');
-        window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+        window.location.href =  dynamicURL + "/SitePages/Home.aspx";
     }
 
     function onQueryFailure(sender, args) {

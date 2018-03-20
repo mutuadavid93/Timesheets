@@ -402,7 +402,7 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" />
-                                                    &nbsp; Do you want to sumit?
+                                                    &nbsp; Do you want to submit?
                                                 </label>
                                             </div><!-- checkbox -->
                                         </div>

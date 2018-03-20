@@ -10,7 +10,13 @@ jQuery(document).ready(function ($) {
     var curDisName = $('.genRef_ID').val();
     var TimeSheetRef_id = curDisName.replace(/\s/g, '') + "_" + parseFloat(btwn);
 
-    console.log("This Week's Ref_id for You is: "+TimeSheetRef_id);
+    var domain_url = window.location.protocol + '//' + window.location.host;
+    var pathname = window.location.pathname;
+
+    var pathArray = window.location.pathname.split('/');
+    var pebble = "/" + pathArray[1] + '/' + pathArray[2];
+
+    var dynamicURL = domain_url.concat(pebble);
 
     function retrieveItem(emptaskname) {
         var context = SP.ClientContext.get_current();
@@ -588,7 +594,7 @@ jQuery(document).ready(function ($) {
     // Redirect to Home Page on Close
     $('#closeSubmit').on('click', function (event) {
         event.preventDefault();
-        window.location.href = '/sites/apps/SitePages/Home.aspx';
+        window.location.href = dynamicURL +'/SitePages/Home.aspx';
     });
 
     // ### END UPDATING THE TIMESHEET FROM POPUP WINDOW
@@ -785,7 +791,7 @@ jQuery(document).ready(function ($) {
     } //listRefIds
     function insertListRef() {
         console.info("Everything working");
-        window.location.href = '/sites/apps/SitePages/Home.aspx';
+        window.location.href = dynamicURL + '/SitePages/Home.aspx';
     }
     function refrain(sender, args) { alert("Error: " + args.get_message()); }
 

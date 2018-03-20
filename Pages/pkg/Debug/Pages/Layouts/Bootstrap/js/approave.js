@@ -10,7 +10,16 @@ $(document).ready(function () {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
     var realID = getParameterByName("ID", window.location.href);
-    console.log(realID);
+    // console.log(realID);
+
+    // Dynamic Location
+    var domain_url = window.location.protocol + '//' + window.location.host;
+    var pathname = window.location.pathname;
+
+    var pathArray = window.location.pathname.split('/');
+    var pebble = "/" + pathArray[1] + '/' + pathArray[2];
+
+    var dynamicURL = domain_url.concat(pebble);
 
     // Query the TaskList to get the Ref_id matching
     // ID val from the URL
@@ -256,7 +265,7 @@ $(document).ready(function () {
                         $('.reviwdates, .reviewing, #redirectToMains').removeClass("hidden").click(function (event) {
                             event.preventDefault();
 
-                            window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+                            window.location.href = dynamicURL + '/SitePages/Home.aspx';
                         });
                     }
                 }
@@ -594,8 +603,7 @@ $(document).ready(function () {
             } // success1()
             function success2() {
                 //alert("inside success2");
-                //window.location.href = 'http://svrarspdev01/sites/apps/_layouts/15/start.aspx#/SitePages/DevHome.aspx';
-                window.location.href = 'http://svrarspdev01/sites/apps/SitePages/Home.aspx';
+                window.location.href = dynamicURL + '/SitePages/Home.aspx';
                 //location.reload(true);
             }
             function fail2(sender, args) { alert("Error: " + args.get_message()); }
